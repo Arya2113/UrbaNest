@@ -4,8 +4,7 @@
 
 @section('content')
 <div class="container mx-auto p-4 lg:p-8">
-    <form method="GET" action="/cariproperti" id="filterForm">        
-        <div class="flex flex-col lg:flex-row gap-8">
+<form method="GET" action="{{ route('cariproperti.index') }}" id="filterForm">        <div class="flex flex-col lg:flex-row gap-8">
             <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-lg h-fit">
                 <h2 class="text-xl font-semibold mb-6">Location</h2>
                 <select name="location" class="w-full border border-gray-300 rounded-md p-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -214,7 +213,7 @@
                 </select>
 
                 <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-3 hover:bg-blue-700 transition duration-200">Apply Filters</button>
-                <a href="/cariproperti" class="block w-full text-center bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-200">Reset Filters</a>
+                <a href="{{ route('cariproperti.index') }}" class="block w-full text-center bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-200">Reset Filters</a>
             </aside>
 
             <main class="w-full lg:w-3/4">

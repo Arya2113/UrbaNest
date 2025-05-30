@@ -15,8 +15,6 @@ class PropertyController extends Controller
 
         if ($request->filled('location')) {
             $locationValue = $request->input('location');
-            // Aktifkan ini untuk cek nilai yang dikirim:
-            // dd('Filter lokasi aktif. Nilai:', $locationValue);
             $query->whereRaw('LOWER(location) = ?', [strtolower($locationValue)]);
         }
 
@@ -83,8 +81,6 @@ class PropertyController extends Controller
                                     ->distinct()
                                     ->orderBy('location', 'asc')
                                     ->get();
-        // Aktifkan ini untuk cek isi dropdown:
-        // dd('Lokasi unik untuk dropdown:', $uniqueLocations->pluck('location')->toArray());
 
         $amenitiesListForFilter = Amenity::orderBy('name')->get();
 

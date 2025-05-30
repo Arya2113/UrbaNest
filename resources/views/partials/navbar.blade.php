@@ -18,10 +18,20 @@
 
     <!-- Actions -->
     <div class="hidden md:flex space-x-4 items-center">
-      <a href="/login" class="text-gray-600 hover:text-gray-900 transition text-sm font-medium">Log in</a>
-      <a href="/signup" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 text-sm font-semibold transition">
-        Sign up
-      </a>
+        @guest
+            <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 transition text-sm font-medium">Log in</a>
+            <a href="{{ route('signup') }}" class="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 text-sm font-semibold transition">
+              Sign up
+            </a>
+        @endguest
+
+        @auth
+            <span class="text-gray-800 text-sm font-medium">Hello, {{ Auth::user()->name }}</span>
+             <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" class="text-red-600 hover:text-red-800 transition text-sm font-medium cursor-pointer">Logout</button>
+            </form>
+        @endauth
     </div>
 
     <!-- Mobile menu button (optional, buat nanti kalo mau responsive) -->

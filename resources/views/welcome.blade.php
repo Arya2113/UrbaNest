@@ -12,7 +12,7 @@
             Your one-stop solution for property sales, construction, renovation, and design services.
         </p>
         <div class="flex justify-center space-x-4">
-            <a href="/cariproperti" class="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">Browse Properties</a>
+            <a href="{{ url('/cariproperti') }}" class="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">Browse Properties</a>
             <a href="#" class="bg-gray-400 text-white px-6 py-3 rounded-md hover:bg-gray-500 transition">Explore Services</a>
         </div>
     </div>
@@ -25,7 +25,7 @@
         <div class="px-4 md:px-8">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold">Featured Properties</h2>
-                <a href="/cariproperti" class="text-primary flex items-center">
+                <a href="{{ url('/cariproperti') }}" class="text-primary flex items-center">
                     View All
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
