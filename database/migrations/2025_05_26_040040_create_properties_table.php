@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('location');
+            $table->text('alamat')->nullable(); // Added alamat column
             $table->decimal('price', 15, 2);
             $table->integer('bedrooms')->nullable();
             $table->integer('bathrooms')->nullable();
             $table->decimal('area', 10, 2)->nullable();
             $table->string('image_path')->nullable(); // Optional: path to a main image
-            $table->text('environment_facilities');
+            $table->text('environment_facilities'); // Keep or remove this based on previous migrations, assuming it's needed
             $table->timestamps();
         });
     }

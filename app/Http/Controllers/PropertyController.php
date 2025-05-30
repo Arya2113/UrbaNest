@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\Amenity;
-use Illuminate\Support\Facades\DB; // Pastikan ini di-import jika pakai DB::raw atau query log
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
@@ -96,7 +97,40 @@ class PropertyController extends Controller
 
     public function show(Property $property)
     {
-        $property->load('amenities');
-        return view('detailproperti', compact('property'));
+        $property->load('amenities', 'developer');
+
+        $isFavorited = false;
+        if (Auth::check()) {
+            $isFavorited = Auth::user()->properties()->where('property_id', $property->id)->exists();
+        }
+
+        return view('detailproperti', compact('property', 'isFavorited'));
+    }
+
+    public function toggleFavorite(Property $property)
+    {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Silakan login untuk menambahkan ke favorit.'], 401);
+        }
+
+        $user = Auth::user();
+        $isFavorited = $user->properties()->toggle($property->id);
+
+        return response()->json(['isFavorited' => count($isFavorited['attached']) > 0]);
+    }
+
+    public function checkout(Property $property)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $hargaProperti = $property->price;
+        $biayaLayanan = $hargaProperti * 0.05;
+        $kodeUnik = $user->id + 1000;
+        $jumlahTotal = $hargaProperti + $biayaLayanan + $kodeUnik;
+
+        return view('paymentdetail', compact('property', 'hargaProperti', 'biayaLayanan', 'kodeUnik', 'jumlahTotal'));
     }
 }

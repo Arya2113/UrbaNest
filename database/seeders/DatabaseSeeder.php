@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class, // Jika ada UserSeeder
             AmenitySeeder::class,
             PropertySeeder::class,
+            DeveloperSeeder::class,
             // Tambahkan seeder lain di sini
         ]);
     }

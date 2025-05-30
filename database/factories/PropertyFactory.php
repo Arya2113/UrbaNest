@@ -21,13 +21,14 @@ class PropertyFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
-            'location' => $this->faker->location(),
+            'location' => $this->faker->city(),
+            'alamat' => $this->faker->address(), // Added alamat
             'price' => $this->faker->randomFloat(2, 100000000, 5000000000),
             'bedrooms' => $this->faker->numberBetween(1, 5),
             'bathrooms' => $this->faker->numberBetween(1, 4),
             'area' => $this->faker->randomFloat(2, 50, 500),
             'image_path' => $this->faker->imageUrl(640, 480, 'house', true),
-            // Removed 'status' and 'environment_facilities'
+            // Removed 'status' and 'environment_facilities' - assuming these were removed in a previous migration
         ];
     }
 

@@ -25,3 +25,14 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return redirect('/');
 })->name('logout');
+
+// Favorite Toggle Route
+Route::post('/property/{property}/favorite', [PropertyController::class, 'toggleFavorite'])->name('property.toggleFavorite');
+
+// Payment Detail View Route (Placeholder - this will be replaced/modified)
+// Route::get('/paymentdetail', function () {
+//     return view('paymentdetail');
+// })->name('paymentdetail');
+
+// Checkout Route
+Route::post('/property/{property}/checkout', [PropertyController::class, 'checkout'])->name('property.checkout');
