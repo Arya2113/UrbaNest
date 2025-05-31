@@ -29,10 +29,22 @@ Route::post('/logout', function (Request $request) {
 // Favorite Toggle Route
 Route::post('/property/{property}/favorite', [PropertyController::class, 'toggleFavorite'])->name('property.toggleFavorite');
 
-// Payment Detail View Route (Placeholder - this will be replaced/modified)
-// Route::get('/paymentdetail', function () {
-//     return view('paymentdetail');
-// })->name('paymentdetail');
 
-// Checkout Route
-Route::post('/property/{property}/checkout', [PropertyController::class, 'checkout'])->name('property.checkout');
+// Checkout Routes
+Route::post('/property/{property}/attemptLockAndCheckout', [PropertyController::class, 'attemptLockAndCheckout'])->name('property.attemptLockAndCheckout');
+Route::get('/property/{property}/checkout', [PropertyController::class, 'checkout'])->name('property.checkout');
+// Payment Upload Route
+Route::post('/payment/upload/{property}', [PropertyController::class, 'uploadProof'])->name('payment.upload');
+Route::get('/payment/confirmation', function () {
+ return view('paymentconfirmation');
+})->name('payment.confirmation');
+
+// Payment Status Routes
+// Payment Confirmed Route
+Route::get('/payment/confirmed', function () {
+ return view('paymentconfirmed');
+});
+// Payment Rejected Route
+Route::get('/payment/rejected', function () {
+ return view('paymentrejected');
+});

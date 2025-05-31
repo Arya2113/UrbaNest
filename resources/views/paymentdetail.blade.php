@@ -11,8 +11,12 @@
         <p class="text-md text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $property->alamat }}</p>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+    <div id="countdown" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative mb-6" role="alert">
+        Pembayaran harus diselesaikan dalam waktu: <span id="timer" class="font-semibold"></span>
+    </div>
 
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+      
       <div class="lg:w-1/2 space-y-6">
         <div class="bg-white p-6 rounded-lg shadow">
           <h2 class="text-xl font-semibold text-gray-700 mb-4">Transfer Manual</h2>
@@ -61,13 +65,48 @@
           <p class="text-lg sm:text-xl font-bold text-blue-600">Rp {{ number_format($jumlahTotal, 0, ',', '.') }}</p>
         </div>
         <p class="text-sm text-red-500 mb-8">*pastikan transfer sesuai dengan total tagihan</p>
-        <button type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out text-base">
-          Upload bukti bayar
-        </button>
+        <form action="{{ route('payment.upload', ['property' => $property->id]) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+            <input type="hidden" name="property_id" value="{{ $property->id }}">
+            <input type="file" name="proof" accept=".jpeg,.jpg,.png,application/pdf" class="mb-4">
+            @error('proof')
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out text-base">
+              Upload bukti bayar
+            </button>
+        </form>
       </div>
 
     </div>
   </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const lockedUntilTimestamp = {{ $property->locked_until->timestamp }};
+        const countdownElement = document.getElementById('timer');
+
+        function updateCountdown() {
+            const now = Math.floor(Date.now() / 1000);
+            const timeLeft = lockedUntilTimestamp - now;
+
+            if (timeLeft <= 0) {
+                countdownElement.textContent = 'Waktu pembayaran habis!';
+                window.location.href = '/detailproperti/{{ $property->id }}'; // Redirect to property detail page
+                clearInterval(timerInterval);
+                return;
+            }
+
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+
+            countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000); 
+    });
+</script>
 @endsection
 

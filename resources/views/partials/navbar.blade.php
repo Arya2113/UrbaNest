@@ -3,7 +3,7 @@
     <!-- Brand -->
     <div class="flex items-center">
       <a href="/" class="flex items-center text-gray-800 font-bold text-xl no-underline">
-        <span class="w-6 h-6 bg-gray-300 rounded-full mr-2"></span>
+      <img src="/logo.png" alt="UrbanNest Logo" class="w-6 h-6 mr-2 object-contain" />  
         UrbanNest
       </a>
     </div>

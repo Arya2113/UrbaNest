@@ -4,7 +4,8 @@
 
 @section('content')
 <div class="container mx-auto p-4 lg:p-8">
-<form method="GET" action="{{ route('cariproperti.index') }}" id="filterForm">        <div class="flex flex-col lg:flex-row gap-8">
+    <form method="GET" action="{{ str_replace('http://', 'https://', route('cariproperti.index')) }}" id="filterForm">
+        <div class="flex flex-col lg:flex-row gap-8">
             <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-lg h-fit">
                 <h2 class="text-xl font-semibold mb-6">Location</h2>
                 <select name="location" class="w-full border border-gray-300 rounded-md p-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">

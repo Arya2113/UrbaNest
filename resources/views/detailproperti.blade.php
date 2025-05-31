@@ -81,18 +81,28 @@
             </div>
 
             <div class="w-full lg:w-1/3">
-                {{-- Lanjutkan Pembayaran button form placed here as requested --}}
-                <form method="POST" action="{{ route('property.checkout', $property) }}" class="mb-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                
+                @if($lockedByOtherUser)
+                    <div class="text-red-500 mb-4">
+                        Properti ini sedang diproses oleh pengguna lain. Silakan coba lagi dalam beberapa detik.
+                    </div>
+                @endif
+
+                <form id="checkout-form" method="POST" action="{{ route('property.attemptLockAndCheckout', $property, false) }}">
                     @csrf
-                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+                    <button type="submit" id="checkout-button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+                        @if($isLocked && !$lockedByCurrentUser) disabled @endif>
                         Lanjutkan Pembayaran
                     </button>
                 </form>
 
+                {{-- Konten lain jika ada --}}
+            </div>
+
                 <div class="bg-white p-6 rounded-lg shadow-lg sticky top-16">
                     <div class="flex items-center mb-6">
-                         {{-- Assuming developer has an avatar_path attribute, otherwise use placeholder --}}
-                        <img src="{{ $property->developer->avatar_path ?? 'https://via.placeholder.com/60' }}" alt="Developer Avatar" class="w-16 h-16 rounded-full mr-4 border-2 border-gray-200">
+                        <img src="https://via.placeholder.com/60" alt="Developer Avatar" class="w-16 h-16 rounded-full mr-4 border-2 border-gray-200">
                         <div>
                             @isset($property->developer)
                                 <p class="font-bold text-lg text-gray-900">{{ $property->developer->name }}</p>
@@ -135,6 +145,51 @@
 
 @section('scripts')
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var timeLeft = {{ $timeLeftInSeconds }};
+        var lockedByOtherUser = {{ $lockedByOtherUser ? 'true' : 'false' }};
+        var countdownElement = document.getElementById('countdown');
+        var checkoutButton = document.getElementById('checkout-button');
+
+        function updateCountdown() {
+            if (lockedByOtherUser && timeLeft > 0) {
+                timeLeft--;
+            } else {
+                checkoutButton.disabled = false;
+            }
+        }
+
+        if (lockedByOtherUser) {
+            checkoutButton.disabled = true;
+            updateCountdown(); 
+            setInterval(updateCountdown, 1000); 
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(event){
+            event.preventDefault();
+            
+            const form = document.getElementById('checkout-form');
+            const url = form.action
+            const button = document.getElementById('checkout-button')
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong');
+                }
+            }).then(data => {
+                window.location.href = data.redirect
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    });
     document.getElementById('favorite-button').addEventListener('click', function() {
         const form = document.getElementById('favorite-form');
         const propertyId = form.getAttribute('data-property-id');
@@ -143,7 +198,6 @@
         const messageArea = document.getElementById('message-area');
         const favoriteButton = document.getElementById('favorite-button');
 
-        // Clear previous messages
         messageArea.classList.add('hidden');
         messageArea.querySelector('span').innerText = '';
 
@@ -158,7 +212,6 @@
         })
         .then(response => {
             if (!response.ok) {
-                // Handle HTTP errors (like 401 Unauthorized)
                 return response.json().then(data => {
                     throw new Error(data.message || 'An error occurred');
                 });
@@ -166,7 +219,6 @@
             return response.json();
         })
         .then(data => {
-            // Toggle the heart icon color based on the response
             if (data.isFavorited) {
                 favoriteButton.classList.add('text-red-500');
                 favoriteButton.classList.remove('text-gray-400');
@@ -176,7 +228,6 @@
             }
         })
         .catch(error => {
-            // Display error message
             messageArea.classList.remove('hidden');
             messageArea.querySelector('span').innerText = error.message;
         });

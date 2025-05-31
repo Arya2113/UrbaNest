@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Amenity;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\User;
 
 class Property extends Model
 {
@@ -22,13 +22,24 @@ class Property extends Model
         'title',
         'description',
         'location',
-        'alamat', // Added alamat here
+        'alamat',
         'price',
         'bedrooms',
         'bathrooms',
         'area',
         'image_path',
         'developer_id',
+        'locked_by_user_id',
+        'locked_until',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'locked_until' => 'datetime',
     ];
 
     /**
@@ -53,5 +64,13 @@ class Property extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'property_user');
+    }
+
+    /**
+     * Get the user that currently has the property locked.
+     */
+    public function lockedByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'locked_by_user_id');
     }
 }
