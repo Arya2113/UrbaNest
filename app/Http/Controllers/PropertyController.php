@@ -232,7 +232,7 @@ class PropertyController extends Controller
         if ($existingTransaction) {
             // Perhaps redirect to a transaction status page or payment confirmation.
             // For now, redirecting to property show with a message.
-            return redirect()->route('payment.confirmation')->with('info_message', 'Anda sudah memiliki transaksi yang sedang diproses atau selesai untuk properti ini.');
+            return redirect()->route('payment.confirmation', ['transaction' => $existingTransaction->id]);
         }
 
 
@@ -256,24 +256,32 @@ class PropertyController extends Controller
     }
 
 
-   public function paymentConfirmation(Request $request)
+    public function paymentConfirmation(Request $request, $transactionId)
     {
-        // Assuming you have the transaction ID stored in the session or request
-        // For example, after a successful uploadProof, you might redirect to this route with the transaction ID
-        $transactionId = session('transaction_id') ?? $request->query('transaction_id');
-
-        // Fetch the transaction from the database
         $transaction = PropertyCheckoutTransaction::find($transactionId);
 
-        // If transaction not found, redirect back with an error message
         if (!$transaction) {
             return redirect()->route('home')->with('error', 'Transaksi tidak ditemukan.');
         }
 
-        // Pass the transaction data to the view
+        // 🧠 Tambahan: Kalau status udah verified, redirect ke final confirmation page
+        if ($transaction->status_transaksi === 'verified') {
+            return redirect()->route('payment.confirmed', ['transactionId' => $transaction->id]);
+        }
+
         return view('paymentconfirmation', compact('transaction'));
     }
 
+    public function confirmedPage($transactionId)
+    {
+        $transaction = PropertyCheckoutTransaction::find($transactionId);
+
+        if (!$transaction) {
+            return redirect()->route('home')->with('error', 'Transaksi tidak ditemukan.');
+        }
+
+        return view('paymentconfirmed', compact('transaction'));
+    }
 
     // MODIFIED: This method will now create the transaction upon successful proof upload
     public function uploadProof(Request $request, Property $property)
@@ -361,8 +369,10 @@ class PropertyController extends Controller
             });
 
             if ($transactionResult['success']) {
-                return redirect()->route($transactionResult['redirect_route'])
-                                 ->with('success_message', 'Bukti transfer berhasil diunggah! Transaksi Anda (ID: ' . $transactionResult['transaction_id'] . ') sedang diproses.');
+                return redirect()->route(
+                    $transactionResult['redirect_route'],
+                    ['transaction' => $transactionResult['transaction_id']]
+                );
             } else {
                 $redirectRoute = $transactionResult['redirect_route'] ?? 'property.checkout';
                 $routeParameters = isset($transactionResult['property_id']) ? $transactionResult['property_id'] : $property->id;

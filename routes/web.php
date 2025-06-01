@@ -35,15 +35,13 @@ Route::post('/property/{property}/attemptLockAndCheckout', [PropertyController::
 Route::get('/property/{property}/checkout', [PropertyController::class, 'checkout'])->name('property.checkout');
 // Payment Upload Route
 Route::post('/payment/upload/{property}', [PropertyController::class, 'uploadProof'])->name('payment.upload');
-Route::get('/payment/confirmation', function () {
- return view('paymentconfirmation');
-})->name('payment.confirmation');
+Route::get('/payment/confirmation/{transaction}', [PropertyController::class, 'paymentConfirmation'])
+    ->name('payment.confirmation')
+    ->middleware('auth');
 
-// Payment Status Routes
-// Payment Confirmed Route
-Route::get('/payment/confirmed', function () {
- return view('paymentconfirmed');
-});
+
+Route::get('/payment/confirmed/{transactionId}', [PropertyController::class, 'confirmedPage'])->name('payment.confirmed') ->middleware('auth');
+
 // Payment Rejected Route
 Route::get('/payment/rejected', function () {
  return view('paymentrejected');

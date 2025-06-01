@@ -3,81 +3,72 @@
 @section('title', 'Pembayaran Dikonfirmasi')
 
 @section('content')
+
+{{-- html2canvas --}}
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+  .download-hide {
+    display: block;
+  }
+
+  body.downloading .download-hide {
+    display: none !important;
+  }
+</style>
+
 <div class="bg-slate-100 min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
   <div class="w-full max-w-3xl mx-auto">
-    <div class="bg-white shadow-lg rounded-xl p-8 sm:p-12 text-center">
-      {{-- Success Icon --}}
+    <div id="confirmed-section" class="bg-white shadow-lg rounded-xl p-8 sm:p-12 text-center">
+
+      {{-- ✅ Success Section --}}
       <div class="mx-auto w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6">
-        <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
       </div>
       <h1 class="text-3xl font-bold text-gray-800 mb-4">Payment Confirmed</h1>
       <p class="text-lg text-gray-600 mb-8">Thank you for your payment. Your property purchase is now complete.</p>
 
-      {{-- Transaction Details --}}
-      <div class="bg-gray-50 rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-gray-700 mb-4 text-left">Transaction Details</h2>
+      {{-- ✅ Transaction Details --}}
+      <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Transaction Details</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <p class="text-sm text-gray-500">Property Name</p>
-            <p class="text-md font-medium text-gray-700">Sunset Villa</p>
+            <p class="text-md font-medium text-gray-700">{{ $transaction->property->title}}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Transaction ID</p>
-            <p class="text-md font-medium text-gray-700">TRX-2023112501</p>
+            <p class="text-md font-medium text-gray-700">{{ $transaction->id }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Property Address</p>
-            <p class="text-md font-medium text-gray-700">123 Oceanview Drive</p>
+            <p class="text-md font-medium text-gray-700">{{ $transaction->property->alamat }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Purchase Date</p>
-            <p class="text-md font-medium text-gray-700">November 25, 2023</p>
+            <p class="text-md font-medium text-gray-700">{{ $transaction->created_at->format('F d, Y') }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Price</p>
+            <p class="text-md font-medium text-gray-700">Rp {{ number_format($transaction->total_transfer, 0, ',', '.') }}</p>
           </div>
         </div>
       </div>
 
-      {{-- Invoice Download --}}
-      <div class="flex items-center justify-between bg-white rounded-lg p-4 mb-8 border border-gray-200">
+      {{-- ❌ This part will be hidden during download --}}
+      <div class="download-hide flex items-center justify-between bg-white rounded-lg p-4 mb-8 border border-gray-200">
         <div class="flex items-center">
-          {{-- File Icon Placeholder --}}
-          <svg class="w-6 h-6 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <svg class="w-6 h-6 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           <div>
-            <p class="text-sm font-semibold text-gray-700">Invoice #INV-2023112501</p>
-            <p class="text-xs text-gray-500">PDF • 245 KB</p>
+            <p class="text-sm font-semibold text-gray-700">Invoice #{{ $transaction->id}}</p>
+            <p class="text-xs text-gray-500">PNG</p>
           </div>
         </div>
-        <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">
-          <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L9 8m4-4v12"></path></svg>
+        <button id="downloadInvoiceBtn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">
+          <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L9 8m4-4v12"></path></svg>
           Download Invoice
         </button>
       </div>
-
-      {{-- Next Steps --}}
-      <div class="mb-8 text-left">
-        <h2 class="text-xl font-semibold text-gray-700 mb-4">Next Steps</h2>
-        <div class="space-y-3">
-          <div class="flex items-start">
-            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-700">Payment Confirmed</p>
-              <p class="text-gray-600 text-sm">Your payment has been successfully processed</p>
-            </div>
-          </div>
-          <div class="flex items-start">
-            <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-700">Property Handover</p>
-              <p class="text-gray-600 text-sm">Our sales team will contact you soon</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {{-- Need Help? --}}
       <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
         <h2 class="text-xl font-semibold text-gray-700 mb-4">Need Help?</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -98,15 +89,30 @@
         </div>
       </div>
 
-      {{-- View Purchase History Button --}}
       <div class="text-center">
         <button class="inline-flex items-center bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">
           View Purchase History
-          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </button>
       </div>
 
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('downloadInvoiceBtn').addEventListener('click', function() {
+    const target = document.getElementById('confirmed-section');
+    document.body.classList.add('downloading'); // hide .download-hide
+
+    html2canvas(target).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'invoice-confirmed.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      document.body.classList.remove('downloading'); // restore after download
+    });
+  });
+</script>
+
 @endsection
