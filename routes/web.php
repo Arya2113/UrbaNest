@@ -5,8 +5,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PropertyCheckoutController;
+use App\Http\Controllers\HistoryController; // Import HistoryController
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -29,23 +32,25 @@ Route::post('/logout', function (Request $request) {
     return redirect('/');
 })->name('logout');
 
-// Favorite Toggle Route
-Route::post('/property/{property}/favorite', [PropertyController::class, 'toggleFavorite'])->name('property.toggleFavorite');
+Route::post('/property/{property}/favorite', [FavoriteController::class, 'toggleFavorite'])->name('property.toggleFavorite');
 
 
 // Checkout Routes
+Route::get('/property/{property}/checkout', [PropertyCheckoutController::class, 'checkout'])->name('property_checkout.checkout');
+Route::post('/payment/upload/{property}', [PropertyCheckoutController::class, 'uploadProof'])->name('payment.upload');
 Route::post('/property/{property}/attemptLockAndCheckout', [PropertyController::class, 'attemptLockAndCheckout'])->name('property.attemptLockAndCheckout');
-Route::get('/property/{property}/checkout', [PropertyController::class, 'checkout'])->name('property.checkout');
-// Payment Upload Route
-Route::post('/payment/upload/{property}', [PropertyController::class, 'uploadProof'])->name('payment.upload');
-Route::get('/payment/confirmation/{transaction}', [PropertyController::class, 'paymentConfirmation'])
+
+Route::get('/payment/confirmation/{transaction}', [PropertyCheckoutController::class, 'paymentConfirmation'])
     ->name('payment.confirmation')
     ->middleware('auth');
 
 
-Route::get('/payment/confirmed/{transactionId}', [PropertyController::class, 'confirmedPage'])->name('payment.confirmed') ->middleware('auth');
+Route::get('/payment/confirmed/{transactionId}', [PropertyCheckoutController::class, 'confirmedPage'])->name('payment.confirmed') ->middleware('auth');
 
-// Payment Rejected Route
-Route::get('/payment/rejected', function () {
- return view('paymentrejected');
-});
+Route::get('/payment/rejected/{transactionId}', [PropertyCheckoutController::class, 'paymentRejected'])->name('payment.rejected') ->middleware('auth');
+
+// History Favorite Route
+Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index')->middleware('auth');
+
+// History Transaction Route
+Route::get('/transactions', [HistoryController::class, 'index'])->name('history.transactions.index')->middleware('auth');

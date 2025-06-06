@@ -63,7 +63,7 @@ class Property extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'property_user');
+        return $this->belongsToMany(User::class, 'property_user')->withTimestamps();
     }
 
     /**
@@ -72,5 +72,10 @@ class Property extends Model
     public function lockedByUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'locked_by_user_id');
+    }
+
+    public function propertyCheckoutTransactions()
+    {
+        return $this->hasMany(PropertyCheckoutTransaction::class, 'property_id');
     }
 }

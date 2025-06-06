@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Import HasMany
+use App\Models\PropertyCheckoutTransaction; // Import PropertyCheckoutTransaction model
 
 class User extends Authenticatable
 {
@@ -52,6 +54,14 @@ class User extends Authenticatable
      */
     public function properties(): BelongsToMany
     {
-        return $this->belongsToMany(Property::class, 'property_user');
+        return $this->belongsToMany(Property::class, 'property_user')->withTimestamps();
+    }
+
+    /**
+     * Get the transactions for the user.
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(PropertyCheckoutTransaction::class);
     }
 }

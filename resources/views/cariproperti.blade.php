@@ -226,38 +226,46 @@
                             @else
                                 <img src="https://via.placeholder.com/400x250/cccccc/969696.png?text=No+Image" alt="No Image Available" class="w-full h-48 object-cover">
                             @endif
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold mb-1">{{ $property->title }}</h3>
-                                <p class="text-sm text-gray-500 mb-2 flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9 7 7 0 01-9.9-9.9zM10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm1-5a1 1 0 011 1v3a1 1 0 11-2 0V5a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                    {{ $property->location }} 
+                            <div class="min-h-[20rem] rounded-lg border shadow flex flex-col p-4">
+                            <div>
+                            <div class="mb-3 min-h-[4rem]">
+                                <h3 class="text-lg font-semibold">{{ $property->title }}</h3>
+                                <p class="text-sm text-gray-500 flex items-center mt-1">
+                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20">...</svg>
+                                    {{ $property->location }}
                                 </p>
+                            </div>
                                 <p class="text-xl font-bold text-blue-600 mb-3">Rp {{ number_format($property->price, 0, ',', '.') }}</p>
                                 <div class="flex justify-between text-sm text-gray-600 border-t pt-3 mb-4">
-                                    @if ($property->bedrooms)
-                                        <span><i class="fas fa-bed mr-1"></i> {{ $property->bedrooms }} beds</span>
-                                    @endif
-                                    @if ($property->bathrooms)
-                                        <span><i class="fas fa-bath mr-1"></i> {{ $property->bathrooms }} baths</span>
-                                    @endif
-                                    @if ($property->area) 
-                                        <span><i class="fas fa-ruler-combined mr-1"></i> {{ $property->area }} m²</span>
-                                    @endif
+                                @if ($property->bedrooms)
+                                <span><i class="fas fa-bed mr-1"></i> {{ $property->bedrooms }} beds</span>
+                                @endif
+                                @if ($property->bathrooms)
+                                <span><i class="fas fa-bath mr-1"></i> {{ $property->bathrooms }} baths</span>
+                                @endif
+                                @if ($property->area)
+                                <span><i class="fas fa-ruler-combined mr-1"></i> {{ $property->area }} m²</span>
+                                @endif
                                 </div>
 
                                 @if ($property->amenities->count() > 0)
-                                    <div class="mt-2 text-sm text-gray-600">
-                                        <strong>Amenities:</strong>
-                                        <ul class="list-disc list-inside">
-                                            @foreach ($property->amenities as $amenity)
-                                                <li>{{ $amenity->name }}</li>
-                                            @endforeach
-                                        </ul>
+                                <div class="mb-3 mt-2 text-sm text-gray-600">
+                                    <strong>Amenities:</strong>
+                                    <ul class="grid grid-cols-3 gap-2 list-disc list-inside">
+                                        @foreach ($property->amenities as $amenity)
+                                        <li>{{ $amenity->name }}</li>
+                                        @endforeach
+                                    </ul>
                                     </div>
                                 @endif
-                                <a href="/detailproperti/{{ $property->id }}" class="block text-center w-full border border-blue-600 text-blue-600 py-2 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition duration-200 mt-4">
-                                    View Details
+                            </div>
+
+                            <!-- Tombol harus di container bawah untuk push ke bawah -->
+                            <div class="mt-auto">
+                                <a href="/detailproperti/{{ $property->id }}" class="block text-center w-full border border-blue-600 text-blue-600 py-2 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition duration-200">
+                                View Details
                                 </a>
+                            </div>
                             </div>
                         </div>
                     @empty

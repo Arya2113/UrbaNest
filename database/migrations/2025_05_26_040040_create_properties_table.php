@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer('bathrooms')->nullable();
             $table->decimal('area', 10, 2)->nullable();
             $table->string('image_path')->nullable(); // Optional: path to a main image
-            $table->text('environment_facilities'); // Keep or remove this based on previous migrations, assuming it's needed
             $table->foreignId('locked_by_user_id')->nullable()->constrained('users')->onDelete('set null'); // Added locked_by_user_id
             $table->timestamp('locked_until')->nullable(); // Added locked_until
             $table->timestamps();
