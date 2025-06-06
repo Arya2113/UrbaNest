@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/detailproperti/{property}', [PropertyController::class, 'show'])->name('property.show');
 Route::get('/cariproperti', [PropertyController::class, 'index'])->name('cariproperti.index');
+
+Route::get('/services', [ServiceController::class, 'index'])->name('services.page');
 
 // Auth Routes
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');

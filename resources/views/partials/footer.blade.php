@@ -54,7 +54,7 @@
           </li>
           <li class="flex justify-center md:justify-start items-start gap-3">
             <i class="fas fa-envelope text-white mt-1"></i>
-            <span>info@urbanest.com</span>
+            <span>urbanest@gmail.com</span>
           </li>
         </ul>
       </div>

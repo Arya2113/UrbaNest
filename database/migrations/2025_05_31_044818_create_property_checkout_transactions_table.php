@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('biaya_jasa', 15, 2);
             $table->decimal('total_transfer', 15, 2);
             $table->string('bukti_transfer_url')->nullable();
-            $table->string('status_transaksi')->default('pending'); // Contoh: pending, uploaded, completed, failed
+            $table->string('status_transaksi')->default('pending'); 
             $table->timestamps();
         });
     }

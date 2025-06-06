@@ -13,7 +13,7 @@
         </p>
         <div class="flex justify-center space-x-4">
             <a href="{{ url('/cariproperti') }}" class="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">Browse Properties</a>
-            <a href="#" class="bg-gray-400 text-white px-6 py-3 rounded-md hover:bg-gray-500 transition">Explore Services</a>
+            <a href="{{ url('/services') }}" class="bg-gray-400 text-white px-6 py-3 rounded-md hover:bg-gray-500 transition">Explore Services</a>
         </div>
     </div>
     <div class="absolute inset-0 bg-[url('/placeholder.svg?height=600&width=1200')] opacity-10"></div>
@@ -154,7 +154,7 @@
     <section class="bg-blue-600 text-white py-16 px-6 text-center">
         <h2 class="text-3xl font-bold mb-4">Ready to Find Your Dream Property?</h2>
         <p class="text-lg mb-6">Join UrbaNest today and discover the perfect property for your needs.</p>
-        <a href="/get-started" class="inline-block bg-white text-blue-700 font-bold py-3 px-6 rounded hover:bg-gray-100 transition">Get Started</a>
+        <a href="{{ route('signup') }}" class="inline-block bg-white text-blue-700 font-bold py-3 px-6 rounded hover:bg-gray-100 transition">Get Started</a>
     </section>
 @include('partials.footer')
 
