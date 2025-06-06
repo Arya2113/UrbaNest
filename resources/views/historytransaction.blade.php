@@ -25,12 +25,19 @@
                                     <div class="text-sm text-gray-600">Amount: Rp{{ number_format($transaction->total_transfer ?? 0, 0, ',', '.') }}</div>
                                     <div class="text-sm text-gray-600">Date: {{ $transaction->created_at->format('Y-m-d H:i') }}</div>
                                 </div>
-                                <div class="text-sm font-semibold text-yellow-600">Status: {{ $transaction->status_transaksi }}</div>
+                                <div class="text-sm font-semibold text-yellow-600 text-right">
+                                    Status: 
+                                    @if ($transaction->status_transaksi === 'uploaded')
+                                        Waiting Confirmation
+                                    @else
+                                        {{ $transaction->status_transaksi }}
+                                    @endif
+                                    <br>
+                                    <a href="{{ route('payment.confirmation', $transaction->id) }}" class="text-blue-600 hover:text-blue-900 text-sm">View Details</a>
+                                </div>
                             </div>
-                             {{-- Add a link or button for actions if needed --}}
-                             {{-- <div class="mt-4 text-right">
-                                <a href="#" class="text-blue-600 hover:text-blue-900 text-sm">View Details</a>
-                            </div> --}}
+
+
                         </li>
                     @endforeach
                 </ul>
@@ -59,12 +66,12 @@
                                     <div class="text-sm text-gray-600">Amount: Rp{{ number_format($transaction->total_transfer ?? 0, 0, ',', '.') }}</div>
                                     <div class="text-sm text-gray-600">Date: {{ $transaction->created_at->format('Y-m-d H:i') }}</div>
                                 </div>
-                                <div class="text-sm font-semibold text-green-600">Status: {{ $transaction->status_transaksi }}</div>
+                                <div class="text-sm font-semibold text-green-600 text-right">
+                                    Status: {{ $transaction->status_transaksi }}
+                                    <br>
+                                    <a href="{{ route('payment.confirmation', $transaction->id) }}" class="text-blue-600 hover:text-blue-900 text-sm">View Details</a>
+                                </div>
                             </div>
-                             {{-- Add a link or button for actions if needed --}}
-                            {{-- <div class="mt-4 text-right">
-                                <a href="#" class="text-blue-600 hover:text-blue-900 text-sm">View Details</a>
-                            </div> --}}
                         </li>
                     @endforeach
                 </ul>

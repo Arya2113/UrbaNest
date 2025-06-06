@@ -55,7 +55,6 @@
         </div>
       </div>
 
-      {{-- ❌ This part will be hidden during download --}}
       <div class="download-hide flex items-center justify-between bg-white rounded-lg p-4 mb-8 border border-gray-200">
         <div class="flex items-center">
           <svg class="w-6 h-6 text-gray-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -76,24 +75,24 @@
             <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.224 0L21 8m0 0l-3-3m3 3l-3 3M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
             <div>
               <p class="font-semibold text-gray-700">Email Support</p>
-              <p class="text-sm text-gray-600">support@propertyco.com</p>
+              <p class="text-sm text-gray-600">support@UrbaNest.com</p>
             </div>
           </div>
           <div class="flex items-center">
             <svg class="w-5 h-5 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10c0 3.9-3.1 7-7 7H7c-3.9 0-7-3.1-7-7s3.1-7 7-7h4c3.9 0 7 3.1 7 7zM7 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm6 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
             <div>
               <p class="font-semibold text-gray-700">WhatsApp</p>
-              <p class="text-sm text-gray-600">+1 234 567 8900</p>
+              <p class="text-sm text-gray-600">+6289538509494</p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="text-center">
-        <button class="inline-flex items-center bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">
-          View Purchase History
-          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        </button>
+        <a href="/transactions" 
+          class="inline-flex items-center bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">
+            Go to Transactions
+        </a>
       </div>
 
     </div>
@@ -103,14 +102,14 @@
 <script>
   document.getElementById('downloadInvoiceBtn').addEventListener('click', function() {
     const target = document.getElementById('confirmed-section');
-    document.body.classList.add('downloading'); // hide .download-hide
+    document.body.classList.add('downloading'); 
 
     html2canvas(target).then(canvas => {
       const link = document.createElement('a');
       link.download = 'invoice-confirmed.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
-      document.body.classList.remove('downloading'); // restore after download
+      document.body.classList.remove('downloading'); 
     });
   });
 </script>

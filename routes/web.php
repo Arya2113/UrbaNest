@@ -49,8 +49,6 @@ Route::get('/payment/confirmed/{transactionId}', [PropertyCheckoutController::cl
 
 Route::get('/payment/rejected/{transactionId}', [PropertyCheckoutController::class, 'paymentRejected'])->name('payment.rejected') ->middleware('auth');
 
-// History Favorite Route
 Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index')->middleware('auth');
 
-// History Transaction Route
 Route::get('/transactions', [HistoryController::class, 'index'])->name('history.transactions.index')->middleware('auth');
