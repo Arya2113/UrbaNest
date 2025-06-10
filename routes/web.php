@@ -9,7 +9,9 @@ use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PropertyCheckoutController;
-use App\Http\Controllers\HistoryController; // Import HistoryController
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PropertyVisitController; // Import PropertyVisitController
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -17,6 +19,16 @@ Route::get('/detailproperti/{property}', [PropertyController::class, 'show'])->n
 Route::get('/cariproperti', [PropertyController::class, 'index'])->name('cariproperti.index');
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services.page');
+Route::get('/services/{slug}', [ServiceController::class, 'detail'])->name('service.show');
+
+// Property Visit Route (Moved outside auth middleware)
+Route::post('/property/{property}/visit', [PropertyVisitController::class, 'store'])->name('property.visit.store');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/services/request/{slug}', [ServiceController::class, 'showForm'])->name('service.request');
+    Route::post('/services/request', [ServiceController::class, 'submitRequest'])->name('service.request.submit');
+
+});
 
 // Auth Routes
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
@@ -52,3 +64,13 @@ Route::get('/payment/rejected/{transactionId}', [PropertyCheckoutController::cla
 Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index')->middleware('auth');
 
 Route::get('/transactions', [HistoryController::class, 'index'])->name('history.transactions.index')->middleware('auth');
+
+// Admin Routes (Temporary - No Auth)
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/transactions', [AdminController::class, 'index'])->name('transactions.index');
+    Route::put('/transactions/{transaction}/status', [AdminController::class, 'updateStatus'])->name('transactions.updateStatus');
+
+    // Property Visit Routes
+    Route::get('/property-visits', [AdminController::class, 'propertyVisits'])->name('property_visits.index');
+    Route::put('/property-visits/{propertyVisit}/status', [AdminController::class, 'updatePropertyVisitStatus'])->name('property_visits.updateStatus');
+});

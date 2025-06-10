@@ -14,7 +14,6 @@ class HistoryController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            // Redirect to login if user is not authenticated
             return redirect()->route('login')->with('error', 'Please log in to view your transaction history.');
         }
 

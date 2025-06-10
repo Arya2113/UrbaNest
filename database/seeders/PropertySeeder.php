@@ -17,6 +17,6 @@ class PropertySeeder extends Seeder
         // Property::truncate(); // Opsional: Jika Anda ingin mengosongkan tabel sebelum seeding
 
         // Buat 20 properti menggunakan factory
-        Property::factory()->count(20)->create();
+        Property::factory()->count(3)->create();
     }
 }

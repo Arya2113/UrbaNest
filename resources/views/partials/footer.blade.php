@@ -1,13 +1,15 @@
 <footer class="text-gray-200">
   
   <!-- Main Footer -->
-  <section class="bg-[#1e1e2f] py-16 px-6">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-center md:text-left">
+  <section class="bg-[#1e1e2f] py-10 px-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center md:text-left">
       
       <!-- Column: Logo -->
       <div>
         <h3 class="text-white text-2xl font-bold flex justify-center md:justify-start items-center gap-2 mb-4">
-          <span class="inline-block w-6 h-6 bg-white rounded-full"></span> UrbaNest
+        <img src="/logo.png" alt="UrbanNest Logo" 
+        class="w-6 h-6 object-contain" style="filter: invert(1) brightness(2);" />
+          UrbanNest
         </h3>
         <p class="text-sm text-gray-400 leading-relaxed mb-4">Your one-stop solution for property sales, construction, renovation, and design services.</p>
         <div class="flex justify-center md:justify-start gap-4 text-lg">

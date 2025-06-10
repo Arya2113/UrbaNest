@@ -8,17 +8,24 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
             <div class="lg:col-span-2 rounded-lg overflow-hidden shadow-lg">
-                {{-- Reverted to static image source as requested --}}
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="Property Image" class="w-full h-full object-cover">
+                {{-- Main image from properties table --}}
+                <img src="{{ asset($property->image_path) }}" alt="Property Image" class="w-full h-full object-cover">
             </div>
             <div class="grid grid-rows-2 gap-4">
-                 {{-- Add more images here if available in the property model, or use placeholders --}}
-                <div class="rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Apartment Interior 1" class="w-full h-full object-cover">
-                </div>
-                <div class="rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Apartment Interior 2" class="w-full h-full object-cover">
-                </div>
+                 {{-- Smaller images from property_images table --}}
+                 @forelse ($property->images->take(2) as $image)
+                    <div class="rounded-lg overflow-hidden shadow-lg">
+                        <img src="{{ asset($image->image_url) }}" alt="Property Image" class="w-full h-full object-cover">
+                    </div>
+                 @empty
+                     {{-- Optional: Add placeholder images or a message if no additional images are available --}}
+                     <div class="rounded-lg overflow-hidden shadow-lg flex items-center justify-center bg-gray-200 text-gray-500">
+                         No additional images
+                     </div>
+                      <div class="rounded-lg overflow-hidden shadow-lg flex items-center justify-center bg-gray-200 text-gray-500">
+                         No additional images
+                     </div>
+                 @endforelse
             </div>
         </div>
 
@@ -82,7 +89,7 @@
 
             <div class="w-full lg:w-1/3">
             <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-                
+
                 @if($lockedByOtherUser)
                     <div class="text-red-500 mb-4">
                         Properti ini sedang diproses oleh pengguna lain. Silakan coba lagi dalam beberapa detik.
@@ -129,11 +136,36 @@
                         WhatsApp
                     </a>
                     @endisset
-                    {{-- Kunjungan Properti button remains --}}
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
-                        Kunjungan Properti
+
+                    {{-- Property Visit Section --}}
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Jadwalkan Kunjungan Properti</h3>
+                    <input type="date" id="visit_date" class="w-full p-2 border rounded-lg mb-4">
+                    <button id="schedule_visit_button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+                        Jadwalkan Kunjungan
                     </button>
+
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Confirmation Modal Structure --}}
+<div id="confirmation_modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Konfirmasi Jadwal Kunjungan</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500" id="scheduled_date_text"></p>
+                <p class="text-sm text-gray-500">Anda yakin ingin menjadwalkan kunjungan pada tanggal ini?</p>
+            </div>
+            <div class="items-center px-4 py-3">
+                <button id="confirm_schedule_button" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Konfirmasi
+                </button>
+                <button id="cancel_schedule_button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    Batal
+                </button>
             </div>
         </div>
     </div>
@@ -146,6 +178,7 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Checkout form logic (keep existing)
         var timeLeft = {{ $timeLeftInSeconds }};
         var lockedByOtherUser = {{ $lockedByOtherUser ? 'true' : 'false' }};
         var countdownElement = document.getElementById('countdown');
@@ -161,13 +194,13 @@
 
         if (lockedByOtherUser) {
             checkoutButton.disabled = true;
-            updateCountdown(); 
-            setInterval(updateCountdown, 1000); 
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
         }
 
         document.getElementById('checkout-form').addEventListener('submit', function(event){
             event.preventDefault();
-            
+
             const form = document.getElementById('checkout-form');
             const url = form.action
             const button = document.getElementById('checkout-button')
@@ -189,48 +222,119 @@
                 console.error('Error:', error);
             });
         });
-    });
-    document.getElementById('favorite-button').addEventListener('click', function() {
-        const form = document.getElementById('favorite-form');
-        const propertyId = form.getAttribute('data-property-id');
-        const url = `/property/${propertyId}/favorite`;
-        const token = form.querySelector('input[name="_token"]').value;
-        const messageArea = document.getElementById('message-area');
-        const favoriteButton = document.getElementById('favorite-button');
 
-        messageArea.classList.add('hidden');
-        messageArea.querySelector('span').innerText = '';
+        // Favorite button logic (keep existing)
+        document.getElementById('favorite-button').addEventListener('click', function() {
+            const form = document.getElementById('favorite-form');
+            const propertyId = form.getAttribute('data-property-id');
+            const url = `/property/${propertyId}/favorite`;
+            const token = form.querySelector('input[name="_token"]').value;
+            const messageArea = document.getElementById('message-area');
+            const favoriteButton = document.getElementById('favorite-button');
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': token,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({})
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || 'An error occurred');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.isFavorited) {
-                favoriteButton.classList.add('text-red-500');
-                favoriteButton.classList.remove('text-gray-400');
-            } else {
-                favoriteButton.classList.remove('text-red-500');
-                favoriteButton.classList.add('text-gray-400');
-            }
-        })
-        .catch(error => {
-            messageArea.classList.remove('hidden');
-            messageArea.querySelector('span').innerText = error.message;
+            messageArea.classList.add('hidden');
+            messageArea.querySelector('span').innerText = '';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || 'An error occurred');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.isFavorited) {
+                    favoriteButton.classList.add('text-red-500');
+                    favoriteButton.classList.remove('text-gray-400');
+                } else {
+                    favoriteButton.classList.remove('text-red-500');
+                    favoriteButton.classList.add('text-gray-400');
+                }
+            })
+            .catch(error => {
+                messageArea.classList.remove('hidden');
+                messageArea.querySelector('span').innerText = error.message;
+            });
         });
+
+        // Property Visit Scheduling Logic
+        const visitDateInput = document.getElementById('visit_date');
+        const scheduleVisitButton = document.getElementById('schedule_visit_button');
+        const confirmationModal = document.getElementById('confirmation_modal');
+        const scheduledDateText = document.getElementById('scheduled_date_text');
+        const confirmScheduleButton = document.getElementById('confirm_schedule_button');
+        const cancelScheduleButton = document.getElementById('cancel_schedule_button');
+
+        // You will need to integrate a date picker library here (e.g., Flatpickr)
+        // For example, using Flatpickr:
+        // flatpickr("#visit_date", { minDate: "today" });
+
+        scheduleVisitButton.addEventListener('click', function() {
+            const selectedDate = visitDateInput.value;
+
+            if (!selectedDate) {
+                alert('Please select a date for the visit.');
+                return;
+            }
+
+            // Display the selected date in the modal
+            scheduledDateText.innerText = 'Tanggal terpilih: ' + selectedDate;
+
+            // Show the confirmation modal
+            confirmationModal.classList.remove('hidden');
+        });
+
+        cancelScheduleButton.addEventListener('click', function() {
+            // Hide the confirmation modal
+            confirmationModal.classList.add('hidden');
+        });
+
+        confirmScheduleButton.addEventListener('click', function() {
+            const selectedDate = visitDateInput.value;
+            const propertyId = {{ $property->id }};
+            const url = `/property/${propertyId}/visit`;
+            const token = '{{ csrf_token() }}';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ scheduled_at: selectedDate })
+            })
+            .then(response => {
+                if (!response.ok) {
+                     return response.json().then(data => {
+                        throw new Error(data.message || 'Failed to schedule visit.');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Visit scheduled successfully!');
+                confirmationModal.classList.add('hidden');
+                visitDateInput.value = ''; // Clear the date input after successful scheduling
+            })
+            .catch(error => {
+                 alert('Error scheduling visit: ' + error.message);
+                 console.error('Error:', error);
+                 confirmationModal.classList.add('hidden');
+            });
+        });
+
+
     });
 </script>
 @endsection

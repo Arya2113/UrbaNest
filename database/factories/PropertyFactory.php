@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Property;
 use App\Models\Amenity;
+use App\Models\PropertyImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,7 +28,7 @@ class PropertyFactory extends Factory
             'bedrooms' => $this->faker->numberBetween(1, 5),
             'bathrooms' => $this->faker->numberBetween(1, 4),
             'area' => $this->faker->randomFloat(2, 50, 500),
-            'image_path' => $this->faker->imageUrl(640, 480, 'house', true),
+            'image_path' => $this->faker->imageUrl(640, 480, 'house', true), // Still keep this for now, might be used as a main image
             // Removed 'status' and 'environment_facilities' - assuming these were removed in a previous migration
         ];
     }
@@ -46,6 +47,11 @@ class PropertyFactory extends Factory
                 $randomAmenities = $amenities->random(rand(1, min(3, $amenities->count())));
                 $property->amenities()->attach($randomAmenities->pluck('id'));
             }
+
+            // Create 3 associated property images
+            PropertyImage::factory()->count(3)->create([
+                'property_id' => $property->id,
+            ]);
         });
     }
 }

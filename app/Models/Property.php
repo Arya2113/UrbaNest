@@ -8,6 +8,7 @@ use App\Models\Amenity;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Property extends Model
 {
@@ -27,7 +28,7 @@ class Property extends Model
         'bedrooms',
         'bathrooms',
         'area',
-        'image_path',
+        'image_path', // This will likely become obsolete or represent a single main image
         'developer_id',
         'locked_by_user_id',
         'locked_until',
@@ -77,5 +78,13 @@ class Property extends Model
     public function propertyCheckoutTransactions()
     {
         return $this->hasMany(PropertyCheckoutTransaction::class, 'property_id');
+    }
+
+    /**
+     * Get the images for the property.
+     */
+    public function images(): HasMany
+    {
+        return $this->hasMany(PropertyImage::class);
     }
 }

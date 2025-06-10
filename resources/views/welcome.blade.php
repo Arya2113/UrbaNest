@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'UrbaNest - Find Your Perfect Space')
+@section('title', 'Find Your Perfect Space')
 
 @section('content')
     {{-- SCENARIO 2: Sections are full-width WITHIN the layout's padding. --}}
@@ -21,7 +21,7 @@
 
     {{-- Section itself loses container/mx-auto/px-6. Apply negative margins to make its background full. --}}
     <section class="py-16 bg-gray-50 px-4 md:px-8">
-                {{-- Add padding back for the content INSIDE this section to align with global padding --}}
+        {{-- Add padding back for the content INSIDE this section to align with global padding --}}
         <div class="px-4 md:px-8">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold">Featured Properties</h2>
@@ -34,75 +34,31 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-lg overflow-hidden shadow-md">
+            @foreach ($featuredProperties as $property)
+                <a href="/detailproperti/{{ $property->id }}" class="block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-200">
                     <div class="relative">
-                        <div class="bg-[url('/placeholder.svg?height=200&width=300')] h-48 w-full bg-gray-200 flex items-center justify-center">
-                            <i class="fas fa-image text-gray-400 text-3xl"></i>
-                        </div>
+                        <img src="{{ $property->image_path ? asset('storage/' . $property->image_path) : '/placeholder.svg' }}" alt="{{ $property->title }}" class="h-48 w-full object-cover">
                         <span class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">Sale</span>
-                        <button class="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        
+                        <button class="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow flex items-center space-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
                             </svg>
+                            <span class="text-gray-600 text-sm">{{ $property->users_count }}</span>
                         </button>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-lg">Modern Apartment with Ocean View</h3>
-                        <p class="text-gray-600 text-sm mb-2">Downtown, Ocean City</p>
-                        <p class="text-primary font-bold text-xl mb-3">$450,000</p>
+                        <h3 class="font-bold text-lg">{{ $property->title }}</h3>
+                        <p class="text-gray-600 text-sm mb-2">{{ $property->location }}</p>
+                        <p class="text-primary font-bold text-xl mb-3">Rp{{ number_format($property->price, 0, ',', '.') }}</p>
                         <div class="flex justify-between text-sm text-gray-600">
-                            <span>2 Beds</span>
-                            <span>2 Baths</span>
-                            <span>1200 sqft</span>
+                            <span>{{ $property->bedrooms }} Beds</span>
+                            <span>{{ $property->bathrooms }} Baths</span>
+                            <span>{{ $property->area }} sqft</span>
                         </div>
                     </div>
-                </div>
-                <div class="bg-white rounded-lg overflow-hidden shadow-md">
-                    <div class="relative">
-                        <div class="bg-[url('/placeholder.svg?height=200&width=300')] h-48 w-full bg-gray-200 flex items-center justify-center">
-                            <i class="fas fa-image text-gray-400 text-3xl"></i>
-                        </div>
-                        <span class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">Sale</span>
-                        <button class="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg">Luxury Villa with Pool</h3>
-                        <p class="text-gray-600 text-sm mb-2">Beverly Hills, Los Angeles</p>
-                        <p class="text-primary font-bold text-xl mb-3">$1,200,000</p>
-                        <div class="flex justify-between text-sm text-gray-600">
-                            <span>4 Beds</span>
-                            <span>3 Baths</span>
-                            <span>3500 sqft</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg overflow-hidden shadow-md">
-                    <div class="relative">
-                        <div class="bg-[url('/placeholder.svg?height=200&width=300')] h-48 w-full bg-gray-200 flex items-center justify-center">
-                            <i class="fas fa-image text-gray-400 text-3xl"></i>
-                        </div>
-                        <span class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">Sale</span>
-                        <button class="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg">Cozy Studio in City Center</h3>
-                        <p class="text-gray-600 text-sm mb-2">Midtown, New York</p>
-                        <p class="text-primary font-bold text-xl mb-3">$320,000</p>
-                        <div class="flex justify-between text-sm text-gray-600">
-                            <span>1 Beds</span>
-                            <span>1 Baths</span>
-                            <span>650 sqft</span>
-                        </div>
-                    </div>
-                </div>
+                </a>
+            @endforeach
             </div>
         </div>
     </section>
@@ -159,4 +115,3 @@
 @include('partials.footer')
 
 @endsection
-

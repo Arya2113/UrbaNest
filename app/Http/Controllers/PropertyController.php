@@ -117,7 +117,7 @@ class PropertyController extends Controller
         }
 
         // Load relasi yang dibutuhkan
-        $property->load('amenities', 'developer', 'lockedByUser'); 
+        $property->load('amenities', 'developer', 'lockedByUser', 'images'); 
 
         $isFavorited = false;
         if (Auth::check()) {

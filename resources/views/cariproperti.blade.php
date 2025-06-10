@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'UrbaNest - Find Your Perfect Space')
+@section('title', 'Properties')
 
 @section('content')
 <div class="container mx-auto p-4 lg:p-8">
@@ -260,7 +260,6 @@
                                 @endif
                             </div>
 
-                            <!-- Tombol harus di container bawah untuk push ke bawah -->
                             <div class="mt-auto">
                                 <a href="/detailproperti/{{ $property->id }}" class="block text-center w-full border border-blue-600 text-blue-600 py-2 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition duration-200">
                                 View Details

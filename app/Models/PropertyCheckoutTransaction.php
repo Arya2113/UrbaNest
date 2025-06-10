@@ -28,4 +28,33 @@ class PropertyCheckoutTransaction extends Model
     {
         return $this->belongsTo(Property::class);
     }
+    
+    public function getBuktiTransferTypeAttribute(): string
+    {
+        if (!$this->bukti_transfer_url) {
+            return 'none';
+        }
+
+        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'];
+        
+        if (Str::isUrl($this->bukti_transfer_url)) {
+            // Jika ini adalah URL lengkap, ambil path-nya saja
+            $path = parse_url($this->bukti_transfer_url, PHP_URL_PATH);
+        } else {
+            // Jika hanya path, gunakan langsung
+            $path = $this->bukti_transfer_url;
+        }
+        
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        if (in_array($extension, $imageExtensions)) {
+            return 'image';
+        }
+
+        if ($extension === 'pdf') {
+            return 'pdf';
+        }
+
+        return 'other';
+    }
 }
