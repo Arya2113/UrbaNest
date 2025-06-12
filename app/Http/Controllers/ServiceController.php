@@ -56,8 +56,7 @@ class ServiceController extends Controller
         // Simpan ke database jika ada model, atau kirim email, dll.
         // ServiceRequest::create($validated);
 
-        return redirect()->back()->with('success', 'Your service request has been submitted. Our team will contact you soon.');
-    }
+        return redirect()->route('architectsPage');    }
 
     public function detail($slug)
 {

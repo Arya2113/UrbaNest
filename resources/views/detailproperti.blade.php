@@ -15,7 +15,7 @@
                  {{-- Smaller images from property_images table --}}
                  @forelse ($property->images->take(2) as $image)
                     <div class="rounded-lg overflow-hidden shadow-lg">
-                        <img src="{{ asset($image->image_url) }}" alt="Property Image" class="w-full h-full object-cover">
+                         <img src="{{ asset('storage/' . $image->image_url) }}" alt="Property Image" class="w-full h-full object-cover">
                     </div>
                  @empty
                      {{-- Optional: Add placeholder images or a message if no additional images are available --}}

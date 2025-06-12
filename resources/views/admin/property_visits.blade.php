@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Property Visits</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-900">
+@extends('layouts.admin')
+
+@section('content')
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-bold mb-6">Admin Property Visits</h2>
 
             @if(session('success'))
@@ -66,5 +61,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection

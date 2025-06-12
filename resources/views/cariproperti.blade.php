@@ -275,6 +275,7 @@
                     @endforelse
                 </div>
 
+                {{ $properties->links() }}
             </main>
         </div>
     </form> 

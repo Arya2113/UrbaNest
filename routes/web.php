@@ -5,13 +5,16 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ArchitectController;
 use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PropertyCheckoutController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminPropertyController;
 use App\Http\Controllers\PropertyVisitController; // Import PropertyVisitController
+use App\Http\Controllers\UserProfileController; 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -27,8 +30,9 @@ Route::post('/property/{property}/visit', [PropertyVisitController::class, 'stor
 Route::middleware('auth')->group(function () {
     Route::get('/services/request/{slug}', [ServiceController::class, 'showForm'])->name('service.request');
     Route::post('/services/request', [ServiceController::class, 'submitRequest'])->name('service.request.submit');
-
+    
 });
+Route::get('/architects', [ArchitectController::class, 'index'])->name('architectsPage');
 
 // Auth Routes
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
@@ -73,4 +77,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Property Visit Routes
     Route::get('/property-visits', [AdminController::class, 'propertyVisits'])->name('property_visits.index');
     Route::put('/property-visits/{propertyVisit}/status', [AdminController::class, 'updatePropertyVisitStatus'])->name('property_visits.updateStatus');
+
+    // Property Routes
+    Route::get('/properties', [AdminPropertyController::class, 'index'])->name('properties.index');
+    Route::get('/properties/create', [AdminPropertyController::class, 'create'])->name('properties.create');
+    Route::post('/properties', [AdminPropertyController::class, 'store'])->name('properties.store');
+});
+
+// Profile Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profileShow');
+    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profileEdit');
+    Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profileUpdate');
+    Route::get('/profile/password', [UserProfileController::class, 'showPasswordForm'])->name('profilePassword');
+    Route::post('/profile/password', [UserProfileController::class, 'updatePassword'])->name('profileUpdatePassword');
 });

@@ -17,15 +17,17 @@ class PropertyController extends Controller
     {
         $query = Property::query()->with('amenities');
 
-        $query->whereDoesntHave('propertyCheckoutTransactions', function ($query) {
-            $query->whereIn('status_transaksi', ['verified', 'uploaded']);
+        // Hanya properti yang belum dalam transaksi
+        $query->whereDoesntHave('propertyCheckoutTransactions', function ($q) {
+            $q->whereIn('status_transaksi', ['verified', 'uploaded']);
         });
 
+        // Filter lokasi
         if ($request->filled('location')) {
-            $locationValue = $request->input('location');
-            $query->whereRaw('LOWER(location) = ?', [strtolower($locationValue)]);
+            $query->whereRaw('LOWER(location) = ?', [strtolower($request->input('location'))]);
         }
 
+        // Filter luas area
         if ($request->filled('min_surface_area')) {
             $query->where('area', '>=', $request->input('min_surface_area'));
         }
@@ -33,6 +35,7 @@ class PropertyController extends Controller
             $query->where('area', '<=', $request->input('max_surface_area'));
         }
 
+        // Filter harga
         if ($request->filled('min_price')) {
             $query->where('price', '>=', $request->input('min_price'));
         }
@@ -40,26 +43,25 @@ class PropertyController extends Controller
             $query->where('price', '<=', $request->input('max_price'));
         }
 
+        // Filter jumlah kamar tidur
         if ($request->filled('bedrooms')) {
             $selectedBedrooms = $request->input('bedrooms');
             $query->where(function ($q) use ($selectedBedrooms) {
                 $numericBedrooms = [];
-                $applyNumericFilter = false;
                 foreach ($selectedBedrooms as $br) {
                     if (is_numeric($br)) {
                         $numericBedrooms[] = (int)$br;
-                        $applyNumericFilter = true;
-                    }
-                     elseif ($br === '4+') {
+                    } elseif ($br === '4+') {
                         $q->orWhere('bedrooms', '>=', 4);
                     }
                 }
-                if ($applyNumericFilter) {
+                if (!empty($numericBedrooms)) {
                     $q->orWhereIn('bedrooms', $numericBedrooms);
                 }
             });
         }
 
+        // Filter amenitas
         if ($request->filled('amenities')) {
             $selectedAmenities = $request->input('amenities');
             $query->whereHas('amenities', function ($q) use ($selectedAmenities) {
@@ -67,35 +69,38 @@ class PropertyController extends Controller
             });
         }
 
-        if ($request->filled('sort_by')) {
-            $sortBy = $request->input('sort_by');
-            if ($sortBy === 'price_asc') {
+        // Sorting
+        $sortBy = $request->input('sort_by');
+        switch ($sortBy) {
+            case 'price_asc':
                 $query->orderBy('price', 'asc');
-            } elseif ($sortBy === 'price_desc') {
+                break;
+            case 'price_desc':
                 $query->orderBy('price', 'desc');
-            } elseif ($sortBy === 'newest') {
+                break;
+            case 'newest':
+            default:
                 $query->orderBy('created_at', 'desc');
-            }
-        } else {
-            $query->orderBy('created_at', 'desc');
+                break;
         }
-        
-        
-        $properties = $query->get();
 
+        // Pagination
+        $perPage = $request->input('per_page', 10);
+        $properties = $query->paginate($perPage)->withQueryString(); // <-- penting
 
+        // List lokasi unik
         $uniqueLocations = Property::select('location')
-        ->whereNotNull('location')
-        ->where('location', '!=', '')
-        ->whereDoesntHave('propertyCheckoutTransactions', function ($query) {
-            $query->whereIn(DB::raw('LOWER(status_transaksi)'), ['verified', 'uploaded']);
-        })
-        ->distinct()
-        ->orderBy('location', 'asc')
-        ->get();
+            ->whereNotNull('location')
+            ->where('location', '!=', '')
+            ->whereDoesntHave('propertyCheckoutTransactions', function ($q) {
+                $q->whereIn('status_transaksi', ['verified', 'uploaded']);
+            })
+            ->distinct()
+            ->orderBy('location', 'asc')
+            ->get();
 
+        // List amenitas
         $amenitiesListForFilter = Amenity::orderBy('name')->get();
-
 
         return view('cariproperti', [
             'properties' => $properties,
@@ -203,5 +208,17 @@ class PropertyController extends Controller
             \Log::error('Error attempting to lock property: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat mencoba mengunci properti. Silakan coba lagi nanti.'], 500);
         }
+    }
+
+    /**
+     * Get all properties for API.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllPropertiesApi()
+    {
+        $properties = Property::with(['amenities', 'developer', 'images'])->get();
+
+        return response()->json($properties);
     }
 }

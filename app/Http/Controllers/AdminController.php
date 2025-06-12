@@ -15,7 +15,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $transactions = PropertyCheckoutTransaction::all();
+        $transactions = PropertyCheckoutTransaction::orderBy('created_at', 'desc')->get();
         return view('admin.transactions', compact('transactions'));
     }
 
@@ -39,7 +39,7 @@ class AdminController extends Controller
      */
     public function propertyVisits()
     {
-        $propertyVisits = PropertyVisit::with(['user', 'property'])->get();
+        $propertyVisits = PropertyVisit::with(['user', 'property'])->orderBy('created_at', 'desc')->get();
         return view('admin.property_visits', compact('propertyVisits'));
     }
 

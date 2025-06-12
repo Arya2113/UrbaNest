@@ -107,11 +107,15 @@
             </div>
         </div>
     </section>
+    @guest
     <section class="bg-blue-600 text-white py-16 px-6 text-center">
         <h2 class="text-3xl font-bold mb-4">Ready to Find Your Dream Property?</h2>
         <p class="text-lg mb-6">Join UrbaNest today and discover the perfect property for your needs.</p>
-        <a href="{{ route('signup') }}" class="inline-block bg-white text-blue-700 font-bold py-3 px-6 rounded hover:bg-gray-100 transition">Get Started</a>
+        <a href="{{ route('signup') }}" class="inline-block bg-white text-blue-700 font-bold py-3 px-6 rounded hover:bg-gray-100 transition">
+            Get Started
+        </a>
     </section>
+    @endguest
 @include('partials.footer')
 
 @endsection

@@ -40,7 +40,7 @@
                   group-hover:visible group-hover:opacity-100 transition-opacity duration-150 z-50"
             style="pointer-events: auto;"
           >
-            <a href="/#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+            <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
             <a href="/favorite" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Favorite</a>
             <a href="/transactions" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">History</a>
             <form action="{{ route('logout') }}" method="POST">

@@ -28,7 +28,7 @@ class Property extends Model
         'bedrooms',
         'bathrooms',
         'area',
-        'image_path', // This will likely become obsolete or represent a single main image
+        'image_path', 
         'developer_id',
         'locked_by_user_id',
         'locked_until',
