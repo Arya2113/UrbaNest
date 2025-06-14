@@ -28,6 +28,12 @@
             User Visits
             </a>
         </li>
+        <li>
+            <a href="/admin/properties"
+            class="block px-4 py-2 hover:bg-gray-700 {{ request()->is('admin/properties*') ? 'bg-gray-900 font-bold' : '' }}">
+            Properties
+            </a>
+        </li>
         </ul>
     </div>
 

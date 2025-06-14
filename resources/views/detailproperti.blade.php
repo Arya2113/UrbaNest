@@ -199,7 +199,6 @@
         }
 
         document.getElementById('checkout-form').addEventListener('submit', function(event){
-            event.preventDefault();
 
             const form = document.getElementById('checkout-form');
             const url = form.action

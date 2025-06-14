@@ -152,7 +152,7 @@ class PropertyController extends Controller
     public function attemptLockAndCheckout(Property $property)
     {
         if (!Auth::check()) {
-            return response()->json(['message' => 'Silakan login untuk melanjutkan pembayaran.'], 401);
+            return redirect()->route('login');
         }
 
         $user = Auth::user();

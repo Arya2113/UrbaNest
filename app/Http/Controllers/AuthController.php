@@ -50,15 +50,32 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/'); // Redirect to the intended page or home
+            $user = Auth::user();
+
+            // 🎯 Role-based redirect
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.transactions.index'); // ganti sesuai route admin lo
+                case 'architect':
+                    return redirect()->route('architectsPage');
+                default:
+                    return redirect()->route('home');
+            }
         }
+
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate();
+
+        //     return redirect()->intended('/'); // Redirect to the intended page or home
+        // }
+        
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

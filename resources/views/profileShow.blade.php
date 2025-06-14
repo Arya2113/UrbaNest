@@ -1,59 +1,49 @@
 @extends('layouts.app')
-@section('title', 'User Profile')
-@section('content')
-<div class="bg-slate-50 font-sans text-gray-900 min-h-screen">
-    <main class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        {{-- Header Profil --}}
-        <div class="flex flex-col items-center mb-12">
-            <div class="relative">
-                <!-- Foto Profil -->
-                <img src="{{ asset($user->profile_image) }}" alt="{{ $user->name }}" class="w-32 h-32 object-cover rounded-full shadow-xl" />
-                <!-- Ikon Kamera -->
-                <a href="#" class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 shadow-lg">
-                    <i class="fa fa-camera"></i>
-                </a>
-            </div>
-            <h1 class="text-3xl font-bold mt-4">{{ $user->name }}</h1>
-            <p class="text-gray-600 text-sm">{{ $user->email }}</p>
-            <a href="{{ route('profileEdit') }}" class="mt-3 text-blue-600 hover:text-blue-700 text-sm">Edit Profile</a>
-        </div>
 
-        {{-- Personal Information --}}
-        <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
-            <h2 class="text-2xl font-semibold mb-6">Personal Information</h2>
+@section('title', 'User Profile')
+
+@section('content')
+<div class="bg-slate-50 min-h-screen">
+    <div class="relative pt-20 pb-16 overflow-hidden">
+        <div class="relative max-w-4xl mx-auto text-center px-4">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                Your <span class="text-blue-700">Profile</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Manage your account information below. You can edit your profile or update your password anytime.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 pb-20">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Profile Details</h2>
+
             <div class="space-y-4">
                 <div>
-                    <strong class="text-gray-700">Full Name:</strong>
-                    <p>{{ $user->name }}</p>
+                    <label class="text-gray-600 font-medium">Name</label>
+                    <p class="text-lg text-gray-900">{{ $user->name }}</p>
                 </div>
                 <div>
-                    <strong class="text-gray-700">Email:</strong>
-                    <p>{{ $user->email }}</p>
+                    <label class="text-gray-600 font-medium">Email</label>
+                    <p class="text-lg text-gray-900">{{ $user->email }}</p>
                 </div>
                 <div>
-                    <strong class="text-gray-700">Bio:</strong>
-                    <p>{{ $user->bio ?: 'No bio available' }}</p>
-                </div>
-                <div>
-                    <strong class="text-gray-700">Phone:</strong>
-                    <p>{{ $user->phone_number ?: 'Not available' }}</p>
-                </div>
-                <div>
-                    <strong class="text-gray-700">Location:</strong>
-                    <p>{{ $user->location ?: 'Not specified' }}</p>
+                    <label class="text-gray-600 font-medium">Phone</label>
+                    <p class="text-lg text-gray-900">{{ $user->phone ?? '-' }}</p>
                 </div>
             </div>
-        </div>
 
-        {{-- Change Password Link --}}
-        <div class="flex justify-center mb-12">
-            <a href="{{ route('profilePassword') }}" class="text-blue-600 hover:text-blue-700 text-lg">
-                Change Password
-            </a>
+            <div class="mt-10 flex gap-4">
+                <a href="{{ route('profile.edit') }}" class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-all shadow">
+                    Edit Profile
+                </a>
+                <a href="{{ route('profile.password') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg border transition-all">
+                    Change Password
+                </a>
+            </div>
         </div>
-
-    </main>
+    </div>
 </div>
-
 @include('partials.footer')
 @endsection

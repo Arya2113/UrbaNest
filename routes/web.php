@@ -24,15 +24,30 @@ Route::get('/cariproperti', [PropertyController::class, 'index'])->name('caripro
 Route::get('/services', [ServiceController::class, 'index'])->name('services.page');
 Route::get('/services/{slug}', [ServiceController::class, 'detail'])->name('service.show');
 
-// Property Visit Route (Moved outside auth middleware)
-Route::post('/property/{property}/visit', [PropertyVisitController::class, 'store'])->name('property.visit.store');
+Route::get('/services', [ServiceController::class, 'index'])->name('services.page');
+Route::get('/services/{slug}', [ServiceController::class, 'detail'])->name('service.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/services/request/{slug}', [ServiceController::class, 'showForm'])->name('service.request');
     Route::post('/services/request', [ServiceController::class, 'submitRequest'])->name('service.request.submit');
     
+    Route::get('/architects', [ArchitectController::class, 'index'])->name('architectsPage');
+    Route::post('/architects/select', [ArchitectController::class, 'selectArchitect'])->name('architect.select');
+    Route::get('/order/status/{order}', [ServiceOrderStatusController::class, 'show'])->name('order.status.show');
 });
+
 Route::get('/architects', [ArchitectController::class, 'index'])->name('architectsPage');
+Route::get('/about', function (){
+    return view('about');
+});
+
+Route::get('/contact', function (){
+    return view('contact');
+});
+
+// Property Visit Route (Moved outside auth middleware)
+Route::post('/property/{property}/visit', [PropertyVisitController::class, 'store'])->name('property.visit.store');
+
 
 // Auth Routes
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
@@ -84,11 +99,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/properties', [AdminPropertyController::class, 'store'])->name('properties.store');
 });
 
-// Profile Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('profileShow');
-    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profileEdit');
-    Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profileUpdate');
-    Route::get('/profile/password', [UserProfileController::class, 'showPasswordForm'])->name('profilePassword');
-    Route::post('/profile/password', [UserProfileController::class, 'updatePassword'])->name('profileUpdatePassword');
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/profile/password', [UserProfileController::class, 'editPassword'])->name('profile.password');
+    Route::post('/profile/password/update', [UserProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
+
+
+
+

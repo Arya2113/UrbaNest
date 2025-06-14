@@ -1,36 +1,71 @@
 @extends('layouts.app')
+
 @section('title', 'Change Password')
+
 @section('content')
-<div class="bg-slate-50 font-sans text-gray-900 min-h-screen">
-    <main class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        {{-- Header Ganti Password --}}
-        <div class="flex flex-col items-center mb-12">
-            <h1 class="text-2xl font-bold">Change Password</h1>
-            <p class="text-gray-600 mb-4">Ensure your new password is strong and memorable.</p>
+<div class="bg-slate-50 min-h-screen">
+    <div class="relative pt-20 pb-16 overflow-hidden">
+        <div class="relative max-w-4xl mx-auto text-center px-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                Change <span class="text-blue-700">Password</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                For your account security, we recommend using a strong password.
+            </p>
         </div>
+    </div>
 
-        {{-- Form Ganti Password --}}
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-12">
-            <form method="POST" action="{{ route('profileUpdatePassword') }}">
+    <div class="max-w-xl mx-auto px-4 pb-20">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-lg p-8">
+
+            @if(session('success'))
+                <div class="mb-4 text-green-600 font-medium">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('profile.password.update') }}">
                 @csrf
-                <div class="mb-4">
-                    <label for="password" class="block text-sm font-semibold">New Password</label>
-                    <input type="password" name="password" id="password" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div class="mb-4">
-                    <label for="password_confirmation" class="block text-sm font-semibold">Confirm New Password</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+
+                {{-- Current Password --}}
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Current Password</label>
+                    <input type="password" name="current_password" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('current_password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="flex justify-between mt-6">
-                    <a href="{{ route('profileShow') }}" class="bg-gray-400 text-white p-3 rounded-lg hover:bg-gray-500">Cancel</a>
-                    <button type="submit" class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700">Change Password</button>
+                {{-- New Password --}}
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">New Password</label>
+                    <input type="password" name="new_password" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('new_password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Confirm New Password --}}
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Confirm New Password</label>
+                    <input type="password" name="new_password_confirmation" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                {{-- Submit --}}
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition shadow">
+                        Update Password
+                    </button>
+                    <a href="{{ route('profile.show') }}" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
+                        Cancel
+                    </a>
                 </div>
             </form>
         </div>
-
-    </main>
+    </div>
 </div>
-
 @include('partials.footer')
 @endsection

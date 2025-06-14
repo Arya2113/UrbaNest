@@ -1,50 +1,72 @@
 @extends('layouts.app')
-@section('title', 'Edit Profile')
-@section('content')
-<div class="bg-slate-50 font-sans text-gray-900 min-h-screen">
-    <main class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        {{-- Header Edit Profil --}}
-        <div class="flex flex-col items-center mb-12">
-            <h1 class="text-3xl font-bold">Edit Profile</h1>
-            <p class="text-gray-600 mb-4">Update your profile information below</p>
-        </div>
 
-        {{-- Form Edit Profil --}}
-        <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
-            <form method="POST" action="{{ route('profileUpdate') }}">
+@section('title', 'Edit Profile')
+
+@section('content')
+<div class="bg-slate-50 min-h-screen">
+    <div class="relative pt-20 pb-16 overflow-hidden">
+        <div class="relative max-w-4xl mx-auto text-center px-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                Edit <span class="text-blue-700">Profile</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Update your personal information below and click save when you're done.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-xl mx-auto px-4 pb-20">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-lg p-8">
+            @if(session('success'))
+                <div class="mb-4 text-green-600 font-medium">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('profile.update') }}">
                 @csrf
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-semibold">Full Name</label>
-                        <input type="text" name="name" id="name" value="{{ $user->name }}" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-semibold">Email</label>
-                        <input type="email" name="email" id="email" value="{{ $user->email }}" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div class="mb-4">
-                        <label for="bio" class="block text-sm font-semibold">Bio</label>
-                        <textarea name="bio" id="bio" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">{{ $user->bio }}</textarea>
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone" class="block text-sm font-semibold">Phone Number</label>
-                        <input type="text" name="phone" id="phone" value="{{ $user->phone_number }}" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div class="mb-4">
-                        <label for="location" class="block text-sm font-semibold">Location</label>
-                        <input type="text" name="location" id="location" value="{{ $user->location }}" class="mt-1 block w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
+                {{-- Name --}}
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Name</label>
+                    <input type="text" name="name" value="{{ old('name') ?? $user->name }}" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="flex justify-between mt-6">
-                    <a href="{{ route('profileShow') }}" class="bg-gray-400 text-white p-3 rounded-lg hover:bg-gray-500">Cancel</a>
-                    <button type="submit" class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700">Save Changes</button>
+                {{-- Email --}}
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Email</label>
+                    <input type="email" name="email" value="{{ old('email') ?? $user->email }}" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('email')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Phone --}}
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Phone</label>
+                    <input type="text" name="phone" value="{{ old('phone') ?? $user->phone }}" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('phone')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Submit --}}
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition shadow">
+                        Save Changes
+                    </button>
+                    <a href="{{ route('profile.show') }}" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
+                        Cancel
+                    </a>
                 </div>
             </form>
         </div>
-
-    </main>
+    </div>
 </div>
-
 @include('partials.footer')
 @endsection
