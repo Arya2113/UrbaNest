@@ -11,8 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('service_orders', function (Blueprint $table) {
-            Schema::create('service_orders', function (Blueprint $table) {
+        Schema::create('service_orders', function (Blueprint $table) { 
                 $table->id();
                 $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
                 $table->foreignId('architect_id')->nullable()->constrained('architects')->onDelete('set null');
@@ -38,8 +37,6 @@ return new class extends Migration
                 ])->default('pending');            
                 $table->timestamps();
             });
-            
-        });
     }
 
     /**
