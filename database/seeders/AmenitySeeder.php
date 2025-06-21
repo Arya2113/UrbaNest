@@ -8,9 +8,7 @@ use App\Models\Amenity;
 
 class AmenitySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         $amenities = [

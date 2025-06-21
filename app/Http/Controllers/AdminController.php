@@ -10,18 +10,14 @@ use App\Models\Property;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the transactions.
-     */
+
     public function index()
     {
         $transactions = PropertyCheckoutTransaction::orderBy('created_at', 'desc')->get();
         return view('admin.transactions', compact('transactions'));
     }
 
-    /**
-     * Update the status of a transaction.
-     */
+
     public function updateStatus(Request $request, PropertyCheckoutTransaction $transaction)
     {
         $request->validate([
@@ -34,18 +30,14 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Transaction status updated successfully.');
     }
 
-    /**
-     * Display a listing of the property visits.
-     */
+
     public function propertyVisits()
     {
         $propertyVisits = PropertyVisit::with(['user', 'property'])->orderBy('created_at', 'desc')->get();
         return view('admin.property_visits', compact('propertyVisits'));
     }
 
-    /**
-     * Update the status of a property visit.
-     */
+
     public function updatePropertyVisitStatus(Request $request, PropertyVisit $propertyVisit)
     {
         $request->validate([

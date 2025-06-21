@@ -5,10 +5,21 @@
     <h1 class="text-3xl font-bold text-center mb-8">Choose Your Architect</h1>
 
     
+    @php
+        $currentStyle = request('style', 'all');
+    @endphp
+
     <div class="flex flex-wrap justify-center gap-2 mb-6">
-        <a href="?style=all" class="px-3 py-1 bg-blue-600 text-white rounded text-sm">All Styles</a>
-        @foreach(['Modern', 'Minimalist', 'Industrial', 'Classic', 'Contemporary'] as $style)
-            <a href="?style={{ $style }}" class="px-3 py-1 border border-gray-400 rounded text-sm text-gray-700 hover:bg-gray-100">
+        <a href="?style=all"
+        class="px-3 py-1 rounded text-sm
+                {{ $currentStyle === 'all' ? 'bg-blue-600 text-white' : 'border border-gray-400 text-gray-700 hover:bg-gray-100' }}">
+            All Styles
+        </a>
+
+        @foreach($allStyles as $style)
+            <a href="?style={{ $style }}"
+            class="px-3 py-1 rounded text-sm
+                    {{ $currentStyle === $style ? 'bg-blue-600 text-white' : 'border border-gray-400 text-gray-700 hover:bg-gray-100' }}">
                 {{ $style }}
             </a>
         @endforeach

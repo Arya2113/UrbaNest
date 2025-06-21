@@ -12,14 +12,19 @@ class ArchitectController extends Controller
     {
         $query = Architect::query();
 
-         
-        if ($request->has('style')) {
+        if ($request->has('style') && $request->style !== 'all') {
             $query->whereJsonContains('styles', $request->style);
         }
 
         $architects = $query->get();
 
-        return view('architectsPage', compact('architects'));
+        $allStyles = Architect::pluck('styles')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->values();
+
+        return view('architectsPage', compact('architects', 'allStyles'));
     }
 
      

@@ -107,10 +107,27 @@ class AdminPropertyController extends Controller
         return redirect()->route('admin.properties.index')->with('success', 'Property added successfully!');
     }
 
-     
-     
-     
-     
+    public function updateInline(Request $request, Property $property)
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'address' => 'required|string',
+            'area' => 'required|numeric',
+            'bedrooms' => 'nullable|integer',
+            'bathrooms' => 'nullable|integer',
+        ]);
+
+        $property->update($data);
+
+        return redirect()->back()->with('success', 'Property updated!');
+    }
+
+    public function destroy(Property $property)
+    {
+        $property->delete();
+        return redirect()->back()->with('success', 'Property deleted successfully.');
+    }
      
      
 }
