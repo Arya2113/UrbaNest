@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('location');
-            $table->text('alamat')->nullable(); // Added alamat column
+            $table->text('address')->nullable();  
             $table->decimal('price', 15, 2);
             $table->integer('bedrooms')->nullable();
             $table->integer('bathrooms')->nullable();
             $table->decimal('area', 10, 2)->nullable();
-            $table->string('image_path')->nullable(); // Optional: path to a main image
-            $table->foreignId('locked_by_user_id')->nullable()->constrained('users')->onDelete('set null'); // Added locked_by_user_id
-            $table->timestamp('locked_until')->nullable(); // Added locked_until
+            $table->string('image_path')->nullable();  
+            $table->foreignId('locked_by_user_id')->nullable()->constrained('users')->onDelete('set null');  
+            $table->timestamp('locked_until')->nullable();  
             $table->timestamps();
         });
     }

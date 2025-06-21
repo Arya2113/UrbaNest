@@ -13,9 +13,9 @@
     </div>
 
     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-        {{-- Tambahkan class overflow-x-auto di sini --}}
+         
         <div class="overflow-x-auto">
-            {{-- Tambahkan class min-w-full di sini --}}
+             
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
@@ -27,15 +27,15 @@
                         <th scope="col" class="px-6 py-3 text-left tracking-wider">Bedrooms</th>
                         <th scope="col" class="px-6 py-3 text-left tracking-wider">Bathrooms</th>
                         <th scope="col" class="px-6 py-3 text-left tracking-wider">Developer</th>
-                        <th scope="col" class="px-6 py-3 text-center tracking-wider">Actions</th> {{-- Sesuaikan teks dan alignment --}}
+                        <th scope="col" class="px-6 py-3 text-center tracking-wider">Actions</th>  
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($properties as $property)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $property->title }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ number_format($property->price, 0, ',', '.') }}</td> {{-- Contoh format harga --}}
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $property->alamat }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ number_format($property->price, 0, ',', '.') }}</td>  
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $property->address }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $property->area }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $property->bedrooms }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $property->bathrooms }}</td>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    {{-- Tambahkan pagination jika Anda memiliki banyak data --}}
+     
     {{-- <div class="mt-4">
         {{ $properties->links() }}
     </div> --}}

@@ -17,12 +17,12 @@ class HistoryController extends Controller
             return redirect()->route('login')->with('error', 'Please log in to view your transaction history.');
         }
 
-        // Assuming a relationship 'transactions' exists on the User model
-        // and the status column is named 'status' on the transaction model
-        $transactions = $user->transactions()->with('property')->get(); // Eager load property to display property name
+         
+         
+        $transactions = $user->transactions()->with('property')->get();  
 
         $processVerificationTransactions = $transactions->where('status_transaksi', 'uploaded');
-        $purchasedTransactions = $transactions->where('status_transaksi', 'verified'); // Assuming 'verified' means purchased
+        $purchasedTransactions = $transactions->where('status_transaksi', 'verified');  
         return view('historytransaction', [
             'processVerificationTransactions' => $processVerificationTransactions,
             'purchasedTransactions' => $purchasedTransactions,

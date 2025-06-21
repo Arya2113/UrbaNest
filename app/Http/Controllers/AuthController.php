@@ -33,8 +33,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Optional: Log the user in after registration
-        // Auth::login($user);
+         
+         
 
         return redirect('/login')->with('success', 'Registration successful! Please login.');
     }
@@ -54,20 +54,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Tambahkan role: hanya 'user' yang boleh login via form ini
+         
         $credentials['role'] = 'user';
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('home'); // karena ini form user
+            return redirect()->route('home');  
         }
 
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate();
+         
+         
 
-        //     return redirect()->intended('/'); // Redirect to the intended page or home
-        // }
+         
+         
         
 
         return back()->withErrors([

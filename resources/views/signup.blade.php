@@ -8,7 +8,7 @@
         <h2 class="text-2xl font-bold text-center text-gray-900">Sign Up</h2>
 
         <form class="mt-8 space-y-6" action="{{ route('signup.post') }}" method="POST">
-            @csrf {{-- CSRF token will be needed for logic --}}
+            @csrf  
 
             @if ($errors->any())
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -42,7 +42,7 @@
                 @enderror
             </div>
 
-            {{-- Added phone number field --}}
+             
             <div>
                 <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
                 <input id="phone" name="phone" type="text" autocomplete="tel" required

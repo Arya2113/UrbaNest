@@ -8,26 +8,26 @@ use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
-    // Tampilkan profil
+     
     public function show()
     {
         $user = Auth::user();
         return view('profileShow', compact('user'));
     }
 
-    // Form edit profil
+     
     public function edit()
     {
         $user = Auth::user();
         return view('profileEdit', compact('user'));
     }
 
-    // Proses update profil
+     
     public function update(Request $request)
     {
         $user = Auth::user();
     
-        // Validasi input
+         
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
@@ -36,19 +36,19 @@ class UserProfileController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        // Handle profile picture upload
+         
         if ($request->hasFile('avatar')) {
-            // Delete old profile picture if exists
+             
             if ($user->avatar && Storage::exists('public/avatars/' . $user->avatar)) {
                 Storage::delete('public/avatars/' . $user->avatar);
             }
 
-            // Store the new profile picture
+             
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = basename($avatarPath);  // Save only the file name in the database
+            $user->avatar = basename($avatarPath);   
         }
     
-        // Update data
+         
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -61,13 +61,13 @@ class UserProfileController extends Controller
     }
     
 
-    // Form ganti password
+     
     public function editPassword()
     {
         return view('profilePassword');
     }
 
-    // Proses ganti password
+     
     public function updatePassword(Request $request)
     {
         $request->validate([
@@ -77,12 +77,12 @@ class UserProfileController extends Controller
 
         $user = Auth::user();
 
-        // Cek apakah current password cocok
+         
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password lama tidak cocok.']);
         }
 
-        // Update password
+         
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);

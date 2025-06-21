@@ -7,9 +7,9 @@
   <div class="w-full max-w-6xl mx-auto">
     <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
 
-      {{-- Main Content --}}
+       
       <div class="lg:w-2/3 bg-white shadow-lg rounded-xl p-8 sm:p-12 flex flex-col items-center justify-center text-center">
-        {{-- Clock Icon --}}
+         
         <div class="w-20 h-20 mb-4 rounded-full bg-yellow-100 flex items-center justify-center">
           <svg class="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">

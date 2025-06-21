@@ -31,7 +31,7 @@
         <form action="{{ route('service.request.submit') }}" method="POST" class="bg-white rounded-xl shadow p-6 sm:p-10 space-y-8">
             @csrf
 
-            <!-- Personal Details -->
+            
             <div>
                 <h2 class="text-lg font-semibold text-gray-700 mb-4">Personal Details</h2>
                 <div class="grid gap-5">
@@ -47,14 +47,14 @@
                 </div>
             </div>
 
-            <!-- Project Information -->
+            
             <div>
                 <h2 class="text-lg font-semibold text-gray-700 mb-4">Project Information</h2>
                 <div class="grid gap-5">
                     <div>
                         <input type="text" name="project_location" placeholder="Enter project location" class="w-full border border-gray-300 rounded-lg p-3 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
                     </div>
-                    {{-- service_type otomatis terisi --}}
+                     
                     <div>
                         <input type="hidden" name="service_type" value="{{ $slug }}">
                         <input type="text" value="{{ $service_label }}" 

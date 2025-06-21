@@ -33,7 +33,7 @@
                     @enderror
                 </div>
 
-                {{-- Name --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">Name</label>
                     <input type="text" name="name" value="{{ old('name') ?? $user->name }}" required
@@ -43,7 +43,7 @@
                     @enderror
                 </div>
 
-                {{-- Email --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">Email</label>
                     <input type="email" name="email" value="{{ old('email') ?? $user->email }}" required
@@ -53,7 +53,7 @@
                     @enderror
                 </div>
 
-                {{-- Phone --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">Phone</label>
                     <input type="text" name="phone" value="{{ old('phone') ?? $user->phone }}" required
@@ -63,7 +63,7 @@
                     @enderror
                 </div>
 
-                {{-- Address --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">Address</label>
                     <input type="text" name="address" value="{{ old('address') ?? $user->address }}" required
@@ -73,7 +73,7 @@
                     @enderror
                 </div>
 
-                {{-- Submit --}}
+                 
                 <div class="flex gap-4">
                     <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition shadow">
                         Save Changes

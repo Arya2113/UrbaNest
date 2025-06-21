@@ -23,7 +23,7 @@ class Property extends Model
         'title',
         'description',
         'location',
-        'alamat',
+        'address',
         'price',
         'bedrooms',
         'bathrooms',
@@ -48,7 +48,7 @@ class Property extends Model
      */
     public function amenities()
     {
-        return $this->belongsToMany(Amenity::class, 'property_amenity'); // Specify the pivot table name
+        return $this->belongsToMany(Amenity::class, 'property_amenity');  
     }
 
      /**

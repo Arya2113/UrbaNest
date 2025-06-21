@@ -46,12 +46,12 @@ class AdminPropertyController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'alamat' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
             'area' => 'required|numeric|min:0',
             'bedrooms' => 'nullable|integer|min:0',
             'bathrooms' => 'nullable|integer|min:0',
             'developer_id' => 'nullable|exists:developers,id',
-            'location' => 'required|string|max:255', // ✅ NEW: location field
+            'location' => 'required|string|max:255',  
             'amenities' => 'nullable|array',
             'amenities.*' => 'exists:amenities,id',
             'main_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -67,32 +67,32 @@ class AdminPropertyController extends Controller
 
         $validatedData = $validator->validated();
 
-        // Handle main image
+         
         $mainImagePath = null;
         if ($request->hasFile('main_image')) {
             $mainImagePath = $request->file('main_image')->store('properties', 'public');
         }
 
-        // Create Property
+         
         $property = Property::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'price' => $validatedData['price'],
-            'alamat' => $validatedData['alamat'],
+            'address' => $validatedData['address'],
             'area' => $validatedData['area'],
             'bedrooms' => $validatedData['bedrooms'] ?? 0,
             'bathrooms' => $validatedData['bathrooms'] ?? 0,
             'developer_id' => $validatedData['developer_id'] ?? null,
-            'location' => $validatedData['location'], // ✅ NEW
+            'location' => $validatedData['location'],  
             'image_path' => $mainImagePath,
         ]);
 
-        // Sync Amenities
+         
         if (isset($validatedData['amenities'])) {
             $property->amenities()->sync($validatedData['amenities']);
         }
 
-        // Handle Additional Images
+         
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $imagefile) {
                 $imagePath = $imagefile->store('properties', 'public');
@@ -107,10 +107,10 @@ class AdminPropertyController extends Controller
         return redirect()->route('admin.properties.index')->with('success', 'Property added successfully!');
     }
 
-    // You would typically add methods for index, show, edit, update, destroy as well.
-    // public function index() { ... }
-    // public function show(Property $property) { ... }
-    // public function edit(Property $property) { ... }
-    // public function update(Request $request, Property $property) { ... }
-    // public function destroy(Property $property) { ... }
+     
+     
+     
+     
+     
+     
 }

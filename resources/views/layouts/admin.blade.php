@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-100" x-data="{ sidebar: true }">
 
-    <!-- Sidebar -->
+    
     <div class="fixed top-0 left-0 h-full w-60 bg-gray-800 text-white" :class="{ '-translate-x-full': !sidebar }">
         <div class="flex justify-between items-center p-4">
             <h2 class="text-lg font-semibold">Admin</h2>
@@ -37,7 +37,7 @@
         </ul>
     </div>
 
-    <!-- Content -->
+    
     <div :class="{ 'ml-60': sidebar }" class="transition-all p-4">
         <div class="flex items-center mb-4">
             <button @click="sidebar = !sidebar" class="text-gray-600">

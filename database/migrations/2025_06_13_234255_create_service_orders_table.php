@@ -26,14 +26,14 @@ return new class extends Migration
             $table->text('project_description')->nullable();
             
             $table->enum('status', [
-                'pending',        // Baru dibuat
-                'consultation',   // Konsultasi/awal kontak
-                'site_survey',    // Survey lokasi
-                'designing',      // Proses mendesain
-                'in_progress',    // Eksekusi lapangan
-                'review',         // Review/revisi (khusus desain)
-                'completed',      // Selesai
-                'cancelled'       // Dibatalkan
+                'pending',         
+                'consultation',    
+                'site_survey',     
+                'designing',       
+                'in_progress',     
+                'review',          
+                'completed',       
+                'cancelled'        
             ])->default('pending');            
             $table->timestamps();
         });

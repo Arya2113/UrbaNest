@@ -8,7 +8,7 @@
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Payment Detail</h1>
     <div class="mb-6 sm:mb-8">
         <p class="text-lg text-gray-700"><span class="font-semibold">Nama Properti:</span> {{ $property->title }}</p>
-        <p class="text-md text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $property->alamat }}</p>
+        <p class="text-md text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $property->address }}</p>
     </div>
 
     <div id="countdown" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative mb-6" role="alert">

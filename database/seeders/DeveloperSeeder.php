@@ -55,13 +55,11 @@ class DeveloperSeeder extends Seeder
             ],
         ];
 
-        // Buat semua developer lengkap
         $developers = collect();
         foreach ($developerData as $data) {
             $developers->push(Developer::create($data));
         }
 
-        // Acak dan assign semua properti ke developer random
         $properties = Property::all()->shuffle();
 
         foreach ($properties as $property) {

@@ -17,17 +17,17 @@ class PropertyController extends Controller
     {
         $query = Property::query()->with('amenities');
 
-        // Hanya properti yang belum dalam transaksi
+         
         $query->whereDoesntHave('propertyCheckoutTransactions', function ($q) {
             $q->whereIn('status_transaksi', ['verified', 'uploaded']);
         });
 
-        // Filter lokasi
+         
         if ($request->filled('location')) {
             $query->whereRaw('LOWER(location) = ?', [strtolower($request->input('location'))]);
         }
 
-        // Filter luas area
+         
         if ($request->filled('min_surface_area')) {
             $query->where('area', '>=', $request->input('min_surface_area'));
         }
@@ -35,7 +35,7 @@ class PropertyController extends Controller
             $query->where('area', '<=', $request->input('max_surface_area'));
         }
 
-        // Filter harga
+         
         if ($request->filled('min_price')) {
             $query->where('price', '>=', $request->input('min_price'));
         }
@@ -43,7 +43,7 @@ class PropertyController extends Controller
             $query->where('price', '<=', $request->input('max_price'));
         }
 
-        // Filter jumlah kamar tidur
+         
         if ($request->filled('bedrooms')) {
             $selectedBedrooms = $request->input('bedrooms');
             $query->where(function ($q) use ($selectedBedrooms) {
@@ -61,7 +61,7 @@ class PropertyController extends Controller
             });
         }
 
-        // Filter amenitas
+         
         if ($request->filled('amenities')) {
             $selectedAmenities = $request->input('amenities');
             $query->whereHas('amenities', function ($q) use ($selectedAmenities) {
@@ -69,7 +69,7 @@ class PropertyController extends Controller
             });
         }
 
-        // Sorting
+         
         $sortBy = $request->input('sort_by');
         switch ($sortBy) {
             case 'price_asc':
@@ -84,11 +84,11 @@ class PropertyController extends Controller
                 break;
         }
 
-        // Pagination
+         
         $perPage = $request->input('per_page', 10);
-        $properties = $query->paginate($perPage)->withQueryString(); // <-- penting
+        $properties = $query->paginate($perPage)->withQueryString();  
 
-        // List lokasi unik
+         
         $uniqueLocations = Property::select('location')
             ->whereNotNull('location')
             ->where('location', '!=', '')
@@ -99,7 +99,7 @@ class PropertyController extends Controller
             ->orderBy('location', 'asc')
             ->get();
 
-        // List amenitas
+         
         $amenitiesListForFilter = Amenity::orderBy('name')->get();
 
         return view('cariproperti', [
@@ -112,7 +112,7 @@ class PropertyController extends Controller
     
     public function show(Property $property)
     {
-        // Cek apakah property ini sudah dalam status 'uploaded' atau 'verified'
+         
         $hasActiveTransaction = PropertyCheckoutTransaction::where('property_id', $property->id)
             ->whereIn('status_transaksi', ['uploaded', 'verified'])
             ->exists();
@@ -121,7 +121,7 @@ class PropertyController extends Controller
             return redirect('/cariproperti')->with('error', 'Property sudah dalam proses transaksi.');
         }
 
-        // Load relasi yang dibutuhkan
+         
         $property->load('amenities', 'developer', 'lockedByUser', 'images'); 
 
         $isFavorited = false;
@@ -129,7 +129,7 @@ class PropertyController extends Controller
             $isFavorited = Auth::user()->properties()->where('property_id', $property->id)->exists();
         }
 
-        // Determine lock status
+         
         $isLocked = $property->locked_until && $property->locked_until->isFuture();
         $lockedByCurrentUser = $isLocked && Auth::check() && $property->locked_by_user_id === Auth::id();
         $lockedByOtherUser = $isLocked && !$lockedByCurrentUser;
@@ -156,35 +156,35 @@ class PropertyController extends Controller
         }
 
         $user = Auth::user();
-        $lockDuration = 30; // minutes
+        $lockDuration = 30;  
         $lockExpiresAt = Carbon::now()->addMinutes($lockDuration);
 
         try {
             $acquired = DB::transaction(function () use ($property, $user, $lockExpiresAt) {
-                // Use lockForUpdate to prevent race conditions on the property record itself
+                 
                 $freshProperty = Property::where('id', $property->id)->lockForUpdate()->first();
 
                 if (!$freshProperty) {
-                    return false; // Property somehow disappeared
+                    return false;  
                 }
 
                 $isCurrentlyLocked = $freshProperty->locked_until && $freshProperty->locked_until->isFuture();
 
-                // Allow locking if:
-                // 1. Not locked by anyone.
-                // 2. Or, locked by the current user (can re-lock/extend).
+                 
+                 
+                 
                 if (!$isCurrentlyLocked || $freshProperty->locked_by_user_id === $user->id) {
                     $freshProperty->locked_by_user_id = $user->id;
                     $freshProperty->locked_until = $lockExpiresAt;
                     $freshProperty->save();
-                    return true; // Lock acquired or refreshed
+                    return true;  
                 }
-                // If locked by another user and their lock is active
+                 
                 return false;
             });
 
             if ($acquired) {
-                // Flash minimal necessary data. The checkout page will calculate amounts.
+                 
                 session()->flash('lock_checkout_info', [
                     'property_id' => $property->id,
                     'user_id' => $user->id,
@@ -192,7 +192,7 @@ class PropertyController extends Controller
                 ]);
                 return response()->json(['success' => true, 'redirect' => route('property_checkout.checkout', $property->id)]);
             } else {
-                 $property->refresh(); // Get the latest lock info if acquisition failed
+                 $property->refresh();  
                  $timeLeftInSeconds = 0;
                  if ($property->locked_until && $property->locked_until->isFuture()) {
                      $timeLeftInSeconds = max(0, $property->locked_until->diffInSeconds(Carbon::now()));
@@ -201,7 +201,7 @@ class PropertyController extends Controller
                      'success' => false,
                      'message' => 'Properti sedang dalam proses checkout oleh pengguna lain. Silakan coba lagi' . ($timeLeftInSeconds > 0 ? ' dalam ' . $timeLeftInSeconds . ' detik.' : '.'),
                      'locked_until' => $property->locked_until ? $property->locked_until->timestamp : null
-                 ], 409); // 409 Conflict
+                 ], 409);  
             }
 
         } catch (\Exception $e) {

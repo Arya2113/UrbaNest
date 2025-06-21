@@ -8,7 +8,7 @@ class AdminAuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('admin-login'); // blade khusus admin
+        return view('admin-login');  
     }
 
     public function login(Request $request)
@@ -18,11 +18,11 @@ class AdminAuthController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials['role'] = 'admin'; // 🧠 Cegah user biasa login dari sini
+        $credentials['role'] = 'admin';  
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.transactions.index'); // ganti sesuai dashboard admin lu
+            return redirect()->route('admin.transactions.index');  
         }
 
         return back()->withErrors([

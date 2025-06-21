@@ -45,7 +45,7 @@
 
                 <p class="text-2xl font-semibold text-blue-600 mb-4">Rp {{ number_format($property->price, 0, ',', '.') }}</p>
 
-                <p class="text-gray-700 mb-6"><i class="fas fa-map-marker-alt mr-2 text-gray-600"></i>{{ $property->alamat }}</p>
+                <p class="text-gray-700 mb-6"><i class="fas fa-map-marker-alt mr-2 text-gray-600"></i>{{ $property->address }}</p>
 
                 <h2 class="text-xl font-semibold mb-4 text-gray-800">Deskripsi</h2>
                 <p class="text-gray-700 mb-8">{{ $property->description }}</p>
@@ -116,12 +116,11 @@
                     </button>
                 </form>
 
-                {{-- Konten lain jika ada --}}
+                 
             </div>
 
                 <div class="bg-white p-6 rounded-lg shadow-lg sticky top-16">
                     <div class="flex items-center mb-6">
-                        <img src="https://via.placeholder.com/60" alt="Developer Avatar" class="w-16 h-16 rounded-full mr-4 border-2 border-gray-200">
                         <div>
                             @isset($property->developer)
                                 <p class="font-bold text-lg text-gray-900">{{ $property->developer->name }}</p>
@@ -149,7 +148,7 @@
                     </a>
                     @endisset
 
-                    {{-- Property Visit Section --}}
+                     
                     <h3 class="text-lg font-semibold mb-2 text-gray-800">Jadwalkan Kunjungan Properti</h3>
                     <input type="date" id="visit_date" class="w-full p-2 border rounded-lg mb-4">
                     <button id="schedule_visit_button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
@@ -162,7 +161,7 @@
     </div>
 </div>
 
-{{-- Confirmation Modal Structure --}}
+ 
 <div id="confirmation_modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
         <div class="mt-3 text-center">

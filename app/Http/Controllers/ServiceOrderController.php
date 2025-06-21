@@ -19,7 +19,7 @@ class ServiceOrderController extends Controller
 
     public function create()
     {
-        // Kirim data arsitek jika perlu dropdown arsitek
+         
         $architects = \App\Models\Architect::all();
         return view('service_orders.create', compact('architects'));
     }
@@ -31,13 +31,13 @@ class ServiceOrderController extends Controller
             'email'              => 'required|email|max:255',
             'phone_number'       => 'required|string|max:20',
             'project_location'   => 'required|string|max:255',
-            'service_type'       => 'required|in:construction,renovation,design', // hanya slug valid
+            'service_type'       => 'required|in:construction,renovation,design',  
             'estimated_budget'   => 'nullable|numeric',
             'project_date'       => 'nullable|date',
             'project_description'=> 'nullable|string',
         ]);
 
-        // Simpan slug-nya saja (ex: 'construction')
+         
         $order = ServiceOrder::create([
             'user_id'            => auth()->id(),
             'full_name'          => $validated['full_name'],
@@ -104,9 +104,9 @@ class ServiceOrderController extends Controller
             'steps' => ['Tahap 1', 'Tahap 2', 'Tahap 3', 'Tahap 4', 'Tahap 5'],
         ];
 
-        // Hitung progress: tiap 1 langkah = 20%
+         
         $statusIndex = array_search($order->status, ['pending','consultation','site_survey','designing','in_progress','review','completed']);
-        $progressStep = min(max($statusIndex, 0), 4); // max 4
+        $progressStep = min(max($statusIndex, 0), 4);  
         $progressPercent = $progressStep * 20;
 
         $timeline = [];

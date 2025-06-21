@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-slate-50 min-h-screen">
     
-    {{-- Hero Section --}}
+     
     <div class="relative pt-20 pb-16 overflow-hidden">
         <div class="absolute inset-0"></div>
         <div class="relative max-w-4xl mx-auto text-center px-4">
@@ -18,14 +18,14 @@
         </div>
     </div>
 
-    {{-- Services Cards --}}
+     
     <div class="max-w-7xl mx-auto px-4 pb-16">
         <div class="grid md:grid-cols-3 gap-8 mb-20">
-        {{-- Card 1: Construction --}}
+         
     <div class="border border-gray-200 rounded-lg p-6 flex flex-col">
         <div class="flex justify-center mb-4">
             <div class="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
-                {{-- Icon Building --}}
+                 
                 <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <rect x="4" y="3" width="16" height="18" rx="2"></rect>
                     <path d="M9 21V9h6v12"></path>
@@ -43,11 +43,11 @@
         </a>
         </div>
     </div>
-    {{-- Card 2: Renovation --}}
+     
     <div class="border border-gray-200 rounded-lg p-6 flex flex-col">
         <div class="flex justify-center mb-4">
             <div class="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
-                {{-- Icon Tools --}}
+                 
                 <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M20.25 4.317a2.366 2.366 0 00-3.346 0l-1.528 1.528 3.346 3.346 1.528-1.528a2.366 2.366 0 000-3.346z"></path>
                     <path d="M7.293 9.707l-4.5 4.5a1 1 0 00-.293.707V18a1 1 0 001 1h3.086a1 1 0 00.707-.293l4.5-4.5"></path>
@@ -62,11 +62,11 @@
         </a>
         </div>
     </div>
-    {{-- Card 3: Design --}}
+     
     <div class="border border-gray-200 rounded-lg p-6 flex flex-col">
         <div class="flex justify-center mb-4">
             <div class="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
-                {{-- Icon Brush --}}
+                 
                 <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M19.5 4.5l-15 15"></path>
                     <path d="M4.5 19.5l7.5-7.5"></path>
@@ -85,7 +85,7 @@
     </div>
         </div>
 
-        {{-- Why Choose Us --}}
+         
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div>

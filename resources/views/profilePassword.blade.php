@@ -27,7 +27,7 @@
             <form method="POST" action="{{ route('profile.password.update') }}">
                 @csrf
 
-                {{-- Current Password --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">Current Password</label>
                     <input type="password" name="current_password" required
@@ -37,7 +37,7 @@
                     @enderror
                 </div>
 
-                {{-- New Password --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">New Password</label>
                     <input type="password" name="new_password" required
@@ -47,14 +47,14 @@
                     @enderror
                 </div>
 
-                {{-- Confirm New Password --}}
+                 
                 <div class="mb-6">
                     <label class="block text-gray-700 font-medium mb-2">Confirm New Password</label>
                     <input type="password" name="new_password_confirmation" required
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
-                {{-- Submit --}}
+                 
                 <div class="flex gap-4">
                     <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition shadow">
                         Update Password

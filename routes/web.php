@@ -15,7 +15,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminPropertyController;
-use App\Http\Controllers\PropertyVisitController; // Import PropertyVisitController
+use App\Http\Controllers\PropertyVisitController;  
 use App\Http\Controllers\UserProfileController; 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,11 +48,11 @@ Route::get('/contact', function (){
     return view('contact');
 });
 
-// Property Visit Route (Moved outside auth middleware)
+ 
 Route::post('/property/{property}/visit', [PropertyVisitController::class, 'store'])->name('property.visit.store');
 
 
-// Auth Routes
+ 
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
 Route::post('/signup', [AuthController::class, 'signup'])->name('signup.post');
 
@@ -69,7 +69,7 @@ Route::post('/logout', function (Request $request) {
 Route::post('/property/{property}/favorite', [FavoriteController::class, 'toggleFavorite'])->name('property.toggleFavorite');
 
 
-// Checkout Routes
+ 
 Route::get('/property/{property}/checkout', [PropertyCheckoutController::class, 'checkout'])->name('property_checkout.checkout');
 Route::post('/payment/upload/{property}', [PropertyCheckoutController::class, 'uploadProof'])->name('payment.upload');
 Route::post('/property/{property}/attemptLockAndCheckout', [PropertyController::class, 'attemptLockAndCheckout'])->name('property.attemptLockAndCheckout');
@@ -103,18 +103,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'admin']) // 🛡️ protection added here
+    ->middleware(['auth', 'admin'])  
     ->group(function () {
 
-        // Transactions
+         
         Route::get('/transactions', [AdminController::class, 'index'])->name('transactions.index');
         Route::put('/transactions/{transaction}/status', [AdminController::class, 'updateStatus'])->name('transactions.updateStatus');
 
-        // Property Visits
+         
         Route::get('/property-visits', [AdminController::class, 'propertyVisits'])->name('property_visits.index');
         Route::put('/property-visits/{propertyVisit}/status', [AdminController::class, 'updatePropertyVisitStatus'])->name('property_visits.updateStatus');
 
-        // Properties
+         
         Route::get('/properties', [AdminPropertyController::class, 'index'])->name('properties.index');
         Route::get('/properties/create', [AdminPropertyController::class, 'create'])->name('properties.create');
         Route::post('/properties', [AdminPropertyController::class, 'store'])->name('properties.store');

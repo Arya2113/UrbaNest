@@ -4,7 +4,7 @@
 
 @section('content')
 
-{{-- html2canvas --}}
+ 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
@@ -21,14 +21,14 @@
   <div class="w-full max-w-3xl mx-auto">
     <div id="confirmed-section" class="bg-white shadow-lg rounded-xl p-8 sm:p-12 text-center">
 
-      {{-- ✅ Success Section --}}
+       
       <div class="mx-auto w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6">
         <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
       </div>
       <h1 class="text-3xl font-bold text-gray-800 mb-4">Pembayaran Dikonfirmasi</h1>
       <p class="text-lg text-gray-600 mb-8">Terimakasih untuk pembayarannya. Pembelian properti anda sudah berhasil.</p>
 
-      {{-- ✅ Transaction Details --}}
+       
       <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
         <h2 class="text-xl font-semibold text-gray-700 mb-4">Detail Transaksi</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -41,8 +41,8 @@
             <p class="text-md font-medium text-gray-700">{{ $transaction->id }}</p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Alamat Transaksi</p>
-            <p class="text-md font-medium text-gray-700">{{ $transaction->property->alamat }}</p>
+            <p class="text-sm text-gray-500">address Transaksi</p>
+            <p class="text-md font-medium text-gray-700">{{ $transaction->property->address }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500">Tanggal Pembayaran</p>

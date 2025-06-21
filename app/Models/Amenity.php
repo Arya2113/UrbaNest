@@ -21,8 +21,8 @@ class Amenity extends Model
      */
     public function properties()
     {
-        return $this->belongsToMany(Property::class, 'property_amenity'); // Specify the pivot table name
+        return $this->belongsToMany(Property::class, 'property_amenity');  
     }
 
-    //
+     
 }

@@ -26,7 +26,7 @@
 
     @include('partials.navbar')
 
-    {{-- REMOVED px-4 md:px-8 from here to allow true full-width sections --}}
+     
     <div class="">
         @yield('content')
     </div>

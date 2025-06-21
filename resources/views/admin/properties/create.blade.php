@@ -19,7 +19,7 @@
     <form action="{{ route('admin.properties.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
         @csrf
 
-        {{-- Property Details --}}
+         
         <div class="mb-4">
             <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
             <input type="text" name="title" id="title" value="{{ old('title') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -45,10 +45,10 @@
         </div>
 
          <div class="mb-4">
-            <label for="alamat" class="block text-gray-700 text-sm font-bold mb-2">Address (Alamat):</label>
-            {{-- CHANGED: name from 'address' to 'alamat' to match Property model --}}
-            <input type="text" name="alamat" id="alamat" value="{{ old('alamat') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            @error('alamat')
+            <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Address (address):</label>
+             
+            <input type="text" name="address" id="address" value="{{ old('address') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('address')
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
         </div>
@@ -63,7 +63,7 @@
 
          <div class="mb-4">
             <label for="area" class="block text-gray-700 text-sm font-bold mb-2">Area (sqm):</label>
-            {{-- CHANGED: name from 'size' to 'area' to match Property model --}}
+             
             <input type="number" name="area" id="area" value="{{ old('area') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             @error('area')
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -72,7 +72,7 @@
 
         <div class="mb-4">
             <label for="bedrooms" class="block text-gray-700 text-sm font-bold mb-2">Bedrooms:</label>
-            {{-- CHANGED: name from 'number_of_bedrooms' to 'bedrooms' to match Property model --}}
+             
             <input type="number" name="bedrooms" id="bedrooms" value="{{ old('bedrooms') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             @error('bedrooms')
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -81,14 +81,14 @@
 
         <div class="mb-4">
             <label for="bathrooms" class="block text-gray-700 text-sm font-bold mb-2">Bathrooms:</label>
-            {{-- CHANGED: name from 'number_of_bathrooms' to 'bathrooms' to match Property model --}}
+             
             <input type="number" name="bathrooms" id="bathrooms" value="{{ old('bathrooms') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             @error('bathrooms')
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
         </div>
 
-        {{-- Developer and Architect --}}
+         
          <div class="mb-4">
             <label for="developer_id" class="block text-gray-700 text-sm font-bold mb-2">Developer:</label>
             <select name="developer_id" id="developer_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -103,7 +103,7 @@
         </div>
 
 
-        {{-- Amenities --}}
+         
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">Amenities:</label>
             <div class="flex flex-wrap -mx-2">
@@ -122,7 +122,7 @@
             @enderror
         </div>
 
-        {{-- Images --}}
+         
         <div class="mb-4">
             <label for="main_image" class="block text-gray-700 text-sm font-bold mb-2">Main Image (for Property model):</label>
             <input type="file" name="main_image" id="main_image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -138,13 +138,13 @@
              @error('additional_images')
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
-             @error('additional_images.*') {{-- For individual file errors --}}
+             @error('additional_images.*')  
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror
         </div>
 
 
-        {{-- Submit Button --}}
+         
         <div class="flex items-center justify-between">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Add Property

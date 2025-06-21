@@ -21,3 +21,9 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+.idx/
+*.ibdata*
+*.ib_logfile*
+*.MYD
+*.MYI
+*.frm

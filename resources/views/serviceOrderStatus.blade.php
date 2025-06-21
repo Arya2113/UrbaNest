@@ -17,7 +17,7 @@
 
     <div class="bg-white shadow-md rounded-2xl p-6 max-w-2xl mx-auto">
         <div class="space-y-2 mb-6">
-            <p><span class="font-semibold text-gray-700">Alamat Lokasi:</span> {{ $order->project_location }}</p>
+            <p><span class="font-semibold text-gray-700">address Lokasi:</span> {{ $order->project_location }}</p>
             <p><span class="font-semibold text-gray-700">Arsitek:</span> {{ $order->architect ? $order->architect->name : '-' }}</p>
             <p>
                 <span class="font-semibold text-gray-700">Status Proyek:</span> 
@@ -27,7 +27,7 @@
             </p>
         </div>
 
-        {{-- Progress Bar --}}
+         
         <div class="mb-6">
             <div class="w-full bg-gray-200 rounded-full h-4">
                 <div class="bg-green-500 h-4 rounded-full transition-all duration-500"
@@ -37,7 +37,7 @@
             <p class="text-right text-sm text-gray-600 mt-1">{{ $progressPercent }}% Selesai</p>
         </div>
 
-        {{-- Timeline --}}
+         
         <h5 class="text-lg font-semibold text-gray-800 mb-4">Timeline Proyek</h5>
         <ol class="relative border-l border-gray-300">
             @foreach ($timeline as $step)

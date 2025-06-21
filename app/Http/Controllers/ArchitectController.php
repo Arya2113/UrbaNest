@@ -12,7 +12,7 @@ class ArchitectController extends Controller
     {
         $query = Architect::query();
 
-        // Optional filter
+         
         if ($request->has('style')) {
             $query->whereJsonContains('styles', $request->style);
         }
@@ -22,7 +22,7 @@ class ArchitectController extends Controller
         return view('architectsPage', compact('architects'));
     }
 
-    // Tambahkan ini untuk handle select architect
+     
     public function selectArchitect(Request $request)
     {
         \Log::info('MASUK selectArchitect()', [
@@ -50,7 +50,7 @@ class ArchitectController extends Controller
     
         \Log::info('ORDER DITEMUKAN!', ['orderId' => $orderId, 'architect_id' => $request->architect_id]);
     
-        // Update arsitek yang dipilih & status
+         
         $order->architect_id = $request->architect_id;
         $order->status = 'consultation';
         $order->save();

@@ -17,7 +17,7 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
                                     <div class="text-sm font-medium text-gray-900">Transaction ID: {{ $transaction->id }}</div>
-                                    {{-- Assuming transaction has a relationship to Property model --}}
+                                     
                                     @if ($transaction->property)
                                         <div class="text-sm text-gray-600">Property: {{ $transaction->property->title }}</div>
                                         <div class="text-sm text-gray-600">Location: {{ $transaction->property->location }}</div>
@@ -47,7 +47,7 @@
         </div>
     </div>
     
-    {{-- Section: Service Orders --}}
+     
 <div class="mb-12">
     <h2 class="text-xl font-semibold mb-4">Service Orders</h2>
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -81,7 +81,7 @@
     </div>
 </div>
 
-    {{-- Section 3: Purchased Properties --}}
+     
     <div class="mb-12">
         <h2 class="text-xl font-semibold mb-4">Purchased Transactions</h2>
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -92,7 +92,7 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
                                     <div class="text-sm font-medium text-gray-900">Transaction ID: {{ $transaction->id }}</div>
-                                     {{-- Assuming transaction has a relationship to Property model --}}
+                                      
                                     @if ($transaction->property)
                                         <div class="text-sm text-gray-600">Property: {{ $transaction->property->title }}</div>
                                         <div class="text-sm text-gray-600">Location: {{ $transaction->property->location }}</div>

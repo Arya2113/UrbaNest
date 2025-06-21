@@ -4,7 +4,7 @@
 <div class="max-w-7xl mx-auto py-10 px-4">
     <h1 class="text-3xl font-bold text-center mb-8">Choose Your Architect</h1>
 
-    <!-- Filter Buttons -->
+    
     <div class="flex flex-wrap justify-center gap-2 mb-6">
         <a href="?style=all" class="px-3 py-1 bg-blue-600 text-white rounded text-sm">All Styles</a>
         @foreach(['Modern', 'Minimalist', 'Industrial', 'Classic', 'Contemporary'] as $style)
@@ -14,7 +14,7 @@
         @endforeach
     </div>
 
-    <!-- Architect Cards -->
+    
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         @foreach($architects as $architect)
         <div class="bg-white rounded-2xl shadow-md flex flex-col overflow-hidden">

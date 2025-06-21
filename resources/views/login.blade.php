@@ -8,7 +8,7 @@
         <h2 class="text-2xl font-bold text-center text-gray-900">Login</h2>
 
         <form class="mt-8 space-y-6" action="{{ route('login.post') }}" method="POST">
-            @csrf {{-- CSRF token will be needed for logic --}}
+            @csrf  
 
             @if ($errors->any())
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -42,7 +42,7 @@
                 @enderror
             </div>
 
-            {{-- Optional: Remember Me and Forgot Password --}}
+             
             {{-- <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <input id="remember-me" name="remember" type="checkbox"

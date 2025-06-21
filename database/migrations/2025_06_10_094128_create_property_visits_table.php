@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->timestamp('scheduled_at');
-            $table->string('status')->default('pending'); // e.g., pending, confirmed, cancelled, completed
+            $table->string('status')->default('pending');  
             $table->timestamps();
         });
     }

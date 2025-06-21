@@ -60,7 +60,7 @@
         </div>
     </section>
 
-    {{-- Services Section - same principle --}}
+     
     <section class="py-16 bg-white px-4 md:px-8">
         <div class="px-4 md:px-8">
             <h2 class="text-2xl font-bold mb-12 text-center">Layanan Kami</h2>
