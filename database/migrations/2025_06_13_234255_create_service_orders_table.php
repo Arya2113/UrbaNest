@@ -36,7 +36,7 @@ return new class extends Migration
                 'cancelled'       // Dibatalkan
             ])->default('pending');            
             $table->timestamps();
-            });
+        });
     }
 
     /**
