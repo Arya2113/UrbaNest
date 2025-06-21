@@ -5,40 +5,68 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Developer;
 use App\Models\Property;
-use Faker\Factory as Faker;
 
 class DeveloperSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $faker = Faker::create();
+        $developerData = [
+            [
+                'name' => 'PT Rumah Indah',
+                'email' => 'indah@developer.com',
+                'phone' => '081234567890',
+                'description' => 'Developer properti rumah tapak dan villa modern.',
+                'website' => 'https://rumahindah.co.id',
+            ],
+            [
+                'name' => 'CV Hunian Nyaman',
+                'email' => 'nyaman@developer.com',
+                'phone' => '089876543210',
+                'description' => 'Spesialis properti minimalis di area urban.',
+                'website' => 'https://hunian-nyaman.id',
+            ],
+            [
+                'name' => 'Bali Dream Estates',
+                'email' => 'dream@bali-estates.com',
+                'phone' => '082112223333',
+                'description' => 'Villa dan resort premium di Bali.',
+                'website' => 'https://balidream.com',
+            ],
+            [
+                'name' => 'Jakarta Living Co.',
+                'email' => 'jakarta@living.co',
+                'phone' => '0811000000',
+                'description' => 'High-rise living in the heart of Jakarta.',
+                'website' => 'https://jakartaliving.co.id',
+            ],
+            [
+                'name' => 'Surabaya Property Group',
+                'email' => 'surabaya@spg.id',
+                'phone' => '087711223344',
+                'description' => 'Properti keluarga di Jawa Timur.',
+                'website' => 'https://spg-surabaya.id',
+            ],
+            [
+                'name' => 'Bandung Skyline',
+                'email' => 'info@bandungskyline.com',
+                'phone' => '083355577799',
+                'description' => 'Hunian modern dan asri di kawasan Bandung.',
+                'website' => 'https://bandungskyline.com',
+            ],
+        ];
 
-        // Create 5 developers
-        for ($i = 1; $i <= 5; $i++) {
-            $useEmail = $faker->boolean();
-            $email = $useEmail ? $faker->unique()->safeEmail() : null;
+        // Buat semua developer lengkap
+        $developers = collect();
+        foreach ($developerData as $data) {
+            $developers->push(Developer::create($data));
+        }
 
-            $developer = Developer::create([
-                'name' => $faker->company,
-                'email' => $email,
-                'phone' => $faker->optional()->phoneNumber(),
-                'description' => $faker->optional()->text(),
-                'website' => $faker->optional()->url(),
-            ]);
+        // Acak dan assign semua properti ke developer random
+        $properties = Property::all()->shuffle();
 
-            // Assign properties to the developer (IDs 1 to 4 for developer 1, 5 to 8 for developer 2, etc.)
-            $startPropertyId = (($i - 1) * 4) + 1;
-            $endPropertyId = min($i * 4, 20); // Ensure we don't exceed property ID 20
-
-            $properties = Property::whereBetween('id', [$startPropertyId, $endPropertyId])->get();
-
-            foreach ($properties as $property) {
-                $property->developer_id = $developer->id;
-                $property->save();
-            }
+        foreach ($properties as $property) {
+            $property->developer_id = $developers->random()->id;
+            $property->save();
         }
     }
 }

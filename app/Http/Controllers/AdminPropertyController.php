@@ -95,7 +95,7 @@ class AdminPropertyController extends Controller
         // Handle Additional Images
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $imagefile) {
-                $imagePath = $imagefile->store('property_images', 'public');
+                $imagePath = $imagefile->store('properties', 'public');
 
                 PropertyImage::create([
                     'property_id' => $property->id,

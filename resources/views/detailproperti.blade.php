@@ -8,17 +8,14 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
             <div class="lg:col-span-2 rounded-lg overflow-hidden shadow-lg">
-                {{-- Main image from properties table --}}
-                <img src="{{ asset($property->image_path) }}" alt="Property Image" class="w-full h-full object-cover">
-            </div>
+            <img src="{{ asset('storage/'.$property->image_path) }}" alt="Property Image" class="w-full h-full object-cover">
+        </div>
             <div class="grid grid-rows-2 gap-4">
-                 {{-- Smaller images from property_images table --}}
                  @forelse ($property->images->take(2) as $image)
                     <div class="rounded-lg overflow-hidden shadow-lg">
                          <img src="{{ asset('storage/' . $image->image_url) }}" alt="Property Image" class="w-full h-full object-cover">
                     </div>
                  @empty
-                     {{-- Optional: Add placeholder images or a message if no additional images are available --}}
                      <div class="rounded-lg overflow-hidden shadow-lg flex items-center justify-center bg-gray-200 text-gray-500">
                          No additional images
                      </div>
