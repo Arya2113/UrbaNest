@@ -46,6 +46,40 @@
             @endif
         </div>
     </div>
+    
+    {{-- Section: Service Orders --}}
+<div class="mb-12">
+    <h2 class="text-xl font-semibold mb-4">Service Orders</h2>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        @if (isset($serviceOrders) && $serviceOrders->count() > 0)
+            <ul class="divide-y divide-gray-200">
+                @foreach ($serviceOrders as $order)
+                    <li class="px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">
+                                    Layanan: {{ ucfirst($order->service_type) }}
+                                </div>
+                                <div class="text-sm text-gray-600">Lokasi: {{ $order->project_location }}</div>
+                                <div class="text-sm text-gray-600">Tanggal Order: {{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</div>
+                                <div class="text-sm text-gray-600">Anggaran: 
+                                    {{ $order->estimated_budget ? 'Rp' . number_format($order->estimated_budget, 0, ',', '.') : '-' }}
+                                </div>
+                            </div>
+                            <div class="text-sm font-semibold text-indigo-600 text-right">
+                                Status: {{ ucfirst($order->status) }}
+                                <br>
+                                <a href="{{ route('order.status.show', $order->id) }}" class="text-blue-600 hover:text-blue-900 text-sm">Lihat Detail</a>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <p class="px-6 py-4 text-gray-500">Belum ada riwayat layanan yang dipesan.</p>
+        @endif
+    </div>
+</div>
 
     {{-- Section 3: Purchased Properties --}}
     <div class="mb-12">

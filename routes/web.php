@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\ArchitectController;
 use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PropertyCheckoutController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminPropertyController;
 use App\Http\Controllers\PropertyVisitController; // Import PropertyVisitController
 use App\Http\Controllers\UserProfileController; 
@@ -29,14 +31,15 @@ Route::get('/services/{slug}', [ServiceController::class, 'detail'])->name('serv
 
 Route::middleware('auth')->group(function () {
     Route::get('/services/request/{slug}', [ServiceController::class, 'showForm'])->name('service.request');
-    Route::post('/services/request', [ServiceController::class, 'submitRequest'])->name('service.request.submit');
+    Route::post('/services/request', [ServiceOrderController::class, 'store'])->name('service.request.submit');
     
     Route::get('/architects', [ArchitectController::class, 'index'])->name('architectsPage');
     Route::post('/architects/select', [ArchitectController::class, 'selectArchitect'])->name('architect.select');
-    Route::get('/order/status/{order}', [ServiceOrderStatusController::class, 'show'])->name('order.status.show');
+    Route::get('/order/status/{order}', [ServiceOrderController::class, 'show'])->name('order.status.show');
 });
 
 Route::get('/architects', [ArchitectController::class, 'index'])->name('architectsPage');
+
 Route::get('/about', function (){
     return view('about');
 });
@@ -84,20 +87,38 @@ Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.in
 
 Route::get('/transactions', [HistoryController::class, 'index'])->name('history.transactions.index')->middleware('auth');
 
-// Admin Routes (Temporary - No Auth)
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/transactions', [AdminController::class, 'index'])->name('transactions.index');
-    Route::put('/transactions/{transaction}/status', [AdminController::class, 'updateStatus'])->name('transactions.updateStatus');
 
-    // Property Visit Routes
-    Route::get('/property-visits', [AdminController::class, 'propertyVisits'])->name('property_visits.index');
-    Route::put('/property-visits/{propertyVisit}/status', [AdminController::class, 'updatePropertyVisitStatus'])->name('property_visits.updateStatus');
+Route::get('/admin', function () {
+    if (auth()->check() && auth()->user()->role === 'admin') {
+        return redirect()->route('admin.transactions.index');
+    }
 
-    // Property Routes
-    Route::get('/properties', [AdminPropertyController::class, 'index'])->name('properties.index');
-    Route::get('/properties/create', [AdminPropertyController::class, 'create'])->name('properties.create');
-    Route::post('/properties', [AdminPropertyController::class, 'store'])->name('properties.store');
+    return redirect()->route('admin.login');
 });
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
+});
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'admin']) // 🛡️ protection added here
+    ->group(function () {
+
+        // Transactions
+        Route::get('/transactions', [AdminController::class, 'index'])->name('transactions.index');
+        Route::put('/transactions/{transaction}/status', [AdminController::class, 'updateStatus'])->name('transactions.updateStatus');
+
+        // Property Visits
+        Route::get('/property-visits', [AdminController::class, 'propertyVisits'])->name('property_visits.index');
+        Route::put('/property-visits/{propertyVisit}/status', [AdminController::class, 'updatePropertyVisitStatus'])->name('property_visits.updateStatus');
+
+        // Properties
+        Route::get('/properties', [AdminPropertyController::class, 'index'])->name('properties.index');
+        Route::get('/properties/create', [AdminPropertyController::class, 'create'])->name('properties.create');
+        Route::post('/properties', [AdminPropertyController::class, 'store'])->name('properties.store');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');

@@ -32,24 +32,27 @@ class UserProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
-            'bio' => 'nullable|string|max:1000',
             'address' => 'nullable|string|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        // Jika upload avatar
+        // Handle profile picture upload
         if ($request->hasFile('avatar')) {
+            // Delete old profile picture if exists
+            if ($user->avatar && Storage::exists('public/avatars/' . $user->avatar)) {
+                Storage::delete('public/avatars/' . $user->avatar);
+            }
+
+            // Store the new profile picture
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        } else {
-            $avatarPath = $user->avatar;
+            $user->avatar = basename($avatarPath);  // Save only the file name in the database
         }
     
         // Update data
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
-            'bio' => $request->bio,
+            'phone' => $request->phone, 
             'address' => $request->address,
             'avatar' => $avatarPath,
         ]);

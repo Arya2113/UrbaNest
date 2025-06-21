@@ -16,7 +16,7 @@ class ServiceOrder extends Model
         'email',
         'phone_number',
         'project_location',
-        'project_type',
+        'service_type',
         'estimated_budget',
         'project_date',
         'project_description',

@@ -54,20 +54,13 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // Tambahkan role: hanya 'user' yang boleh login via form ini
+        $credentials['role'] = 'user';
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = Auth::user();
-
-            // 🎯 Role-based redirect
-            switch ($user->role) {
-                case 'admin':
-                    return redirect()->route('admin.transactions.index'); // ganti sesuai route admin lo
-                case 'architect':
-                    return redirect()->route('architectsPage');
-                default:
-                    return redirect()->route('home');
-            }
+            return redirect()->route('home'); // karena ini form user
         }
 
         // if (Auth::attempt($credentials)) {

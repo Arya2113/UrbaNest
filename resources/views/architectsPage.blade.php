@@ -1,42 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-lg py-5">
-    <h1 class="mb-4 text-center">Choose Your Architect</h1>
+<div class="max-w-7xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold text-center mb-8">Choose Your Architect</h1>
 
-    <div class="mb-4 d-flex justify-content-center flex-wrap gap-2">
-        <a href="?style=all" class="btn btn-primary btn-sm">All Styles</a>
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-2 mb-6">
+        <a href="?style=all" class="px-3 py-1 bg-blue-600 text-white rounded text-sm">All Styles</a>
         @foreach(['Modern', 'Minimalist', 'Industrial', 'Classic', 'Contemporary'] as $style)
-            <a href="?style={{ $style }}" class="btn btn-outline-secondary btn-sm">{{ $style }}</a>
+            <a href="?style={{ $style }}" class="px-3 py-1 border border-gray-400 rounded text-sm text-gray-700 hover:bg-gray-100">
+                {{ $style }}
+            </a>
         @endforeach
     </div>
 
-    <div class="row justify-content-center g-4">
+    <!-- Architect Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         @foreach($architects as $architect)
-            <div class="col-12 col-md-4 d-flex align-items-stretch">
-                <div class="card w-100 shadow rounded-4 border-0 h-100 d-flex flex-column">
-                    @if($architect->photo)
-                        <img src="{{ asset('storage/' . $architect->photo) }}" class="card-img-top" alt="{{ $architect->name }}" style="object-fit:cover; height:180px;">
-                    @endif
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <h5 class="card-title">{{ $architect->name }}</h5>
-                        <div class="text-muted mb-2" style="font-size:1em;">{{ $architect->title }}</div>
-                        <div class="mb-2 text-center">
-                            <span>⭐ {{ $architect->rating }} ({{ $architect->reviews_count }} reviews)</span><br>
-                            <span>🏆 {{ $architect->experience_years }} years experience</span><br>
-                            <span>📍 {{ $architect->location }}</span>
-                        </div>
-                        <div class="mb-3">
-                            @foreach($architect->styles as $style)
-                                <span class="badge bg-light text-dark rounded-pill me-1 mb-1" style="font-size:0.85em;">
-                                    {{ $style }}
-                                </span>
-                            @endforeach
-                        </div>
-                        <a href="#" class="btn btn-primary w-100 mt-auto" style="background:#2563eb; border:0;">Select Architect</a>
-                    </div>
+        <div class="bg-white rounded-2xl shadow-md flex flex-col overflow-hidden">
+            @if($architect->photo)
+                <img src="{{ asset('storage/' . $architect->photo) }}" alt="{{ $architect->name }}"
+                     class="w-full h-48 object-cover">
+            @endif
+            <div class="p-5 flex flex-col flex-1">
+                <h2 class="text-lg font-semibold text-center">{{ $architect->name }}</h2>
+                <p class="text-sm text-gray-500 text-center mb-2">{{ $architect->title }}</p>
+
+                <div class="text-sm text-gray-600 text-center mb-3">
+                    ⭐ {{ $architect->rating }} ({{ $architect->reviews_count }} reviews) <br>
+                    🏆 {{ $architect->experience_years }} years experience <br>
+                    📍 {{ $architect->location }}
                 </div>
+
+                <div class="flex flex-wrap justify-center gap-1 mb-4">
+                    @foreach($architect->styles as $style)
+                        <span class="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded-full">{{ $style }}</span>
+                    @endforeach
+                </div>
+
+                <form action="{{ route('architect.select') }}" method="POST" class="mt-auto">
+                    @csrf
+                    <input type="hidden" name="architect_id" value="{{ $architect->id }}">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm font-medium">
+                        Select Architect
+                    </button>
+                </form>
             </div>
+        </div>
         @endforeach
     </div>
 </div>

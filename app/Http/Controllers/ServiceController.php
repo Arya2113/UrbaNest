@@ -6,60 +6,32 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    /**
-     * Tampilkan landing page services (overview/list jasa)
-     */
     public function index()
     {
-        // Bisa kirim data tambahan jika perlu
         return view('servicePage');
     }
 
-    /**
-     * Tampilkan form request service
-     */
     public function showForm($slug)
-{
-    // Validasi slug jika perlu, atau list layanan
-    $allowed = ['construction', 'renovation', 'design'];
-    if (!in_array($slug, $allowed)) abort(404);
-
-    // Nama layanan untuk display
-    $services = [
-        'construction' => 'Construction',
-        'renovation' => 'Renovation',
-        'design' => 'Design',
-    ];
-
-    $service_type = $services[$slug] ?? ucfirst($slug);
-
-    return view('serviceForm', compact('service_type', 'slug'));
-}
-
-    /**
-     * Proses form request service
-     */
-    public function submitRequest(Request $request)
     {
-        $validated = $request->validate([
-            'full_name'    => 'required|string|max:255',
-            'email'        => 'required|email|max:255',
-            'phone'        => 'nullable|string|max:30',
-            'location'     => 'required|string|max:255',
-            'service_type' => 'required|string',
-            'budget'       => 'nullable|numeric',
-            'timeline'     => 'nullable|date',
-            'description'  => 'nullable|string',
-            'terms'        => 'accepted'
+        $allowed = ['construction', 'renovation', 'design'];
+        if (!in_array($slug, $allowed)) abort(404);
+
+        $labels = [
+            'construction' => 'Konstruksi',
+            'renovation' => 'Renovasi',
+            'design' => 'Desain',
+        ];
+
+        $service_label = $labels[$slug] ?? ucfirst($slug);
+
+        return view('serviceForm', [
+            'slug' => $slug, 
+            'service_label' => $labels[$slug] ?? ucfirst($slug), 
         ]);
-
-        // Simpan ke database jika ada model, atau kirim email, dll.
-        // ServiceRequest::create($validated);
-
-        return redirect()->route('architectsPage');    }
+    }
 
     public function detail($slug)
-{
+    {
     $services = [
         'construction' => [
             'title' => 'Solusi Konstruksi Profesional untuk Proyek Anda',

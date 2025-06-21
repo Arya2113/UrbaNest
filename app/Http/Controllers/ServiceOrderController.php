@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\ServiceOrder;
+use App\Models\Architect;
+
 
 class ServiceOrderController extends Controller
 {
@@ -22,29 +26,108 @@ class ServiceOrderController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'user_id'            => 'required|exists:users,id',
-            'architect_id'       => 'nullable|exists:architects,id',
+        $validated = $request->validate([           
             'full_name'          => 'required|string|max:255',
             'email'              => 'required|email|max:255',
             'phone_number'       => 'required|string|max:20',
             'project_location'   => 'required|string|max:255',
-            'project_type'       => 'required|string|max:255',
+            'service_type'       => 'required|in:construction,renovation,design', // hanya slug valid
             'estimated_budget'   => 'nullable|numeric',
             'project_date'       => 'nullable|date',
             'project_description'=> 'nullable|string',
-            'status'             => 'nullable|string|max:50',
         ]);
 
-        ServiceOrder::create($validated);
+        // Simpan slug-nya saja (ex: 'construction')
+        $order = ServiceOrder::create([
+            'user_id'            => auth()->id(),
+            'full_name'          => $validated['full_name'],
+            'email'              => $validated['email'],
+            'phone_number'       => $validated['phone_number'],
+            'project_location'   => $validated['project_location'],
+            'service_type'       => $validated['service_type'], 
+            'estimated_budget'   => $validated['estimated_budget'] ?? null,
+            'project_date'       => $validated['project_date'] ?? null,
+            'project_description'=> $validated['project_description'] ?? null,
+            'status'             => 'pending',
+        ]);
 
-        return redirect()->route('service_orders.index')->with('success', 'Order berhasil dibuat!');
+        if (!$order) {
+            return back()->with('error', 'Order gagal disimpan.');
+        }
+
+        session(['last_service_order_id' => $order->id]);
+
+        return redirect()->route('architectsPage')->with('success', 'Order berhasil dibuat! Silakan pilih arsitek.');
+    }
+    
+    public function show($orderId)
+    {   
+        $order = \App\Models\ServiceOrder::with('architect')->findOrFail($orderId);
+
+        $serviceType = strtolower($order->service_type);
+
+        $timelines = [
+            'construction' => [
+                'title' => 'Urbanest Konstruksi',
+                'steps' => [
+                    'Menghubungi Arsitek',
+                    'Kunjungan Lokasi',
+                    'Finalisasi Desain',
+                    'Mulai Konstruksi',
+                    'Konstruksi Selesai',
+                ],
+            ],
+            'renovation' => [
+                'title' => 'Urbanest Renovasi',
+                'steps' => [
+                    'Diskusi Dengan Arsitek',
+                    'Survey Lokasi',
+                    'Sketsa Renovasi',
+                    'Pelaksanaan Renovasi',
+                    'Renovasi Selesai',
+                ],
+            ],
+            'design' => [
+                'title' => 'Urbanest Desain',
+                'steps' => [
+                    'Diskusi Kebutuhan',
+                    'Referensi Desain',
+                    'Pembuatan Draft',
+                    'Revisi Desain',
+                    'Finalisasi Desain',
+                ],
+            ]
+        ];
+
+        $timelineInfo = $timelines[$serviceType] ?? [
+            'title' => 'Urbanest Proyek',
+            'steps' => ['Tahap 1', 'Tahap 2', 'Tahap 3', 'Tahap 4', 'Tahap 5'],
+        ];
+
+        // Hitung progress: tiap 1 langkah = 20%
+        $statusIndex = array_search($order->status, ['pending','consultation','site_survey','designing','in_progress','review','completed']);
+        $progressStep = min(max($statusIndex, 0), 4); // max 4
+        $progressPercent = $progressStep * 20;
+
+        $timeline = [];
+        foreach ($timelineInfo['steps'] as $i => $stepTitle) {
+            $timeline[] = [
+                'title' => $stepTitle,
+                'date' => now()->addDays($i * 5)->format('Y-m-d'),
+                'done' => $i < $progressStep,
+                'active' => $i === $progressStep,
+            ];
+        }
+
+        return view('serviceOrderStatus', [
+            'order' => $order,
+            'progressPercent' => $progressPercent,
+            'timeline' => $timeline,
+            'judulProyek' => $timelineInfo['title'],
+        ]);
     }
 
-    public function show(ServiceOrder $serviceOrder)
-    {
-        return view('service_orders.show', compact('serviceOrder'));
-    }
+
 
     public function edit(ServiceOrder $serviceOrder)
     {
@@ -60,30 +143,12 @@ class ServiceOrderController extends Controller
             'email'              => 'required|email|max:255',
             'phone_number'       => 'required|string|max:20',
             'project_location'   => 'required|string|max:255',
-            'project_type'       => 'required|string|max:255',
+            'service_type'       => 'required|string|max:255',
             'estimated_budget'   => 'nullable|numeric',
             'project_date'       => 'nullable|date',
             'project_description'=> 'nullable|string',
             'status'             => 'nullable|string|max:50',
         ]);
-
-            // Simpan ke database (pakai model ServiceOrder)
-        $order = \App\Models\ServiceOrder::create([
-            'user_id'            => auth()->id(),
-            'full_name'          => $validated['full_name'],
-            'email'              => $validated['email'],
-            'phone_number'       => $validated['phone'],
-            'project_location'   => $validated['location'],
-            'project_type'       => $validated['service_type'],
-            'estimated_budget'   => $validated['budget'],
-            'project_date'       => $validated['timeline'],
-            'project_description'=> $validated['description'],
-            // 'architect_id'    => null,
-            'status'             => 'pending',
-        ]);
-
-        // Simpan ID order ke session (agar setelah pilih arsitek, bisa update order ini)
-        session(['last_service_order_id' => $order->id]);
 
     return redirect()->route('architectsPage');
 
