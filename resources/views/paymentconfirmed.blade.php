@@ -25,31 +25,31 @@
       <div class="mx-auto w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6">
         <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
       </div>
-      <h1 class="text-3xl font-bold text-gray-800 mb-4">Payment Confirmed</h1>
-      <p class="text-lg text-gray-600 mb-8">Thank you for your payment. Your property purchase is now complete.</p>
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">Pembayaran Dikonfirmasi</h1>
+      <p class="text-lg text-gray-600 mb-8">Terimakasih untuk pembayarannya. Pembelian properti anda sudah berhasil.</p>
 
       {{-- ✅ Transaction Details --}}
       <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
-        <h2 class="text-xl font-semibold text-gray-700 mb-4">Transaction Details</h2>
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Detail Transaksi</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <p class="text-sm text-gray-500">Property Name</p>
+            <p class="text-sm text-gray-500">Nama Properti</p>
             <p class="text-md font-medium text-gray-700">{{ $transaction->property->title}}</p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Transaction ID</p>
+            <p class="text-sm text-gray-500">ID transaksi</p>
             <p class="text-md font-medium text-gray-700">{{ $transaction->id }}</p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Property Address</p>
+            <p class="text-sm text-gray-500">Alamat Transaksi</p>
             <p class="text-md font-medium text-gray-700">{{ $transaction->property->alamat }}</p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Purchase Date</p>
+            <p class="text-sm text-gray-500">Tanggal Pembayaran</p>
             <p class="text-md font-medium text-gray-700">{{ $transaction->created_at->format('F d, Y') }}</p>
           </div>
           <div>
-            <p class="text-sm text-gray-500">Price</p>
+            <p class="text-sm text-gray-500">Harga</p>
             <p class="text-md font-medium text-gray-700">Rp {{ number_format($transaction->total_transfer, 0, ',', '.') }}</p>
           </div>
         </div>
@@ -69,12 +69,12 @@
         </button>
       </div>
       <div class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
-        <h2 class="text-xl font-semibold text-gray-700 mb-4">Need Help?</h2>
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Butuh Bantuan?</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="flex items-center">
             <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.224 0L21 8m0 0l-3-3m3 3l-3 3M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
             <div>
-              <p class="font-semibold text-gray-700">Email Support</p>
+              <p class="font-semibold text-gray-700">Email bantuan</p>
               <p class="text-sm text-gray-600">support@UrbaNest.com</p>
             </div>
           </div>
@@ -91,7 +91,7 @@
       <div class="text-center">
         <a href="/transactions" 
           class="inline-flex items-center bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">
-            Go to Transactions
+            Ke transaksi
         </a>
       </div>
 

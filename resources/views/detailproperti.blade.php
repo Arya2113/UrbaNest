@@ -57,15 +57,28 @@
                 <div class="bg-gray-50 p-6 rounded-lg mb-8 border border-gray-100">
                     <div class="grid grid-cols-3 gap-4 text-center">
                         <div>
-                            <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path></svg> <p class="font-medium">Kamar Tidur</p>
+                            <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 10h18M3 10v10M21 10v10M3 16h18M7 10V7a2 2 0 012-2h6a2 2 0 012 2v3"/>
+                            </svg>
+                            <p class="font-medium">Kamar Tidur</p>
                             <p class="text-gray-600">{{ $property->bedrooms }}</p>
                         </div>
                         <div>
-                             <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2"></path></svg> <p class="font-medium">Kamar Mandi</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 10h18v4a4 4 0 01-4 4H7a4 4 0 01-4-4v-4zM7 14v6M17 14v6" />
+                            </svg>
+                            <p class="font-medium">Kamar Mandi</p>
                             <p class="text-gray-600">{{ $property->bathrooms }}</p>
                         </div>
                         <div>
-                            <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v4m0 0h-4m4 0l-5-5"></path></svg> <p class="font-medium">Luas</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M3 3h18v18H3V3zm6 0v18m6-18v18M3 9h18M3 15h18" />
+                            </svg>
+                            <p class="font-medium">Luas</p>
                             <p class="text-gray-600">{{ $property->area }} m²</p>
                         </div>
                     </div>
@@ -75,9 +88,11 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                     @forelse ($property->amenities as $amenity)
                         <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-100 hover:shadow-sm transition">
-                           {{-- You might need to add icons dynamically based on amenity name or have a mapping --}}
-                           {{-- For now, using a generic check icon --}}
-                           <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.49l-1.955 5.378a2 2 0 01-3.655.26l-3.13-6.261a2 2 0 00-3.655-.26L4.382 7.51a2 2 0 00.26 3.655l5.378 1.955a2 2 0 01.26 3.655l-6.261 3.13a2 2 0 00-.26 3.655l7.51 4.382a2 2 0 003.655-.26l1.955-5.378a2 2 0 013.655-.26l3.13 6.261a2 2 0 003.655.26l4.382-7.51a2 2 0 00-.26-3.655l-5.378-1.955a2 2 0 01-.26-3.655l6.261-3.13a2 2 0 00.26-3.655L16.49 4.382a2 2 0 00-3.655.26z"></path></svg>
+                            <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 2l1.5 4.5H18l-3.75 3 1.5 4.5L12 12l-3.75 2.5 1.5-4.5L6 6.5h4.5z"/>
+                            </svg>
                             <p class="text-sm">{{ $amenity->name }}</p>
                         </div>
                     @empty

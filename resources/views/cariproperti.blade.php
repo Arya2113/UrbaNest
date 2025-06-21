@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="container mx-auto p-4 lg:p-8">
-    <form method="GET" action="{{ str_replace('http://', 'https://', route('cariproperti.index')) }}" id="filterForm">
+    <form method="GET" action="{{ route('cariproperti.index') }}" id="filterForm">
         <div class="flex flex-col lg:flex-row gap-8">
             <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-lg h-fit">
-                <h2 class="text-xl font-semibold mb-6">Location</h2>
+                <h2 class="text-xl font-semibold mb-6">Lokasi</h2>
                 <select name="location" class="w-full border border-gray-300 rounded-md p-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Select location</option>
+                    <option value="">Pilih Lokasi</option>
                     @if(isset($locations) && $locations->count() > 0)
                         @foreach ($locations as $loc)
                             <option value="{{ $loc->location }}" {{ request('location') == $loc->location ? 'selected' : '' }}>
@@ -21,7 +21,7 @@
                 </select>
 
                 <div class="mb-6 w-full max-w-md">
-                    <h2 class="text-xl font-semibold mb-4">Surface Area Range (m²)</h2>
+                    <h2 class="text-xl font-semibold mb-4">Luas Area (m²)</h2>
                     <div class="relative h-2 bg-gray-200 rounded-full">
                         <div id="range-bar" class="absolute h-2 bg-blue-600 rounded-full"></div>
                     </div>
@@ -175,7 +175,7 @@
                     clampPriceValues(); 
                 </script>
 
-                <h2 class="text-xl font-semibold mb-4">Bedrooms</h2>
+                <h2 class="text-xl font-semibold mb-4">Kamar Tidur</h2>
                 <div id="bedroom-options" class="flex flex-wrap gap-2 mb-6">
                     @php
                         $selectedBedrooms = request('bedrooms', []);
@@ -191,7 +191,7 @@
                     @endforeach
                 </div>
 
-                <h2 class="text-xl font-semibold mb-4">Amenities</h2>
+                <h2 class="text-xl font-semibold mb-4">Fasilitas</h2>
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     @php
                         $amenitiesList = ['Pool', 'Garage', 'Garden', 'Gym', 'Security', 'Parking']; 
@@ -206,11 +206,11 @@
                     @endforeach
                 </div>
 
-                <h2 class="text-xl font-semibold mb-4">Sort By</h2>
+                <h2 class="text-xl font-semibold mb-4">Urut berdasarkan</h2>
                 <select name="sort_by" class="w-full border border-gray-300 rounded-md p-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="newest" {{ request('sort_by') == 'newest' ? 'selected' : '' }}>Newest First</option>
-                    <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
-                    <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                    <option value="newest" {{ request('sort_by') == 'newest' ? 'selected' : '' }}>Terbaru dulu</option>
+                    <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>Harga: Rendah ke Tinggi</option>
+                    <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>Harga: Tinggi ke Rendah</option>
                 </select>
 
                 <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-3 hover:bg-blue-700 transition duration-200">Apply Filters</button>
@@ -231,17 +231,21 @@
                             <div class="mb-3 min-h-[4rem]">
                                 <h3 class="text-lg font-semibold">{{ $property->title }}</h3>
                                 <p class="text-sm text-gray-500 flex items-center mt-1">
-                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20">...</svg>
-                                    {{ $property->location }}
+                                <svg class="w-4 h-4 mr-1 text-gray-400 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 9s7-4.5 7-10a7 7 0 10-14 0c0 5.5 7 10 7 10z"/>
+                                    </svg>
+                                    <span class="text-sm text-gray-600">{{ $property->location }}</span>
                                 </p>
                             </div>
                                 <p class="text-xl font-bold text-blue-600 mb-3">Rp {{ number_format($property->price, 0, ',', '.') }}</p>
                                 <div class="flex justify-between text-sm text-gray-600 border-t pt-3 mb-4">
                                 @if ($property->bedrooms)
-                                <span><i class="fas fa-bed mr-1"></i> {{ $property->bedrooms }} beds</span>
+                                <span><i class="fas fa-bed mr-1"></i> {{ $property->bedrooms }} Kamar Tidur</span>
                                 @endif
                                 @if ($property->bathrooms)
-                                <span><i class="fas fa-bath mr-1"></i> {{ $property->bathrooms }} baths</span>
+                                <span><i class="fas fa-bath mr-1"></i> {{ $property->bathrooms }} Kamar Mandi</span>
                                 @endif
                                 @if ($property->area)
                                 <span><i class="fas fa-ruler-combined mr-1"></i> {{ $property->area }} m²</span>
@@ -250,7 +254,7 @@
 
                                 @if ($property->amenities->count() > 0)
                                 <div class="mb-3 mt-2 text-sm text-gray-600">
-                                    <strong>Amenities:</strong>
+                                    <strong>Fasilitas:</strong>
                                     <ul class="grid grid-cols-3 gap-2 list-disc list-inside">
                                         @foreach ($property->amenities as $amenity)
                                         <li>{{ $amenity->name }}</li>
@@ -262,15 +266,15 @@
 
                             <div class="mt-auto">
                                 <a href="/detailproperti/{{ $property->id }}" class="block text-center w-full border border-blue-600 text-blue-600 py-2 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition duration-200">
-                                View Details
+                                Tampilkan Detail
                                 </a>
                             </div>
                             </div>
                         </div>
                     @empty
                         <div class="col-span-1 md:col-span-2 xl:col-span-3 text-center text-gray-600 py-10">
-                            <p class="text-xl mb-2">No properties found matching your criteria.</p>
-                            <p>Try adjusting your filters or <a href="/cariproperti" class="text-blue-600 hover:underline">reset all filters</a>.</p>
+                            <p class="text-xl mb-2">Tidak ada property yang sesui dengan filter.</p>
+                            <p>coba sesuaikan filter anda atau <a href="/cariproperti" class="text-blue-600 hover:underline">reset all filters</a>.</p>
                         </div>
                     @endforelse
                 </div>
