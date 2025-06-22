@@ -20,7 +20,6 @@
                 <div class="grid md:grid-cols-3 gap-8">
                     @foreach ($items as $section)
                         <div class="bg-white p-6 rounded-lg shadow flex flex-col items-start">
-                            <img src="{{ asset($section['icon']) }}" alt="{{ $section['title'] }}" class="w-10 h-10 mb-4" />
                             <div>
                                 <h3 class="font-semibold mb-1">{{ $section['title'] }}</h3>
                                 <p class="text-gray-500 text-sm">{{ $section['desc'] }}</p>

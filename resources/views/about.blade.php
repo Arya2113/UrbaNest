@@ -11,7 +11,7 @@
     {{-- Our Story --}}
     <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-10 items-start">
         <div class="flex-1">
-            <img src="/placeholder.svg?height=400&width=600" alt="Cerita UrbaNest" class="w-full rounded-xl shadow-md object-cover">
+            <img src="{{ asset('images/ourstory/ourstory.png') }}" alt="Cerita UrbaNest" class="w-full rounded-xl shadow-md object-cover">
         </div>
         <div class="flex-1 space-y-4">
             <h2 class="text-2xl font-semibold">Cerita Kami</h2>
@@ -78,8 +78,8 @@
         <h2 class="text-2xl font-bold mb-4">Siap Bekerja Sama dengan Kami?</h2>
         <p class="text-gray-600 mb-6">Hubungi kami untuk mendiskusikan kebutuhan properti Anda atau jelajahi layanan kami.</p>
         <div class="flex justify-center gap-4">
-            <a href="/cariproperti" class="px-6 py-3 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-100">Jelajahi Properti</a>
-            <a href="/services" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Lihat Layanan Kami</a>
+            <a href="/cariproperti" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-100">Jelajahi Properti</a>
+            <a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Lihat Layanan Kami</a>
         </div>
     </div>
 </div>

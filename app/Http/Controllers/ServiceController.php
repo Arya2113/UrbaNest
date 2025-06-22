@@ -42,17 +42,14 @@ class ServiceController extends Controller
             'sections' => [
                 'Layanan Konstruksi Kami' => [
                     [
-                        'icon' => '/storage/icons/planning.png',
                         'title' => 'Perencanaan Konstruksi',
                         'desc' => 'Tim ahli kami akan membantu merencanakan proyek konstruksi Anda secara detail'
                     ],
                     [
-                        'icon' => '/storage/icons/build.png',
                         'title' => 'Pelaksanaan Pembangunan',
                         'desc' => 'Eksekusi pembangunan dengan standar kualitas tinggi dan tepat waktu'
                     ],
                     [
-                        'icon' => '/storage/icons/monitor.png',
                         'title' => 'Pengawasan Proyek',
                         'desc' => 'Monitoring ketat setiap tahap pembangunan untuk hasil terbaik'
                     ]
@@ -93,17 +90,14 @@ class ServiceController extends Controller
             'sections' => [
                 'Layanan Renovasi Kami' => [
                     [
-                        'icon' => '/storage/icons/consult.png',
                         'title' => 'Konsultasi & Survey',
                         'desc' => 'Kami datang ke lokasi, mendengarkan kebutuhan renovasi Anda'
                     ],
                     [
-                        'icon' => '/storage/icons/remodel.png',
                         'title' => 'Desain Ulang & Remodeling',
                         'desc' => 'Konsep desain ulang sesuai selera dan fungsionalitas'
                     ],
                     [
-                        'icon' => '/storage/icons/implement.png',
                         'title' => 'Pelaksanaan Renovasi',
                         'desc' => 'Tim kami mengerjakan dengan rapi, cepat, dan sesuai jadwal'
                     ]
@@ -144,17 +138,14 @@ class ServiceController extends Controller
             'sections' => [
                 'Layanan Desain Kami' => [
                     [
-                        'icon' => '/storage/icons/interior.png',
                         'title' => 'Desain Interior',
                         'desc' => 'Penataan ruang dalam yang estetis dan fungsional'
                     ],
                     [
-                        'icon' => '/storage/icons/exterior.png',
                         'title' => 'Desain Eksterior',
                         'desc' => 'Konsep fasad, taman, dan ruang luar'
                     ],
                     [
-                        'icon' => '/storage/icons/3d.png',
                         'title' => 'Visualisasi 3D',
                         'desc' => 'Tampilan preview realistis sebelum pengerjaan'
                     ]

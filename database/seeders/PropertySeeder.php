@@ -114,17 +114,6 @@ class PropertySeeder extends Seeder
                 'area' => 140,
                 'image_path' => 'https://via.placeholder.com/640x480.png?text=Rumah+Bekasi',
             ],
-            [
-                'title' => 'Smart Home Ciputat',
-                'description' => 'Rumah teknologi pintar, bisa dikontrol dari smartphone.',
-                'location' => 'Ciputat, Tangerang Selatan',
-                'address' => 'Jl. Ir. H. Juanda No.42',
-                'price' => 1450000000,
-                'bedrooms' => 3,
-                'bathrooms' => 2,
-                'area' => 160,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Smart+Home+Ciputat',
-            ],
         ];
         foreach ($properties as $index => $data) {
             $number = $index + 1;  

@@ -12,8 +12,8 @@
           Solusi properti terintegrasi di Solo: jual beli rumah, layanan konstruksi, renovasi, hingga desain interior dalam satu platform.
         </p>
         <div class="flex justify-center md:justify-start gap-4 text-lg">
-          <a href="#" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
+          <a href="https://facebook.com/urbanestofficial" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com/urbanest_id" class="hover:text-white"><i class="fab fa-twitter"></i></a>
           <a href="https://instagram.com/urbanest.solo" class="hover:text-white"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
@@ -21,8 +21,8 @@
       <div>
         <h4 class="text-white font-semibold text-lg mb-4">Navigasi</h4>
         <ul class="space-y-2 text-sm">
-          <li><a href="/home" class="text-gray-400 hover:text-white hover:underline">Beranda</a></li>
-          <li><a href="/properties" class="text-gray-400 hover:text-white hover:underline">Properti</a></li>
+          <li><a href="/" class="text-gray-400 hover:text-white hover:underline">Beranda</a></li>
+          <li><a href="/cariproperti" class="text-gray-400 hover:text-white hover:underline">Properti</a></li>
           <li><a href="/services" class="text-gray-400 hover:text-white hover:underline">Layanan</a></li>
           <li><a href="/about" class="text-gray-400 hover:text-white hover:underline">Tentang Kami</a></li>
           <li><a href="/contact" class="text-gray-400 hover:text-white hover:underline">Kontak</a></li>
