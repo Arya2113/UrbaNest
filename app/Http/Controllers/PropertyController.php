@@ -156,69 +156,44 @@ class PropertyController extends Controller
         }
 
         $user = Auth::user();
-        $lockDuration = 30;  
-        $lockExpiresAt = Carbon::now()->addMinutes($lockDuration);
+        $lockDuration = 30; // menit
+        $lockExpiresAt = now()->addMinutes($lockDuration);
 
-        try {
-            $acquired = DB::transaction(function () use ($property, $user, $lockExpiresAt) {
-                 
-                $freshProperty = Property::where('id', $property->id)->lockForUpdate()->first();
+        $property = Property::find($property->id);
 
-                if (!$freshProperty) {
-                    return false;  
-                }
-
-                $isCurrentlyLocked = $freshProperty->locked_until && $freshProperty->locked_until->isFuture();
-
-                 
-                 
-                 
-                if (!$isCurrentlyLocked || $freshProperty->locked_by_user_id === $user->id) {
-                    $freshProperty->locked_by_user_id = $user->id;
-                    $freshProperty->locked_until = $lockExpiresAt;
-                    $freshProperty->save();
-                    return true;  
-                }
-                 
-                return false;
-            });
-
-            if ($acquired) {
-                 
-                session()->flash('lock_checkout_info', [
-                    'property_id' => $property->id,
-                    'user_id' => $user->id,
-                    'locked_until_timestamp' => $lockExpiresAt->timestamp,
-                ]);
-                return response()->json(['success' => true, 'redirect' => route('property_checkout.checkout', $property->id)]);
-            } else {
-                 $property->refresh();  
-                 $timeLeftInSeconds = 0;
-                 if ($property->locked_until && $property->locked_until->isFuture()) {
-                     $timeLeftInSeconds = max(0, $property->locked_until->diffInSeconds(Carbon::now()));
-                 }
-                 return response()->json([
-                     'success' => false,
-                     'message' => 'Properti sedang dalam proses checkout oleh pengguna lain. Silakan coba lagi' . ($timeLeftInSeconds > 0 ? ' dalam ' . $timeLeftInSeconds . ' detik.' : '.'),
-                     'locked_until' => $property->locked_until ? $property->locked_until->timestamp : null
-                 ], 409);  
-            }
-
-        } catch (\Exception $e) {
-            \Log::error('Error attempting to lock property: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat mencoba mengunci properti. Silakan coba lagi nanti.'], 500);
+        if (!$property) {
+            return response()->json(['success' => false, 'message' => 'Properti tidak ditemukan.'], 404);
         }
+
+        $isLocked = $property->locked_until && $property->locked_until->isFuture();
+        $lockedByAnotherUser = $property->locked_by_user_id && $property->locked_by_user_id !== $user->id;
+
+        if (!$isLocked || !$lockedByAnotherUser) {
+            $property->locked_by_user_id = $user->id;
+            $property->locked_until = $lockExpiresAt;
+            $property->save();
+
+            session()->flash('lock_checkout_info', [
+                'property_id' => $property->id,
+                'user_id' => $user->id,
+                'locked_until_timestamp' => $lockExpiresAt->timestamp,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'redirect' => route('property_checkout.checkout', $property->id)
+            ]);
+        }
+
+        $timeLeftInSeconds = $property->locked_until ? $property->locked_until->diffInSeconds(now()) : 0;
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Properti sedang dalam proses checkout oleh pengguna lain. Silakan coba lagi' . 
+                        ($timeLeftInSeconds > 0 ? ' dalam ' . $timeLeftInSeconds . ' detik.' : '.'),
+            'locked_until' => $property->locked_until ? $property->locked_until->timestamp : null
+        ], 409);
     }
 
-    /**
-     * Get all properties for API.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getAllPropertiesApi()
-    {
-        $properties = Property::with(['amenities', 'developer', 'images'])->get();
-
-        return response()->json($properties);
-    }
+   
 }

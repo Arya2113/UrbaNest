@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany; // Import HasMany
-use App\Models\PropertyCheckoutTransaction; // Import PropertyCheckoutTransaction model
+use Illuminate\Database\Eloquent\Relations\HasMany; 
+use App\Models\PropertyCheckoutTransaction; 
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    
     use HasApiTokens, HasFactory, Notifiable;
 
     /**

@@ -33,9 +33,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-         
-         
-
         return redirect('/login')->with('success', 'Registration successful! Please login.');
     }
 
@@ -63,12 +60,6 @@ class AuthController extends Controller
             return redirect()->route('home');  
         }
 
-         
-         
-
-         
-         
-        
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

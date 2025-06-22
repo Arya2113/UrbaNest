@@ -23,13 +23,13 @@ class ServiceOrder extends Model
         'status'
     ];
 
-    // Relasi ke User
+    
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relasi ke Architect
+    
     public function architect()
     {
         return $this->belongsTo(Architect::class);

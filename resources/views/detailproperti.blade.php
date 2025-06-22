@@ -104,7 +104,7 @@
 
                 @if($lockedByOtherUser)
                     <div class="text-red-500 mb-4">
-                        Properti ini sedang diproses oleh pengguna lain. Silakan coba lagi dalam beberapa detik.
+                        Properti ini sedang diproses oleh pengguna lain. Silakan coba lagi dalam 30 menit untuk memastikan user lain tidak melanjutkan pembayaran.
                     </div>
                 @endif
 
@@ -138,12 +138,6 @@
 
                     <a href="https://wa.me/{{ $nomorWA }}" target="_blank"
                     class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold mb-4 hover:bg-green-600 transition duration-200 flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 16.5V3a1 1 0 00.894-.447z">
-                            </path>
-                        </svg>
                         WhatsApp
                     </a>
                     @endisset
@@ -189,7 +183,6 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Checkout form logic (keep existing)
         var timeLeft = {{ $timeLeftInSeconds }};
         var lockedByOtherUser = {{ $lockedByOtherUser ? 'true' : 'false' }};
         var countdownElement = document.getElementById('countdown');
@@ -209,31 +202,44 @@
             setInterval(updateCountdown, 1000);
         }
 
-        document.getElementById('checkout-form').addEventListener('submit', function(event){
+        document.getElementById('checkout-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
 
-            const form = document.getElementById('checkout-form');
-            const url = form.action
-            const button = document.getElementById('checkout-button')
+            const form = event.target;
+            const url = form.action;
+            const button = document.getElementById('checkout-button');
+            const messageArea = document.getElementById('message-area');
+            const messageSpan = messageArea.querySelector('span');
+
+            messageArea.classList.add('hidden');
+            messageSpan.textContent = '';
 
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
                 },
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong');
+            })
+            .then(async response => {
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Gagal memproses checkout.');
                 }
-            }).then(data => {
-                window.location.href = data.redirect
-            }).catch((error) => {
-                console.error('Error:', error);
+
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    console.log('Locked successfully but no redirect provided.');
+                }
+            })
+            .catch(error => {
+                messageArea.classList.remove('hidden');
+                messageSpan.textContent = error.message || 'Terjadi kesalahan saat memproses checkout.';
             });
         });
 
-        // Favorite button logic (keep existing)
         document.getElementById('favorite-button').addEventListener('click', function() {
             const form = document.getElementById('favorite-form');
             const propertyId = form.getAttribute('data-property-id');
@@ -277,7 +283,6 @@
             });
         });
 
-        // Property Visit Scheduling Logic
         const visitDateInput = document.getElementById('visit_date');
         const scheduleVisitButton = document.getElementById('schedule_visit_button');
         const confirmationModal = document.getElementById('confirmation_modal');
@@ -285,9 +290,7 @@
         const confirmScheduleButton = document.getElementById('confirm_schedule_button');
         const cancelScheduleButton = document.getElementById('cancel_schedule_button');
 
-        // You will need to integrate a date picker library here (e.g., Flatpickr)
-        // For example, using Flatpickr:
-        // flatpickr("#visit_date", { minDate: "today" });
+
 
         scheduleVisitButton.addEventListener('click', function() {
             const selectedDate = visitDateInput.value;
@@ -297,15 +300,12 @@
                 return;
             }
 
-            // Display the selected date in the modal
             scheduledDateText.innerText = 'Tanggal terpilih: ' + selectedDate;
 
-            // Show the confirmation modal
             confirmationModal.classList.remove('hidden');
         });
 
         cancelScheduleButton.addEventListener('click', function() {
-            // Hide the confirmation modal
             confirmationModal.classList.add('hidden');
         });
 
@@ -335,7 +335,7 @@
             .then(data => {
                 alert(data.message || 'Visit scheduled successfully!');
                 confirmationModal.classList.add('hidden');
-                visitDateInput.value = ''; // Clear the date input after successful scheduling
+                visitDateInput.value = ''; 
             })
             .catch(error => {
                  alert('Error scheduling visit: ' + error.message);

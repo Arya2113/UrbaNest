@@ -38,10 +38,10 @@ class PropertyCheckoutTransaction extends Model
         $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'];
         
         if (Str::isUrl($this->bukti_transfer_url)) {
-            // Jika ini adalah URL lengkap, ambil path-nya saja
+            
             $path = parse_url($this->bukti_transfer_url, PHP_URL_PATH);
         } else {
-            // Jika hanya path, gunakan langsung
+            
             $path = $this->bukti_transfer_url;
         }
         

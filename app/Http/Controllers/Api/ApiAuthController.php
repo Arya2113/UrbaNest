@@ -77,9 +77,9 @@ class ApiAuthController extends Controller
             return response()->json(['message' => 'Properti tidak ditemukan.'], 404);
         }
 
-        // Langsung lanjut tanpa cek lock
+        
 
-        // cek existing tx
+        
         $tx = PropertyCheckoutTransaction::where('user_id', $user->id)
             ->where('property_id', $property->id)
             ->whereIn('status_transaksi', [
@@ -118,18 +118,18 @@ class ApiAuthController extends Controller
     {
         $user = $req->user();
 
-        // Validasi properti
+        
         $property = Property::find($propertyId);
         if (!$property) {
             return response()->json(['message' => 'Properti tidak ditemukan.'], 404);
         }
 
-        // Validasi file
+        
         $req->validate([
             'proof' => 'required|file|mimes:jpeg,jpg,png,pdf|max:5120',
         ]);
 
-        // Cek transaksi sebelumnya
+        
         $exists = PropertyCheckoutTransaction::where('user_id', $user->id)
             ->where('property_id', $property->id)
             ->whereIn('status_transaksi', ['uploaded', 'rejected'])
@@ -139,13 +139,13 @@ class ApiAuthController extends Controller
             return response()->json(['message' => 'Transaksi sudah pernah diupload.'], 409);
         }
 
-        // Simpan file pakai nama asli
+        
         $file = $req->file('proof');
 
-        // Buat nama file sesuai format yang lo mau
+        
         $fileName = 'Transfer_' . $user->id . '_' . $property->id . '_' . time() . '.' . $file->getClientOriginalExtension();
 
-        // Simpan file ke folder bukti_transfer (storage/app/public/bukti_transfer)
+        
         $path = $file->storeAs('bukti_transfer', $fileName, 'public');
         
 
@@ -153,13 +153,13 @@ class ApiAuthController extends Controller
             return response()->json(['message' => 'Gagal menyimpan file.'], 500);
         }
 
-        // Hitung total transfer
+        
         $harga = $property->price;
         $fee   = $harga * 0.05;
         $code  = $user->id + $property->id + 100;
         $total = $harga + $fee + $code;
 
-        // Simpan transaksi
+        
         $tx = PropertyCheckoutTransaction::create([
             'user_id' => $user->id,
             'property_id' => $property->id,
@@ -185,27 +185,27 @@ class ApiAuthController extends Controller
 
     public function getCheckoutTransactionById($transactionId)
     {
-        // Cari transaksi berdasarkan ID, dan load juga relasi 'property'-nya
+        
         $transaction = PropertyCheckoutTransaction::with('property')->find($transactionId);
 
-        // Jika transaksi tidak ditemukan
+        
         if (!$transaction) {
             return response()->json(['message' => 'Transaksi tidak ditemukan.'], 404);
         }
         
-        // Asumsi: relasi 'property' di model PropertyCheckoutTransaction sudah didefinisikan
-        // public function property() {
-        //     return $this->belongsTo(Property::class, 'property_id');
-        // }
+        
+        
+        
+        
 
-        // Ubah nama field agar sesuai dengan yang diharapkan Android (jika perlu)
-        // Di sini kita asumsikan nama field di DB sudah sesuai
+        
+        
         return response()->json([
             'id' => $transaction->id,
             'property_id' => $transaction->property_id,
-            'status' => $transaction->status_transaksi, // Sesuaikan nama kolom
-            'created_at' => $transaction->created_at, // atau created_at
-            'property' => $transaction->property // Mengambil data properti dari relasi
+            'status' => $transaction->status_transaksi, 
+            'created_at' => $transaction->created_at, 
+            'property' => $transaction->property 
         ]);
     }
 
@@ -234,7 +234,7 @@ class ApiAuthController extends Controller
             return response()->json(['message' => 'Silakan login untuk menambahkan ke favorit.'], 401);
         }
 
-        // Toggle favorite
+        
         $isFavorited = $user->properties()->toggle($property->id);
 
         return response()->json([

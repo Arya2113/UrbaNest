@@ -120,6 +120,7 @@ Route::prefix('admin')
         Route::post('/properties', [AdminPropertyController::class, 'store'])->name('properties.store');
         Route::put('/properties/{property}', [AdminPropertyController::class, 'updateInline'])->name('properties.update');
         Route::delete('/properties/{property}/delete', [AdminPropertyController::class, 'destroy'])->name('properties.destroy');
+        Route::delete('/transactions/{transaction}', [AdminController::class, 'destroy'])->name('transactions.destroy');
     });
 
 Route::middleware('auth')->group(function () {

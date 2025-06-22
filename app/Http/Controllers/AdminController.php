@@ -49,4 +49,12 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Property visit status updated successfully.');
     }
+
+    public function destroy(PropertyCheckoutTransaction $transaction)
+    {
+
+        $transaction->delete();
+
+        return redirect()->back()->with('success', 'Transaksi berhasil dihapus.');
+    }
 }
