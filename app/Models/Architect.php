@@ -10,11 +10,24 @@ class Architect extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'photo', 'title', 'rating', 'reviews_count',
-        'experience_years', 'location', 'styles'
+        'user_id', 
+        'name',
+        'photo',
+        'title',
+        'rating',
+        'reviews_count',
+        'experience_years',
+        'location',
+        'styles',
     ];
 
     protected $casts = [
         'styles' => 'array',
     ];
+
+    // ✅ Relasi ke tabel users
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -8,7 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany; 
-use App\Models\PropertyCheckoutTransaction; 
+use App\Models\PropertyCheckoutTransaction;
+use App\Models\ServiceOrder;  
+
 
 class User extends Authenticatable
 {
@@ -65,4 +67,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(PropertyCheckoutTransaction::class);
     }
+
+     /**
+    * Get the service orders for the user.
+    */
+    public function serviceOrders(): HasMany
+    {
+        return $this->hasMany(ServiceOrder::class);
+    }
+
+    /**
+     * Get the architect profile if the user is an architect.
+     */
+    public function architect()
+    {
+        return $this->hasOne(\App\Models\Architect::class);
+    }
+
 }

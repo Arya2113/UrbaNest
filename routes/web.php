@@ -10,6 +10,7 @@ use App\Http\Controllers\ArchitectController;
 use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ArchitectAuthController;
 use App\Http\Controllers\PropertyCheckoutController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\AdminController;
@@ -123,6 +124,8 @@ Route::prefix('admin')
         Route::delete('/transactions/{transaction}', [AdminController::class, 'destroy'])->name('transactions.destroy');
     });
 
+
+    
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
@@ -131,6 +134,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/password', [UserProfileController::class, 'editPassword'])->name('profile.password');
     Route::post('/profile/password/update', [UserProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
+
+
+
+Route::prefix('architect')->name('architect.')->group(function () {
+    Route::get('/login', [ArchitectAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [ArchitectAuthController::class, 'login'])->name('login');
+});
+    
+Route::prefix('architect')
+    ->name('architect.')
+    ->middleware(['auth', 'architect'])
+    ->group(function () {
+        Route::get('/dashboard', [ArchitectController::class, 'dashboard'])->name('dashboard');
+        Route::put('/service-orders/{serviceOrder}/status', [ArchitectController::class, 'updateStatus'])->name('service_orders.updateStatus');
+    });
 
 
 

@@ -3,7 +3,7 @@
 @section('content')
 <div class="bg-slate-50 font-sans text-gray-900 min-h-screen">
     <main class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-         
+        {{-- Header --}}
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
             <div class="flex-1">
                 <h1 class="text-3xl font-bold mb-2">{{ $service['title'] }}</h1>
@@ -12,7 +12,7 @@
             <img src="{{ asset($service['image']) }}" alt="{{ $service['title'] }}" class="w-full md:w-[440px] h-56 object-cover rounded-xl shadow" />
         </div>
 
-         
+        {{-- Section Layanan --}}
         @if(isset($service['sections']))
             @foreach ($service['sections'] as $sectionTitle => $items)
             <div class="mb-12">
@@ -32,7 +32,7 @@
             @endforeach
         @endif
 
-         
+        {{-- Workflow --}}
         @if(isset($service['workflow']))
         <div class="bg-[#f8fbff] rounded-lg px-6 py-10 mb-12">
             <h2 class="text-xl font-bold text-center mb-8">{{ $service['workflow_title'] }}</h2>
@@ -51,7 +51,7 @@
         </div>
         @endif
 
-         
+        {{-- CTA --}}
         <div class="text-center mt-10">
             <h2 class="text-xl font-bold mb-2">{{ $service['cta_title'] }}</h2>
             <p class="text-gray-600 mb-6">{{ $service['cta_subtitle'] }}</p>

@@ -35,7 +35,6 @@
           <li><a href="/services/construction" class="text-gray-400 hover:text-white hover:underline">Konstruksi</a></li>
           <li><a href="/services/renovation" class="text-gray-400 hover:text-white hover:underline">Renovasi</a></li>
           <li><a href="/services/design" class="text-gray-400 hover:text-white hover:underline">Desain Interior</a></li>
-          <li><a href="/services/architects" class="text-gray-400 hover:text-white hover:underline">Arsitek Kami</a></li>
         </ul>
       </div>
 

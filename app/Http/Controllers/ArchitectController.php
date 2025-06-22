@@ -67,5 +67,45 @@ class ArchitectController extends Controller
         return redirect()->route('order.status.show', $order->id)
             ->with('success', 'Architect selected successfully! Your project is now in consultation stage.');
     }
+
+
+    public function dashboard()
+    {
+        $architect = auth()->user()->architect;
+
+        if (!$architect) {
+            return redirect()->route('architect.login')->withErrors([
+                'msg' => 'Profil arsitek tidak ditemukan.'
+            ]);
+        }
+
+        $serviceOrders = ServiceOrder::where('architect_id', $architect->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+        return view('architect.dashboard', compact('serviceOrders'));
+    }
+
+
+    /**
+     * Architect update status project-nya.
+     */
+    public function updateStatus(Request $request, ServiceOrder $serviceOrder)
+    {
+        $architect = auth()->user()->architect;
+
+        if (!$architect || $serviceOrder->architect_id !== $architect->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $request->validate([
+            'status' => 'required|in:pending,consultation,site_survey,designing,in_progress,review,completed,cancelled',
+        ]);
+
+        $serviceOrder->status = $request->status;
+        $serviceOrder->save();
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
+    }
     
 }

@@ -15,6 +15,7 @@ return new class extends Migration
         $table->string('name');
         $table->string('photo')->nullable();  
         $table->string('title');  
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->float('rating', 2, 1);  
         $table->integer('reviews_count');  
         $table->integer('experience_years');  

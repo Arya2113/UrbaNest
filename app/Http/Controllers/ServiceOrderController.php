@@ -106,16 +106,19 @@ class ServiceOrderController extends Controller
 
          
         $statusIndex = array_search($order->status, ['pending','consultation','site_survey','designing','in_progress','review','completed']);
-        $progressStep = min(max($statusIndex, 0), 4);  
-        $progressPercent = $progressStep * 20;
+        $totalSteps = count($timelineInfo['steps']);
+        $progressStep = min($statusIndex, $totalSteps - 1);
+        $progressPercent = round(($progressStep / ($totalSteps - 1)) * 100);
+
+        $isCompleted = $order->status === 'completed';
 
         $timeline = [];
         foreach ($timelineInfo['steps'] as $i => $stepTitle) {
             $timeline[] = [
                 'title' => $stepTitle,
                 'date' => now()->addDays($i * 5)->format('Y-m-d'),
-                'done' => $i < $progressStep,
-                'active' => $i === $progressStep,
+                'done' => $isCompleted ? true : $i < $progressStep,
+                'active' => $isCompleted ? false : $i === $progressStep,
             ];
         }
 

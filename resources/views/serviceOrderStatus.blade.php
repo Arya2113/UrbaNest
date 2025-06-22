@@ -17,7 +17,7 @@
 
     <div class="bg-white shadow-md rounded-2xl p-6 max-w-2xl mx-auto">
         <div class="space-y-2 mb-6">
-            <p><span class="font-semibold text-gray-700">address Lokasi:</span> {{ $order->project_location }}</p>
+            <p><span class="font-semibold text-gray-700">Alamat Lokasi:</span> {{ $order->project_location }}</p>
             <p><span class="font-semibold text-gray-700">Arsitek:</span> {{ $order->architect ? $order->architect->name : '-' }}</p>
             <p>
                 <span class="font-semibold text-gray-700">Status Proyek:</span> 
@@ -27,7 +27,7 @@
             </p>
         </div>
 
-         
+        {{-- Progress Bar --}}
         <div class="mb-6">
             <div class="w-full bg-gray-200 rounded-full h-4">
                 <div class="bg-green-500 h-4 rounded-full transition-all duration-500"
@@ -37,7 +37,7 @@
             <p class="text-right text-sm text-gray-600 mt-1">{{ $progressPercent }}% Selesai</p>
         </div>
 
-         
+        {{-- Timeline --}}
         <h5 class="text-lg font-semibold text-gray-800 mb-4">Timeline Proyek</h5>
         <ol class="relative border-l border-gray-300">
             @foreach ($timeline as $step)
@@ -47,11 +47,18 @@
                 </div>
                 <div class="p-3 bg-gray-100 rounded-xl shadow-sm">
                     <div class="font-semibold text-gray-800">{{ $step['title'] }}</div>
-                    <div class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($step['date'])->format('d M Y') }}</div>
                 </div>
             </li>
             @endforeach
         </ol>
+
+        {{-- Tombol Back to Home --}}
+        <div class="mt-8 text-center">
+            <a href="{{ route('home') }}"
+               class="inline-block bg-blue-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
+                ← Back to Home
+            </a>
+        </div>
     </div>
 </div>
 @endsection
