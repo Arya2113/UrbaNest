@@ -225,7 +225,7 @@
                                 <img src="{{  asset('storage/'.$property->image_path) }}" alt="{{ $property->title }}" class="w-full h-48 object-cover">
 
                             @else
-                                <img src="https://via.placeholder.com/400x250/cccccc/969696.png?text=No+Image" alt="No Image Available" class="w-full h-48 object-cover">
+                                <img src="" alt="No Image Available" class="w-full h-48 object-cover">
                             @endif
                             <div class="min-h-[20rem] rounded-lg border shadow flex flex-col p-4">
                             <div>

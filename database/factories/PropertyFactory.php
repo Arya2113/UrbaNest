@@ -7,16 +7,10 @@ use App\Models\Amenity;
 use App\Models\PropertyImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Property>
- */
+
 class PropertyFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         return [
@@ -33,9 +27,6 @@ class PropertyFactory extends Factory
         ];
     }
 
-    /**
-     * Configure the model factory.
-     */
     public function configure(): static
     {
         return $this->afterCreating(function (Property $property) {

@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminPropertyController extends Controller
 {
-    /**
-     * Show the form for creating a new property.
-     *
-     * @return \Illuminate\View\View
-     */
+
 
     public function index()
     {
@@ -34,12 +30,7 @@ class AdminPropertyController extends Controller
         return view('admin.properties.create', compact('developers',  'amenities'));
     }
 
-    /**
-     * Store a newly created property in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+ 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

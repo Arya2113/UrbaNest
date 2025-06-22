@@ -87,9 +87,7 @@ class ArchitectController extends Controller
     }
 
 
-    /**
-     * Architect update status project-nya.
-     */
+    
     public function updateStatus(Request $request, ServiceOrder $serviceOrder)
     {
         $architect = auth()->user()->architect;

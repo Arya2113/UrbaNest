@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="bg-white text-gray-800 px-4 md:px-8 lg:px-20 py-16">
-    {{-- Hero Section --}}
+    
     <div class="text-center py-16 px-6">
         <h1 class="text-4xl font-bold mb-4">Tentang UrbaNest</h1>
         <p class="text-lg text-gray-600">Solusi properti terpadu untuk menemukan, membangun, dan mendesain ruang impian Anda.</p>
     </div>
 
-    {{-- Our Story --}}
+    
     <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-10 items-start">
         <div class="flex-1">
             <img src="{{ asset('images/ourstory/ourstory.png') }}" alt="Cerita UrbaNest" class="w-full rounded-xl shadow-md object-cover">
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    {{-- Misi & Visi --}}
+    
     <div class="bg-blue-50 py-12 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10">
             <div>
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    {{-- Nilai-Nilai --}}
+    
     <div class="py-16 px-6 text-center">
         <h2 class="text-3xl font-bold mb-10">Nilai-Nilai Kami</h2>
         <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 text-left">
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    {{-- CTA --}}
+    
     <div class="bg-blue-50 py-16 text-center">
         <h2 class="text-2xl font-bold mb-4">Siap Bekerja Sama dengan Kami?</h2>
         <p class="text-gray-600 mb-6">Hubungi kami untuk mendiskusikan kebutuhan properti Anda atau jelajahi layanan kami.</p>

@@ -5,7 +5,6 @@
 @section('content')
 <div class="bg-slate-50 min-h-screen">
     
-    {{-- Hero Section --}}
     <div class="relative pt-20 pb-16 overflow-hidden">
         <div class="absolute inset-0"></div>
         <div class="relative max-w-4xl mx-auto text-center px-4">
@@ -18,11 +17,9 @@
         </div>
     </div>
 
-    {{-- Kartu Layanan --}}
     <div class="max-w-7xl mx-auto px-4 pb-16">
         <div class="grid md:grid-cols-3 gap-8 mb-20">
         
-        {{-- Konstruksi --}}
         <div class="border border-gray-200 rounded-lg p-6 flex flex-col">
             <div class="flex justify-center mb-4">
                 <div class="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
@@ -44,7 +41,6 @@
             </div>
         </div>
 
-        {{-- Renovasi --}}
         <div class="border border-gray-200 rounded-lg p-6 flex flex-col">
             <div class="flex justify-center mb-4">
                 <div class="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
@@ -63,7 +59,6 @@
             </div>
         </div>
 
-        {{-- Desain --}}
         <div class="border border-gray-200 rounded-lg p-6 flex flex-col">
             <div class="flex justify-center mb-4">
                 <div class="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
@@ -84,7 +79,6 @@
         </div>
         </div>
 
-        {{-- Mengapa Memilih Kami --}}
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div>

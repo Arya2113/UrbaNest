@@ -9,9 +9,7 @@ use App\Models\Amenity;
 use App\Models\propertyImage;
 class PropertySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         $properties = [
@@ -24,7 +22,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 3,
                 'bathrooms' => 2,
                 'area' => 240,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Villa+Ubud',
             ],
             [
                 'title' => 'Rumah Minimalis Bintaro',
@@ -35,7 +32,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 4,
                 'bathrooms' => 3,
                 'area' => 180,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Rumah+Bintaro',
             ],
             [
                 'title' => 'Villa Laut Jimbaran',
@@ -46,7 +42,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 5,
                 'bathrooms' => 4,
                 'area' => 420,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Villa+Jimbaran',
             ],
             [
                 'title' => 'Rumah Asri di Dago',
@@ -57,7 +52,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 4,
                 'bathrooms' => 3,
                 'area' => 300,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Rumah+Dago',
             ],
             [
                 'title' => 'Townhouse BSD City',
@@ -68,7 +62,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 3,
                 'bathrooms' => 2,
                 'area' => 160,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Rumah+BSD',
             ],
             [
                 'title' => 'Villa Lembang View Gunung',
@@ -79,7 +72,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 3,
                 'bathrooms' => 2,
                 'area' => 250,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Villa+Lembang',
             ],
             [
                 'title' => 'Rumah Klasik Menteng',
@@ -90,7 +82,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 5,
                 'bathrooms' => 4,
                 'area' => 400,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Rumah+Menteng',
             ],
             [
                 'title' => 'Villa Private Pool Canggu',
@@ -101,7 +92,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 4,
                 'bathrooms' => 3,
                 'area' => 280,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Villa+Canggu',
             ],
             [
                 'title' => 'Rumah Cluster Bekasi Timur',
@@ -112,7 +102,6 @@ class PropertySeeder extends Seeder
                 'bedrooms' => 3,
                 'bathrooms' => 2,
                 'area' => 140,
-                'image_path' => 'https://via.placeholder.com/640x480.png?text=Rumah+Bekasi',
             ],
         ];
         foreach ($properties as $index => $data) {

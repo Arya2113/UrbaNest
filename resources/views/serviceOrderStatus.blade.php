@@ -27,7 +27,6 @@
             </p>
         </div>
 
-        {{-- Progress Bar --}}
         <div class="mb-6">
             <div class="w-full bg-gray-200 rounded-full h-4">
                 <div class="bg-green-500 h-4 rounded-full transition-all duration-500"
@@ -37,7 +36,6 @@
             <p class="text-right text-sm text-gray-600 mt-1">{{ $progressPercent }}% Selesai</p>
         </div>
 
-        {{-- Timeline --}}
         <h5 class="text-lg font-semibold text-gray-800 mb-4">Timeline Proyek</h5>
         <ol class="relative border-l border-gray-300">
             @foreach ($timeline as $step)
@@ -52,7 +50,6 @@
             @endforeach
         </ol>
 
-        {{-- Tombol Back to Home --}}
         <div class="mt-8 text-center">
             <a href="{{ route('home') }}"
                class="inline-block bg-blue-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">

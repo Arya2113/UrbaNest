@@ -10,11 +10,6 @@ class Developer extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -23,9 +18,7 @@ class Developer extends Model
         'website',
     ];
 
-    /**
-     * Get the properties for the developer.
-     */
+
     public function properties(): HasMany
     {
         return $this->hasMany(Property::class);

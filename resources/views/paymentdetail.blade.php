@@ -93,7 +93,7 @@
 
             if (timeLeft <= 0) {
                 countdownElement.textContent = 'Waktu pembayaran habis!';
-                window.location.href = '/detailproperti/{{ $property->id }}'; // Redirect to property detail page
+                window.location.href = '/detailproperti/{{ $property->id }}'; 
                 clearInterval(timerInterval);
                 return;
             }

@@ -11,9 +11,7 @@ class PropertyVisit extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the property that the visit is for.
-     */
+
     public function property()
     {
         return $this->belongsTo(Property::class);

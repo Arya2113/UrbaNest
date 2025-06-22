@@ -25,7 +25,7 @@ class Architect extends Model
         'styles' => 'array',
     ];
 
-    // ✅ Relasi ke tabel users
+    
     public function user()
     {
         return $this->belongsTo(User::class);
