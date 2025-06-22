@@ -15,7 +15,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Raka Aditya',
                 'email' => 'raka@example.com',
-                'photo' => 'photos/raka.jpg',
+                'photo' => 'raka.png',
                 'title' => 'Junior Architect',
                 'rating' => 4.5,
                 'reviews_count' => 35,
@@ -26,7 +26,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Nadya Putri',
                 'email' => 'nadya@example.com',
-                'photo' => 'photos/nadya.jpg',
+                'photo' => 'nadya.png',
                 'title' => 'Interior Architect',
                 'rating' => 4.6,
                 'reviews_count' => 40,
@@ -37,7 +37,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Fauzan Hidayat',
                 'email' => 'fauzan@example.com',
-                'photo' => 'photos/fauzan.jpg',
+                'photo' => 'fauzan.png',
                 'title' => 'Design Architect',
                 'rating' => 4.7,
                 'reviews_count' => 50,
@@ -48,7 +48,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Tiara Salsabila',
                 'email' => 'tiara@example.com',
-                'photo' => 'photos/tiara.jpg',
+                'photo' => 'tiara.png',
                 'title' => 'Architect Consultant',
                 'rating' => 4.4,
                 'reviews_count' => 28,
@@ -59,7 +59,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Daffa Alvaro',
                 'email' => 'daffa@example.com',
-                'photo' => 'photos/daffa.jpg',
+                'photo' => 'daffa.png',
                 'title' => 'Concept Architect',
                 'rating' => 4.8,
                 'reviews_count' => 60,
@@ -70,7 +70,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Zahra Lestari',
                 'email' => 'zahra@example.com',
-                'photo' => 'photos/zahra.jpg',
+                'photo' => 'zahra.png',
                 'title' => 'Junior Architect',
                 'rating' => 4.5,
                 'reviews_count' => 38,
@@ -81,7 +81,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Rizky Maulana',
                 'email' => 'rizky@example.com',
-                'photo' => 'photos/rizky.jpg',
+                'photo' => 'rizky.png',
                 'title' => 'Architect Designer',
                 'rating' => 4.6,
                 'reviews_count' => 42,
@@ -92,7 +92,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Keisha Ramadhani',
                 'email' => 'keisha@example.com',
-                'photo' => 'photos/keisha.jpg',
+                'photo' => 'keisha.png',
                 'title' => 'Interior Architect',
                 'rating' => 4.7,
                 'reviews_count' => 55,
@@ -103,7 +103,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Iqbal Ferdiansyah',
                 'email' => 'iqbal@example.com',
-                'photo' => 'photos/iqbal.jpg',
+                'photo' => 'iqbal.png',
                 'title' => 'Project Architect',
                 'rating' => 4.3,
                 'reviews_count' => 30,
@@ -114,7 +114,7 @@ class ArchitectSeeder extends Seeder
             [
                 'name' => 'Aulia Rahma',
                 'email' => 'aulia@example.com',
-                'photo' => 'photos/aulia.jpg',
+                'photo' => 'aulia.png',
                 'title' => 'Sustainable Architect',
                 'rating' => 4.9,
                 'reviews_count' => 70,

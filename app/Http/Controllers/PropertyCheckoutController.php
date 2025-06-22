@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +17,7 @@ class PropertyCheckoutController extends Controller
     public function checkout(Request $request, Property $property)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please log in to continue.');
+            return redirect()->route('login')->with('error', 'tolong login terlebih dahulu');
         }
 
         $user = Auth::user();

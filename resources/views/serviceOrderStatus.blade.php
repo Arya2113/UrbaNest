@@ -19,6 +19,20 @@
         <div class="space-y-2 mb-6">
             <p><span class="font-semibold text-gray-700">Alamat Lokasi:</span> {{ $order->project_location }}</p>
             <p><span class="font-semibold text-gray-700">Arsitek:</span> {{ $order->architect ? $order->architect->name : '-' }}</p>
+            @php
+                $phone = $order->architect?->user?->phone;
+                $waNumber = $phone ? '62' . ltrim($phone, '0') : null;
+            @endphp
+            <p>
+                <span class="font-semibold text-gray-700">Nomor WA:</span>
+                @if ($waNumber)
+                    <a href="https://wa.me/{{ $waNumber }}" target="_blank" class="text-green-600 hover:underline">
+                        {{ $phone }}
+                    </a>
+                @else
+                    -
+                @endif
+            </p>
             <p>
                 <span class="font-semibold text-gray-700">Status Proyek:</span> 
                 <span class="inline-block px-3 py-1 rounded-full text-white text-sm bg-blue-600">

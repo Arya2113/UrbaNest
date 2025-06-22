@@ -15,6 +15,7 @@
             <tr class="bg-gray-100 text-gray-700">
                 <th class="px-4 py-2 border">ID</th>
                 <th class="px-4 py-2 border">Layanan</th>
+                <th class="px-4 py-2 border">No. HP client</th> 
                 <th class="px-4 py-2 border">Status</th>
                 <th class="px-4 py-2 border">Aksi</th>
             </tr>
@@ -24,6 +25,7 @@
             <tr class="text-center">
                 <td class="px-4 py-2 border">{{ $order->id }}</td>
                 <td class="px-4 py-2 border">{{ $order->service_type }}</td>
+                <td class="px-4 py-2 border">{{ $order->user->phone ?? '-' }}</td>
                 <td class="px-4 py-2 border capitalize">{{ str_replace('_', ' ', $order->status) }}</td>
                 <td class="px-4 py-2 border">
                     <form method="POST" action="{{ route('architect.service_orders.updateStatus', $order->id) }}"

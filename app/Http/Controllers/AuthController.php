@@ -33,7 +33,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/login')->with('success', 'Registration successful! Please login.');
+        return redirect('/login')->with('success', 'Registarasi berhasil.');
     }
 
     public function showLoginForm()
@@ -62,7 +62,7 @@ class AuthController extends Controller
 
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Login gagal. Bukan user atau data salah.',
         ])->onlyInput('email');
     }
 }

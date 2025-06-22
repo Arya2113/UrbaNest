@@ -95,7 +95,7 @@ class AdminPropertyController extends Controller
             }
         }
 
-        return redirect()->route('admin.properties.index')->with('success', 'Property added successfully!');
+        return redirect()->route('admin.properties.index')->with('success', 'Menambahkan property baru');
     }
 
     public function updateInline(Request $request, Property $property)
@@ -111,13 +111,13 @@ class AdminPropertyController extends Controller
 
         $property->update($data);
 
-        return redirect()->back()->with('success', 'Property updated!');
+        return redirect()->back()->with('success', 'Properti diupdate');
     }
 
     public function destroy(Property $property)
     {
         $property->delete();
-        return redirect()->back()->with('success', 'Property deleted successfully.');
+        return redirect()->back()->with('success', 'Properti dihapus');
     }
      
      

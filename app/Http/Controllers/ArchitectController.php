@@ -30,10 +30,6 @@ class ArchitectController extends Controller
      
     public function selectArchitect(Request $request)
     {
-        \Log::info('MASUK selectArchitect()', [
-            'request' => $request->all(),
-            'session_last_service_order_id' => session('last_service_order_id'),
-        ]);
     
         $request->validate([
             'architect_id' => 'required|exists:architects,id',
@@ -41,31 +37,23 @@ class ArchitectController extends Controller
     
         $orderId = session('last_service_order_id');
         if (!$orderId) {
-            \Log::error('orderId KOSONG!', [
-                'session' => session()->all()
-            ]);
-            return redirect()->route('services.page')->with('error', 'No active order found. Please start your request again.');
+            return redirect()->route('services.page')->with('error', 'Tidak ada order yang ditemukan');
         }
     
         $order = ServiceOrder::find($orderId);
         if (!$order) {
-            \Log::error('ORDER NOT FOUND!', ['orderId' => $orderId]);
             return redirect()->route('services.page')->with('error', 'Order tidak ditemukan!');
         }
-    
-        \Log::info('ORDER DITEMUKAN!', ['orderId' => $orderId, 'architect_id' => $request->architect_id]);
-    
+        
          
         $order->architect_id = $request->architect_id;
         $order->status = 'consultation';
         $order->save();
     
         session()->forget('last_service_order_id');
-    
-        \Log::info('ORDER UPDATED!', ['orderId' => $orderId, 'order' => $order->toArray()]);
-    
+        
         return redirect()->route('order.status.show', $order->id)
-            ->with('success', 'Architect selected successfully! Your project is now in consultation stage.');
+            ->with('success', 'arsitek berhasil dipilih');
     }
 
 
@@ -103,7 +91,7 @@ class ArchitectController extends Controller
         $serviceOrder->status = $request->status;
         $serviceOrder->save();
 
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        return redirect()->back()->with('success', 'status berhasil diupdate');
     }
     
 }

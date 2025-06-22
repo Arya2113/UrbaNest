@@ -27,7 +27,7 @@ class AdminController extends Controller
         $transaction->status_transaksi = $request->status_transaksi;
         $transaction->save();
 
-        return redirect()->back()->with('success', 'Transaction status updated successfully.');
+        return redirect()->back()->with('success', 'status berhasil diupdate');
     }
 
 
@@ -47,7 +47,7 @@ class AdminController extends Controller
         $propertyVisit->status = $request->status;
         $propertyVisit->save();
 
-        return redirect()->back()->with('success', 'Property visit status updated successfully.');
+        return redirect()->back()->with('success', 'kunjungan properti berhasil diupdate');
     }
 
     public function destroy(PropertyCheckoutTransaction $transaction)

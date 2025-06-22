@@ -30,8 +30,8 @@
         @foreach($architects as $architect)
         <div class="bg-white rounded-2xl shadow-md flex flex-col overflow-hidden">
             @if($architect->photo)
-                <img src="{{ asset('storage/' . $architect->photo) }}" alt="{{ $architect->name }}"
-                     class="w-full h-48 object-cover">
+                <img src="{{ asset('/images/architect/' . $architect->photo) }}" alt="{{ $architect->name }}"
+                     class="w-full h-48 object-cover object-top">
             @endif
             <div class="p-5 flex flex-col flex-1">
                 <h2 class="text-lg font-semibold text-center">{{ $architect->name }}</h2>
