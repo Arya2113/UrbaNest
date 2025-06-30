@@ -106,9 +106,8 @@ class ServiceOrderController extends Controller
 
          
         $statusIndex = array_search($order->status, ['pending','consultation','site_survey','designing','in_progress','review','completed']);
-        $totalSteps = count($timelineInfo['steps']);
-        $progressStep = min($statusIndex, $totalSteps - 1);
-        $progressPercent = round(($progressStep / ($totalSteps - 1)) * 100);
+        $progressStep = min(max($statusIndex, 0), 5); 
+        $progressPercent = $progressStep * 20;
 
         $isCompleted = $order->status === 'completed';
 

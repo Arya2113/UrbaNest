@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PropertyVisit;
 use App\Models\Property;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;  
 
 class PropertyVisitController extends Controller
 {
-    /**
-     * Store a newly created property visit in storage.
-     */
     public function store(Request $request, Property $property): JsonResponse  
     {
          
@@ -53,6 +51,24 @@ class PropertyVisitController extends Controller
                 'message' => 'Terjadi kesalahan saat menjadwalkan kunjungan. Silakan coba lagi nanti.',
                 'error' => $e->getMessage()
             ], 500);  
+        }
+    }
+
+    public function destroy(PropertyVisit $visit)
+    {
+        $visit->delete();
+        return redirect()->back()->with('success', 'Kunjungan berhasil dihapus.');
+    }
+
+    public function userVisits()
+    {   
+        try {
+            $kunjungan = PropertyVisit::with('property')->where('user_id', Auth::id())->get();
+            Log::info("Kunjungan ditemukan: ", $kunjungan->toArray());
+            return response()->json($kunjungan);
+        } catch (\Exception $e) {
+            Log::error("Gagal mengambil data kunjungan: " . $e->getMessage());
+            return response()->json(['error' => 'Terjadi kesalahan'], 500);
         }
     }
 }

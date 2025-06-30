@@ -215,29 +215,34 @@
             messageSpan.textContent = '';
 
             fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json',
-                },
+            method: 'POST',
+            headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            },
             })
             .then(async response => {
-                const data = await response.json();
+            if (response.status === 401) {
+            window.location.href = '/login';
+            return;
+            }
 
-                if (!response.ok) {
-                    throw new Error(data.message || 'Gagal memproses checkout.');
-                }
+            const data = await response.json();  
 
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    console.log('Locked successfully but no redirect provided.');
-                }
-            })
-            .catch(error => {
-                messageArea.classList.remove('hidden');
-                messageSpan.textContent = error.message || 'Terjadi kesalahan saat memproses checkout.';
-            });
+                if (!response.ok) {  
+                    throw new Error(data.message || 'Gagal memproses checkout.');  
+                }  
+
+                if (data.redirect) {  
+                    window.location.href = data.redirect;  
+                } else {  
+                    console.log('Locked successfully but no redirect provided.');  
+                }  
+            })  
+        .catch(error => {  
+            messageArea.classList.remove('hidden');  
+            messageSpan.textContent = error.message || 'Terjadi kesalahan saat memproses checkout.';  
+        });
         });
 
         document.getElementById('favorite-button').addEventListener('click', function() {

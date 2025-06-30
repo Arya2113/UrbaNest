@@ -8,11 +8,6 @@ use App\Models\PropertyCheckoutTransaction;
 
 class HomeController extends Controller
 {
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $featuredProperties = Property::withCount('users')

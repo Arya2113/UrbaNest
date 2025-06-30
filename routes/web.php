@@ -21,6 +21,10 @@ use App\Http\Controllers\UserProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/ping', function () {
+    return response()->json(['message' => 'API OK']);
+});
+
 Route::get('/detailproperti/{property}', [PropertyController::class, 'show'])->name('property.show');
 Route::get('/cariproperti', [PropertyController::class, 'index'])->name('cariproperti.index');
 
@@ -114,6 +118,7 @@ Route::prefix('admin')
          
         Route::get('/property-visits', [AdminController::class, 'propertyVisits'])->name('property_visits.index');
         Route::put('/property-visits/{propertyVisit}/status', [AdminController::class, 'updatePropertyVisitStatus'])->name('property_visits.updateStatus');
+        Route::delete('/property-visits/{visit}', [PropertyVisitController::class, 'destroy'])->name('property_visits.destroy');
 
          
         Route::get('/properties', [AdminPropertyController::class, 'index'])->name('properties.index');

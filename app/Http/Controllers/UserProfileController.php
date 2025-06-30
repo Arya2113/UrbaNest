@@ -33,28 +33,14 @@ class UserProfileController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-         
-        if ($request->hasFile('avatar')) {
-             
-            if ($user->avatar && Storage::exists('public/avatars/' . $user->avatar)) {
-                Storage::delete('public/avatars/' . $user->avatar);
-            }
-
-             
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = basename($avatarPath);   
-        }
-    
-         
+        
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone, 
             'address' => $request->address,
-            'avatar' => $avatarPath,
         ]);
     
         return redirect()->route('profile.show')->with('success', 'Profil berhasil diperbarui!');

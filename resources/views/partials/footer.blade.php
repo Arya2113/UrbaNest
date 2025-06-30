@@ -59,7 +59,7 @@
   </section>
 
   <section class="bg-[#12121c] text-center py-6 text-sm border-t border-[#2a2a3a] text-gray-400">
-    <p>&copy; 2025 Urbanest Solo. Seluruh hak cipta dilindungi.</p>
+    <p>&copy; 2015 Urbanest Solo. Seluruh hak cipta dilindungi.</p>
   </section>
 </footer>
 

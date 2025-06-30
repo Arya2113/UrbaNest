@@ -66,7 +66,7 @@
 
         <div class="mt-8 text-center">
             <a href="{{ route('home') }}"
-               class="inline-block bg-blue-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
+               class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
                 ← Back to Home
             </a>
         </div>

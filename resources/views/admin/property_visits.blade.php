@@ -53,6 +53,12 @@
                                         @endif">
                                         {{ ucfirst($visit->status) }}
                                     </span>
+                                    
+                                    <form action="{{ route('admin.property_visits.destroy', $visit) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kunjungan ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="ml-2 text-red-600 hover:text-red-800 text-sm">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

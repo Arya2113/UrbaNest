@@ -151,48 +151,57 @@ class PropertyController extends Controller
 
     public function attemptLockAndCheckout(Property $property)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
+        if (!Auth::check()) 
+        {
+            if (request()->expectsJson()) 
+            {
+                return response()->json([
+                'error' => 'Belum login. Tolong login terlebih dahulu.',
+                'redirect' => route('login')
+                ], 401);
+            }
 
-        $user = Auth::user();
-        $lockDuration = 30; // menit
-        $lockExpiresAt = now()->addMinutes($lockDuration);
+            return redirect()->route('login');  
+        }  
 
-        $property = Property::find($property->id);
+            $user = Auth::user();  
+            $lockDuration = 30; // menit  
+            $lockExpiresAt = now()->addMinutes($lockDuration);  
 
-        if (!$property) {
-            return response()->json(['success' => false, 'message' => 'Properti tidak ditemukan.'], 404);
-        }
+            $property = Property::find($property->id);  
 
-        $isLocked = $property->locked_until && $property->locked_until->isFuture();
-        $lockedByAnotherUser = $property->locked_by_user_id && $property->locked_by_user_id !== $user->id;
+            if (!$property) {  
+                return response()->json(['success' => false, 'message' => 'Properti tidak ditemukan.'], 404);  
+            }  
 
-        if (!$isLocked || !$lockedByAnotherUser) {
-            $property->locked_by_user_id = $user->id;
-            $property->locked_until = $lockExpiresAt;
-            $property->save();
+            $isLocked = $property->locked_until && $property->locked_until->isFuture();  
+            $lockedByAnotherUser = $property->locked_by_user_id && $property->locked_by_user_id !== $user->id;  
 
-            session()->flash('lock_checkout_info', [
-                'property_id' => $property->id,
-                'user_id' => $user->id,
-                'locked_until_timestamp' => $lockExpiresAt->timestamp,
-            ]);
+            if (!$isLocked || !$lockedByAnotherUser) {  
+                $property->locked_by_user_id = $user->id;  
+                $property->locked_until = $lockExpiresAt;  
+                $property->save();  
 
-            return response()->json([
-                'success' => true,
-                'redirect' => route('property_checkout.checkout', $property->id)
-            ]);
-        }
+                session()->flash('lock_checkout_info', [  
+                    'property_id' => $property->id,  
+                    'user_id' => $user->id,  
+                    'locked_until_timestamp' => $lockExpiresAt->timestamp,  
+                ]);  
 
-        $timeLeftInSeconds = $property->locked_until ? $property->locked_until->diffInSeconds(now()) : 0;
+                return response()->json([  
+                    'success' => true,  
+                    'redirect' => route('property_checkout.checkout', $property->id)  
+                ]);  
+            }  
 
-        return response()->json([
-            'success' => false,
-            'message' => 'Properti sedang dalam proses checkout oleh pengguna lain. Silakan coba lagi' . 
-                        ($timeLeftInSeconds > 0 ? ' dalam ' . $timeLeftInSeconds . ' detik.' : '.'),
-            'locked_until' => $property->locked_until ? $property->locked_until->timestamp : null
-        ], 409);
+            $timeLeftInSeconds = $property->locked_until ? $property->locked_until->diffInSeconds(now()) : 0;  
+
+            return response()->json([  
+                'success' => false,  
+                'message' => 'Properti sedang dalam proses checkout oleh pengguna lain. Silakan coba lagi' .   
+                            ($timeLeftInSeconds > 0 ? ' dalam ' . $timeLeftInSeconds . ' detik.' : '.'),  
+                'locked_until' => $property->locked_until ? $property->locked_until->timestamp : null  
+            ], 409);  
     }
 
    
