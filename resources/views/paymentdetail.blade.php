@@ -64,7 +64,7 @@
           <p class="text-lg sm:text-xl font-semibold text-gray-800">Total Tagihan</p>
           <p class="text-lg sm:text-xl font-bold text-blue-600">Rp {{ number_format($jumlahTotal, 0, ',', '.') }}</p>
         </div>
-        <p class="text-sm text-red-500 mb-8">*pastikan transfer sesuai dengan total tagihan</p>
+        <p class="text-sm text-red-500 mb-8">*pastikan transfer sesuai dengan total tagihan dan file uploud maks 5 Mb</p>
         <form action="{{ route('payment.upload', ['property' => $property->id]) }}" method="POST" enctype="multipart/form-data">
           @csrf
             <input type="hidden" name="property_id" value="{{ $property->id }}">
